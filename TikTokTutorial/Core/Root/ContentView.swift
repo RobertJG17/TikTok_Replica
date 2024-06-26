@@ -13,7 +13,7 @@ struct ContentView: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, Tik Tok App!")
+            Text("Hello, Tik Tok Change!")
         }
         .padding()
     }
