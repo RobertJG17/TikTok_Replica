@@ -10,10 +10,16 @@ import AVKit
 
 struct FeedCell: View {
     let post: Post
+    var player: AVPlayer
+    
+    init(post: Post, player: AVPlayer) {
+        self.post = post
+        self.player = player
+    }
     
     var body: some View {
         ZStack {
-            CustomVideoPlayer(player: AVPlayer(url: URL(string: post.videoUrl)! )) // force unwrap URL value
+            CustomVideoPlayer(player: player)
                 .containerRelativeFrame([.horizontal, .vertical])
             VStack {
                 Spacer()
@@ -96,5 +102,5 @@ struct FeedCell: View {
 }
 
 #Preview {
-    FeedCell(post: Post(id: NSUUID().uuidString, videoUrl: ""))
+    FeedCell(post: Post(id: NSUUID().uuidString, videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"), player: AVPlayer())
 }
