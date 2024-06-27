@@ -16,11 +16,10 @@ struct NotificationsView: View {
                         NotificationCell()
                     }
                 }
-                
-                .padding(.top)
             }
             .navigationTitle("Notifications")
             .navigationBarTitleDisplayMode(.inline)
+            .padding(.top)
         }
     }
 }
