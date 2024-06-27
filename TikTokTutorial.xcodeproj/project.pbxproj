@@ -22,6 +22,9 @@
 		C55B99A12C2D385F003AC9BE /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99A02C2D385F003AC9BE /* ProfileHeaderView.swift */; };
 		C55B99A32C2D386D003AC9BE /* PostGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99A22C2D386D003AC9BE /* PostGridView.swift */; };
 		C55B99A62C2D3E05003AC9BE /* UserStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99A52C2D3E05003AC9BE /* UserStatView.swift */; };
+		C55B99A92C2D48DE003AC9BE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99A82C2D48DE003AC9BE /* Post.swift */; };
+		C55B99AE2C2D4968003AC9BE /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99AD2C2D4968003AC9BE /* FeedViewModel.swift */; };
+		C55B99B02C2DD477003AC9BE /* CustomVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99AF2C2DD477003AC9BE /* CustomVideoPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,9 @@
 		C55B99A02C2D385F003AC9BE /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		C55B99A22C2D386D003AC9BE /* PostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGridView.swift; sourceTree = "<group>"; };
 		C55B99A52C2D3E05003AC9BE /* UserStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatView.swift; sourceTree = "<group>"; };
+		C55B99A82C2D48DE003AC9BE /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		C55B99AD2C2D4968003AC9BE /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		C55B99AF2C2DD477003AC9BE /* CustomVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +137,7 @@
 		C55B99802C2B983F003AC9BE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C55B99A82C2D48DE003AC9BE /* Post.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -202,8 +209,9 @@
 		C55B99892C2B98B1003AC9BE /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				C55B99912C2CF03F003AC9BE /* FeedView.swift */,
-				C55B99932C2CF183003AC9BE /* FeedCell.swift */,
+				C55B99AB2C2D490C003AC9BE /* Service */,
+				C55B99AA2C2D490B003AC9BE /* View */,
+				C55B99AC2C2D490D003AC9BE /* ViewModel */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -211,6 +219,7 @@
 		C55B998A2C2B98B2003AC9BE /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				C55B99AF2C2DD477003AC9BE /* CustomVideoPlayer.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -244,6 +253,30 @@
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		C55B99AA2C2D490B003AC9BE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C55B99912C2CF03F003AC9BE /* FeedView.swift */,
+				C55B99932C2CF183003AC9BE /* FeedCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C55B99AB2C2D490C003AC9BE /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		C55B99AC2C2D490D003AC9BE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C55B99AD2C2D4968003AC9BE /* FeedViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,10 +350,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C55B99922C2CF03F003AC9BE /* FeedView.swift in Sources */,
+				C55B99B02C2DD477003AC9BE /* CustomVideoPlayer.swift in Sources */,
 				C55B999C2C2D0D92003AC9BE /* NotificationCell.swift in Sources */,
 				C55B99A12C2D385F003AC9BE /* ProfileHeaderView.swift in Sources */,
 				C55B99A62C2D3E05003AC9BE /* UserStatView.swift in Sources */,
 				C55B99942C2CF183003AC9BE /* FeedCell.swift in Sources */,
+				C55B99AE2C2D4968003AC9BE /* FeedViewModel.swift in Sources */,
+				C55B99A92C2D48DE003AC9BE /* Post.swift in Sources */,
 				C55B996F2C2B973A003AC9BE /* ContentView.swift in Sources */,
 				C55B999A2C2D0D87003AC9BE /* NotificationsView.swift in Sources */,
 				C55B996D2C2B973A003AC9BE /* TikTokTutorialApp.swift in Sources */,

@@ -13,6 +13,9 @@
 ### Current Goal:
 Develop MVP with static content for UI. (50%)
 
+### Next Goal
+Develop video player functionality to play uploaded/shared content.
 
-### Next Goal:
-Develop Firebase authentication scheme and Firestore storage for user posts
+
+### Reach Goal:
+Develop Firebase authentication scheme and Firestore storage for user posts.
