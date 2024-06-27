@@ -1,5 +1,5 @@
 //
-//  NotificationView.swift
+//  NotificationsView.swift
 //  TikTokTutorial
 //
 //  Created by Bobby Guerra on 6/26/24.
@@ -26,5 +26,5 @@ struct NotificationsView: View {
 }
 
 #Preview {
-    NotificationView()
+    NotificationsView()
 }

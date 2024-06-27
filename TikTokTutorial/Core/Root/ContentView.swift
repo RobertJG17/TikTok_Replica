@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+// Swift UI Level up
+// Learn how to build content sharing app with SwiftUI Framework
+
+// Use comments to annotate bits and pieces of code to reinforce understanding
+
 struct ContentView: View {
     var body: some View {
         VStack {
