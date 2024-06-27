@@ -18,6 +18,10 @@
 		C55B99982C2CFCDD003AC9BE /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99972C2CFCDD003AC9BE /* UserCell.swift */; };
 		C55B999A2C2D0D87003AC9BE /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99992C2D0D87003AC9BE /* NotificationsView.swift */; };
 		C55B999C2C2D0D92003AC9BE /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B999B2C2D0D92003AC9BE /* NotificationCell.swift */; };
+		C55B999F2C2D37FB003AC9BE /* CurrentUserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B999E2C2D37FB003AC9BE /* CurrentUserProfileView.swift */; };
+		C55B99A12C2D385F003AC9BE /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99A02C2D385F003AC9BE /* ProfileHeaderView.swift */; };
+		C55B99A32C2D386D003AC9BE /* PostGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99A22C2D386D003AC9BE /* PostGridView.swift */; };
+		C55B99A62C2D3E05003AC9BE /* UserStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99A52C2D3E05003AC9BE /* UserStatView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,10 @@
 		C55B99992C2D0D87003AC9BE /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		C55B999B2C2D0D92003AC9BE /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		C55B999D2C2D25F4003AC9BE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C55B999E2C2D37FB003AC9BE /* CurrentUserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserProfileView.swift; sourceTree = "<group>"; };
+		C55B99A02C2D385F003AC9BE /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		C55B99A22C2D386D003AC9BE /* PostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGridView.swift; sourceTree = "<group>"; };
+		C55B99A52C2D3E05003AC9BE /* UserStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +112,7 @@
 				C55B99892C2B98B1003AC9BE /* Feed */,
 				C55B99832C2B9898003AC9BE /* Notifications */,
 				C55B99882C2B98B0003AC9BE /* Profile */,
+				C55B999E2C2D37FB003AC9BE /* CurrentUserProfileView.swift */,
 				C55B99872C2B98B0003AC9BE /* Root */,
 				C55B99862C2B989D003AC9BE /* Search */,
 				C55B99852C2B989C003AC9BE /* TabBar */,
@@ -184,6 +193,8 @@
 		C55B99882C2B98B0003AC9BE /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				C55B99A42C2D3DF2003AC9BE /* Components */,
+				C55B99A72C2D3E2F003AC9BE /* View */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -216,6 +227,23 @@
 			children = (
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		C55B99A42C2D3DF2003AC9BE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C55B99A22C2D386D003AC9BE /* PostGridView.swift */,
+				C55B99A02C2D385F003AC9BE /* ProfileHeaderView.swift */,
+				C55B99A52C2D3E05003AC9BE /* UserStatView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		C55B99A72C2D3E2F003AC9BE /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,11 +318,15 @@
 			files = (
 				C55B99922C2CF03F003AC9BE /* FeedView.swift in Sources */,
 				C55B999C2C2D0D92003AC9BE /* NotificationCell.swift in Sources */,
+				C55B99A12C2D385F003AC9BE /* ProfileHeaderView.swift in Sources */,
+				C55B99A62C2D3E05003AC9BE /* UserStatView.swift in Sources */,
 				C55B99942C2CF183003AC9BE /* FeedCell.swift in Sources */,
 				C55B996F2C2B973A003AC9BE /* ContentView.swift in Sources */,
 				C55B999A2C2D0D87003AC9BE /* NotificationsView.swift in Sources */,
 				C55B996D2C2B973A003AC9BE /* TikTokTutorialApp.swift in Sources */,
 				C55B99962C2CFCCD003AC9BE /* ExploreView.swift in Sources */,
+				C55B99A32C2D386D003AC9BE /* PostGridView.swift in Sources */,
+				C55B999F2C2D37FB003AC9BE /* CurrentUserProfileView.swift in Sources */,
 				C55B99902C2C7A64003AC9BE /* MainTabView.swift in Sources */,
 				C55B99982C2CFCDD003AC9BE /* UserCell.swift in Sources */,
 			);

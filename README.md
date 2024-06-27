@@ -6,7 +6,7 @@
 - [x] Feed View
 - [x] Friends View
 - [x] Notifications View
-- [ ] Profile view
+- [x] Profile view
 
 <br/>
 
