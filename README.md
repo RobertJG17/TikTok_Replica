@@ -1,21 +1,18 @@
 #  Tik Tok Tutorial Project
 
+### Project Progress
+Essential Features: (70%)
 
-### View Components
+### View Components 
 
 - [x] Feed View
 - [x] Friends View
 - [x] Notifications View
-- [x] Profile view
+- [x] Profile View
+- [ ] Login View
 
 <br/>
 
-### Current Goal:
-Develop MVP with static content for UI. (50%)
-
-### Next Goal
-Develop video player functionality to play uploaded/shared content.
-
-
-### Reach Goal:
-Develop Firebase authentication scheme and Firestore storage for user posts.
+### Future feature updates
+- [x] Develop video player functionality to play uploaded/shared content.
+- [ ] Develop Firebase authentication scheme and Firestore storage for user posts.

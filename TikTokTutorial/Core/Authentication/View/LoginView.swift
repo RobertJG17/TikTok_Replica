@@ -12,7 +12,7 @@ struct LoginView: View {
         NavigationStack {
             VStack {
                 // logo image
-                 // need to acquire 1024 x 1024 logo image of tik tok
+                Image("") // need to acquire 1024 x 1024 logo image of tik tok
                 
                 // text fields
                 
