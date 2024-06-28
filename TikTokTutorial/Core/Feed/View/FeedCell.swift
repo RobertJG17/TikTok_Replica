@@ -6,19 +6,21 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct FeedCell: View {
-    let post: Int
+    let post: Post
+    var player: AVPlayer
+    
+    init(post: Post, player: AVPlayer) {
+        self.post = post
+        self.player = player
+    }
     
     var body: some View {
         ZStack {
-            Rectangle()
-                .fill(.pink)
+            CustomVideoPlayer(player: player)
                 .containerRelativeFrame([.horizontal, .vertical])
-                .overlay {
-                    Text("Post \(post)")
-                        .foregroundStyle(.white)
-                }
             VStack {
                 Spacer()
                 
@@ -96,9 +98,31 @@ struct FeedCell: View {
             }
             .padding()
         }
+        .onTapGesture {
+            videoTapGestureHandler()
+        }
+    }
+    
+    func videoTapGestureHandler() {
+//        // MARK: Using player rate and error properties to check state of av player https://stackoverflow.com/questions/5655864/check-play-state-of-avplayer
+//        let isVideoPlaying = player.rate != 0 && player.error == nil
+        
+        // based on state of boolean, we either play the media or pause the media
+        switch player.timeControlStatus {
+        case .paused:
+            player.play()
+            break
+        case .playing:
+            player.pause()
+            break
+        case .waitingToPlayAtSpecifiedRate:
+            break
+        @unknown default:
+            break
+        }
     }
 }
 
 #Preview {
-    FeedCell(post: 2)
+    FeedCell(post: Post(id: NSUUID().uuidString, videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"), player: AVPlayer())
 }
