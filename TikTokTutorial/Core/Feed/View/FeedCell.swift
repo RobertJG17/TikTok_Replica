@@ -98,6 +98,28 @@ struct FeedCell: View {
             }
             .padding()
         }
+        .onTapGesture {
+            videoTapGestureHandler()
+        }
+    }
+    
+    func videoTapGestureHandler() {
+//        // MARK: Using player rate and error properties to check state of av player https://stackoverflow.com/questions/5655864/check-play-state-of-avplayer
+//        let isVideoPlaying = player.rate != 0 && player.error == nil
+        
+        // based on state of boolean, we either play the media or pause the media
+        switch player.timeControlStatus {
+        case .paused:
+            player.play()
+            break
+        case .playing:
+            player.pause()
+            break
+        case .waitingToPlayAtSpecifiedRate:
+            break
+        @unknown default:
+            break
+        }
     }
 }
 

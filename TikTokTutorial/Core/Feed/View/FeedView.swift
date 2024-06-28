@@ -22,6 +22,9 @@ struct FeedView: View {
                 ForEach(viewModel.posts) { post in
                     FeedCell(post: post, player: player)
                         .id(post.id)
+                    
+                        // Handles playback of first video
+                        .onAppear { playInitialVideoIfNecessary() }
                 }
             }
             .scrollTargetLayout()
@@ -33,31 +36,28 @@ struct FeedView: View {
         .onDisappear{
             player.pause()
         }
-        .onTapGesture {
-            videoTapGestureHandler()
-        }
+        
         .scrollPosition(id: $scrollPosition)
         .scrollTargetBehavior(.paging)
         .ignoresSafeArea()
+        
+        // MARK: Handles onChange functionality for cycling videos on main feed
+        // Does NOT handle initial playback of first video
         .onChange(of: scrollPosition) { _, newScrollPosition in
             // MARK: _ designates the unused oldScrollPosition
             playVideoOnChangeOfScrollPosition(postId: newScrollPosition)
         }
+    
     }
     
-    func videoTapGestureHandler() {
-        // MARK: Using player rate and error properties to check state of av player https://stackoverflow.com/questions/5655864/check-play-state-of-avplayer
-        let isVideoPlaying = player.rate != 0 && player.error == nil
+    func playInitialVideoIfNecessary() {
+        guard
+            scrollPosition == nil,
+            let post = viewModel.posts.first,
+            player.currentItem == nil else { return }
         
-        // based on state of boolean, we either play the media or pause the media
-        switch isVideoPlaying {
-        case false:
-            player.play()
-            break
-        case true:
-            player.pause()
-            break
-        }
+        let item = AVPlayerItem(url: URL(string: post.videoUrl)!)
+        player.replaceCurrentItem(with: item)
     }
     
     func playVideoOnChangeOfScrollPosition(postId: String?) {
