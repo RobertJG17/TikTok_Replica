@@ -25,6 +25,9 @@
 		C55B99A92C2D48DE003AC9BE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99A82C2D48DE003AC9BE /* Post.swift */; };
 		C55B99AE2C2D4968003AC9BE /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99AD2C2D4968003AC9BE /* FeedViewModel.swift */; };
 		C55B99B02C2DD477003AC9BE /* CustomVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99AF2C2DD477003AC9BE /* CustomVideoPlayer.swift */; };
+		C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78592C2F744200D8A27E /* LoginView.swift */; };
+		C5BA785F2C2F744200D8A27E /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA785A2C2F744200D8A27E /* RegistrationView.swift */; };
+		C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +51,9 @@
 		C55B99A82C2D48DE003AC9BE /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		C55B99AD2C2D4968003AC9BE /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		C55B99AF2C2DD477003AC9BE /* CustomVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoPlayer.swift; sourceTree = "<group>"; };
+		C5BA78592C2F744200D8A27E /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		C5BA785A2C2F744200D8A27E /* RegistrationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextFieldModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +151,7 @@
 		C55B99812C2B9841003AC9BE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -234,8 +241,14 @@
 		C55B998C2C2B98B5003AC9BE /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				C5BA78582C2F744200D8A27E /* Model */,
+				C5BA78552C2F744200D8A27E /* Protocols */,
+				C5BA78562C2F744200D8A27E /* Service */,
+				C5BA785B2C2F744200D8A27E /* View */,
+				C5BA785C2C2F744200D8A27E /* ViewModel */,
 			);
-			path = Authentication;
+			name = Authentication;
+			path = Authentication/Protocols;
 			sourceTree = "<group>";
 		};
 		C55B99A42C2D3DF2003AC9BE /* Components */ = {
@@ -278,6 +291,47 @@
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
+		};
+		C5BA78552C2F744200D8A27E /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		C5BA78562C2F744200D8A27E /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Service;
+			path = TikTokTutorial/Core/Authentication/Service;
+			sourceTree = SOURCE_ROOT;
+		};
+		C5BA78582C2F744200D8A27E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			path = TikTokTutorial/Core/Authentication/Model;
+			sourceTree = SOURCE_ROOT;
+		};
+		C5BA785B2C2F744200D8A27E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C5BA78592C2F744200D8A27E /* LoginView.swift */,
+				C5BA785A2C2F744200D8A27E /* RegistrationView.swift */,
+			);
+			name = View;
+			path = TikTokTutorial/Core/Authentication/View;
+			sourceTree = SOURCE_ROOT;
+		};
+		C5BA785C2C2F744200D8A27E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ViewModel;
+			path = TikTokTutorial/Core/Authentication/ViewModel;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -354,12 +408,15 @@
 				C55B999C2C2D0D92003AC9BE /* NotificationCell.swift in Sources */,
 				C55B99A12C2D385F003AC9BE /* ProfileHeaderView.swift in Sources */,
 				C55B99A62C2D3E05003AC9BE /* UserStatView.swift in Sources */,
+				C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */,
 				C55B99942C2CF183003AC9BE /* FeedCell.swift in Sources */,
 				C55B99AE2C2D4968003AC9BE /* FeedViewModel.swift in Sources */,
 				C55B99A92C2D48DE003AC9BE /* Post.swift in Sources */,
 				C55B996F2C2B973A003AC9BE /* ContentView.swift in Sources */,
 				C55B999A2C2D0D87003AC9BE /* NotificationsView.swift in Sources */,
 				C55B996D2C2B973A003AC9BE /* TikTokTutorialApp.swift in Sources */,
+				C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */,
+				C5BA785F2C2F744200D8A27E /* RegistrationView.swift in Sources */,
 				C55B99962C2CFCCD003AC9BE /* ExploreView.swift in Sources */,
 				C55B99A32C2D386D003AC9BE /* PostGridView.swift in Sources */,
 				C55B999F2C2D37FB003AC9BE /* CurrentUserProfileView.swift in Sources */,
