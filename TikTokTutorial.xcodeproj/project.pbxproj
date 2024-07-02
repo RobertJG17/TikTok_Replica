@@ -25,9 +25,11 @@
 		C55B99A92C2D48DE003AC9BE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99A82C2D48DE003AC9BE /* Post.swift */; };
 		C55B99AE2C2D4968003AC9BE /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99AD2C2D4968003AC9BE /* FeedViewModel.swift */; };
 		C55B99B02C2DD477003AC9BE /* CustomVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B99AF2C2DD477003AC9BE /* CustomVideoPlayer.swift */; };
+		C56ACFD72C335C050031286B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C56ACFD62C335C050031286B /* GoogleService-Info.plist */; };
 		C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78592C2F744200D8A27E /* LoginView.swift */; };
 		C5BA785F2C2F744200D8A27E /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA785A2C2F744200D8A27E /* RegistrationView.swift */; };
 		C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */; };
+		C5BA78632C2F8D5600D8A27E /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78622C2F8D5600D8A27E /* AuthenticationFormProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,9 +53,11 @@
 		C55B99A82C2D48DE003AC9BE /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		C55B99AD2C2D4968003AC9BE /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		C55B99AF2C2DD477003AC9BE /* CustomVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoPlayer.swift; sourceTree = "<group>"; };
+		C56ACFD62C335C050031286B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C5BA78592C2F744200D8A27E /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C5BA785A2C2F744200D8A27E /* RegistrationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextFieldModifier.swift; sourceTree = "<group>"; };
+		C5BA78622C2F8D5600D8A27E /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,7 @@
 				C55B997A2C2B9828003AC9BE /* App */,
 				C55B996C2C2B973A003AC9BE /* TikTokTutorialApp.swift */,
 				C55B99702C2B973F003AC9BE /* Assets.xcassets */,
+				C56ACFD62C335C050031286B /* GoogleService-Info.plist */,
 				C55B99722C2B973F003AC9BE /* Preview Content */,
 			);
 			path = TikTokTutorial;
@@ -124,7 +129,6 @@
 				C55B99892C2B98B1003AC9BE /* Feed */,
 				C55B99832C2B9898003AC9BE /* Notifications */,
 				C55B99882C2B98B0003AC9BE /* Profile */,
-				C55B999E2C2D37FB003AC9BE /* CurrentUserProfileView.swift */,
 				C55B99872C2B98B0003AC9BE /* Root */,
 				C55B99862C2B989D003AC9BE /* Search */,
 				C55B99852C2B989C003AC9BE /* TabBar */,
@@ -264,6 +268,7 @@
 		C55B99A72C2D3E2F003AC9BE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C55B999E2C2D37FB003AC9BE /* CurrentUserProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -295,6 +300,7 @@
 		C5BA78552C2F744200D8A27E /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				C5BA78622C2F8D5600D8A27E /* AuthenticationFormProtocol.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -393,6 +399,7 @@
 			files = (
 				C55B99742C2B973F003AC9BE /* Preview Assets.xcassets in Resources */,
 				C55B99712C2B973F003AC9BE /* Assets.xcassets in Resources */,
+				C56ACFD72C335C050031286B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +420,7 @@
 				C55B99AE2C2D4968003AC9BE /* FeedViewModel.swift in Sources */,
 				C55B99A92C2D48DE003AC9BE /* Post.swift in Sources */,
 				C55B996F2C2B973A003AC9BE /* ContentView.swift in Sources */,
+				C5BA78632C2F8D5600D8A27E /* AuthenticationFormProtocol.swift in Sources */,
 				C55B999A2C2D0D87003AC9BE /* NotificationsView.swift in Sources */,
 				C55B996D2C2B973A003AC9BE /* TikTokTutorialApp.swift in Sources */,
 				C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */,

@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
+    @State private var invalidEmailPassword = false
     
     var body: some View {
         NavigationStack {
@@ -27,10 +28,10 @@ struct LoginView: View {
                 VStack {
                     TextField("Enter your email", text: $email)
                         .textInputAutocapitalization(.never)
-                        .modifier(StandardTextFieldModifier())
+                        .modifier(StandardTextFieldModifier(displayErrorBorder: invalidEmailPassword))
                     SecureField("Enter your password", text: $password)
                         .textInputAutocapitalization(.never)
-                        .modifier(StandardTextFieldModifier())
+                        .modifier(StandardTextFieldModifier(displayErrorBorder: invalidEmailPassword))
                 }
                 
                 // MARK: Create Milestone for forgot password functionality -- Course says can initiate a flow through firebase for functionality
@@ -45,10 +46,23 @@ struct LoginView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 
+                Text("Invalid credentials")
+                    .foregroundStyle(Color.red)
+                    .fontWeight(.light)
+                    .font(.footnote)
+                    .opacity(invalidEmailPassword ? 1 : 0)
                 
                 // login button
                 Button {
                     print("DEBUG: LOGIN")
+                    
+                    // firebase authentication
+                    
+                    // success -> sign in
+                    
+                    // failure -> display red border
+                    invalidEmailPassword = true
+                    
                 } label: {
                     Text("Login")
                         .foregroundStyle(.white)
@@ -59,6 +73,8 @@ struct LoginView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
                 .padding(.vertical)
+                .disabled(!formIsValid)
+                .opacity(formIsValid ? 1: 0.7)
                 
                 Spacer()
                 
@@ -79,6 +95,18 @@ struct LoginView: View {
                 // go to sign up hyperlink
             }
         }
+        // MARK: Modifier should actually act on the view with the back button displayed -> Registration view
+         // .navigationBarBackButtonHidden()
+    }
+}
+
+
+// MARK: AuthenticationFormProtocol
+extension LoginView: AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty 
+        && email.contains("@")
+        && !password.isEmpty
     }
 }
 

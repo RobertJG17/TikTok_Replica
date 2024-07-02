@@ -12,6 +12,9 @@ class FeedViewModel: ObservableObject {
     // MARK: Defining a View Model - Model is reponsible for hosting video contents and functionality in a Class to
     // handle video interactions on feed from users.
     
+    // on revisiting it appears this class is instiated to serve posts fetched for a given user.
+    //
+    
     @Published var posts = [Post]()
     
     let videoUrls = [
