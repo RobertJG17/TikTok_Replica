@@ -11,6 +11,7 @@ struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var invalidEmailPassword = false
+    @StateObject var viewModel = LoginViewModel(authService: AuthService())
     
     var body: some View {
         NavigationStack {
@@ -54,7 +55,9 @@ struct LoginView: View {
                 
                 // login button
                 Button {
-                    print("DEBUG: LOGIN")
+                    Task {
+                        await viewModel.login(withEmail: email, password: password)
+                    }
                     
                     // firebase authentication
                     

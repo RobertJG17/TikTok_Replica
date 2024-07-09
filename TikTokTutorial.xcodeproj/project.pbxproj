@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C547D2692C3CA403000E7E79 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547D2682C3CA403000E7E79 /* AuthService.swift */; };
+		C547D26B2C3CA4F8000E7E79 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547D26A2C3CA4F8000E7E79 /* LoginViewModel.swift */; };
+		C547D26D2C3CA826000E7E79 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547D26C2C3CA826000E7E79 /* RegistrationViewModel.swift */; };
 		C55B996D2C2B973A003AC9BE /* TikTokTutorialApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B996C2C2B973A003AC9BE /* TikTokTutorialApp.swift */; };
 		C55B996F2C2B973A003AC9BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B996E2C2B973A003AC9BE /* ContentView.swift */; };
 		C55B99712C2B973F003AC9BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C55B99702C2B973F003AC9BE /* Assets.xcassets */; };
@@ -39,6 +42,9 @@
 
 /* Begin PBXFileReference section */
 		C52CBE3E2C34704800E06774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C547D2682C3CA403000E7E79 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		C547D26A2C3CA4F8000E7E79 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		C547D26C2C3CA826000E7E79 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		C55B99692C2B973A003AC9BE /* TikTokTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TikTokTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C55B996C2C2B973A003AC9BE /* TikTokTutorialApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokTutorialApp.swift; sourceTree = "<group>"; };
 		C55B996E2C2B973A003AC9BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -295,6 +301,7 @@
 		C55B99AB2C2D490C003AC9BE /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				C547D2682C3CA403000E7E79 /* AuthService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -344,6 +351,8 @@
 		C5BA785C2C2F744200D8A27E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				C547D26A2C3CA4F8000E7E79 /* LoginViewModel.swift */,
+				C547D26C2C3CA826000E7E79 /* RegistrationViewModel.swift */,
 			);
 			name = ViewModel;
 			path = TikTokTutorial/Core/Authentication/ViewModel;
@@ -432,15 +441,18 @@
 			files = (
 				C55B99922C2CF03F003AC9BE /* FeedView.swift in Sources */,
 				C55B99B02C2DD477003AC9BE /* CustomVideoPlayer.swift in Sources */,
+				C547D26B2C3CA4F8000E7E79 /* LoginViewModel.swift in Sources */,
 				C55B999C2C2D0D92003AC9BE /* NotificationCell.swift in Sources */,
 				C55B99A12C2D385F003AC9BE /* ProfileHeaderView.swift in Sources */,
 				C55B99A62C2D3E05003AC9BE /* UserStatView.swift in Sources */,
 				C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */,
+				C547D2692C3CA403000E7E79 /* AuthService.swift in Sources */,
 				C55B99942C2CF183003AC9BE /* FeedCell.swift in Sources */,
 				C55B99AE2C2D4968003AC9BE /* FeedViewModel.swift in Sources */,
 				C55B99A92C2D48DE003AC9BE /* Post.swift in Sources */,
 				C55B996F2C2B973A003AC9BE /* ContentView.swift in Sources */,
 				C5BA78632C2F8D5600D8A27E /* AuthenticationFormProtocol.swift in Sources */,
+				C547D26D2C3CA826000E7E79 /* RegistrationViewModel.swift in Sources */,
 				C55B999A2C2D0D87003AC9BE /* NotificationsView.swift in Sources */,
 				C55B996D2C2B973A003AC9BE /* TikTokTutorialApp.swift in Sources */,
 				C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */,

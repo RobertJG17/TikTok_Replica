@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct RegistrationView: View {
-    @State private var fullName: String = ""
-    @State private var userName: String = ""
+    @State private var fullname: String = ""
+    @State private var username: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var validatePassword: String = ""
     @State private var invalidPasswords: Bool = false
     @Environment(\.dismiss) var dismiss
+    @StateObject var viewModel = RegistrationViewModel(authService: AuthService())
     
     var body: some View {
         VStack {
@@ -27,10 +28,10 @@ struct RegistrationView: View {
             
             // text fields
             VStack {
-                TextField("Full name", text: $fullName)
+                TextField("Full name", text: $fullname)
                     .textInputAutocapitalization(.never)
                     .modifier(StandardTextFieldModifier(displayErrorBorder: false))
-                TextField("Username", text: $userName)
+                TextField("Username", text: $username)
                     .textInputAutocapitalization(.never)
                     .modifier(StandardTextFieldModifier(displayErrorBorder: false))
                 TextField("Enter your email", text: $email)
@@ -53,11 +54,13 @@ struct RegistrationView: View {
             
             // login button
             Button {
-                print("DEBUG: Sign UP")
                 invalidPasswords = InvalidPasswordsHelper(password: password, validatePassword: validatePassword)
                 
                 if !invalidPasswords {
                     // add user to firebase
+                    Task {
+                        await viewModel.createUser(withEmail: email, password: password, username: username, fullname: fullname)
+                    }
                 }
             } label: {
                 Text("Sign Up")
@@ -112,8 +115,8 @@ func InvalidPasswordsHelper(password: String, validatePassword: String) -> Bool 
 // MARK: AuthenticationFormProtocol
 extension RegistrationView: AuthenticationFormProtocol {
     var formIsValid: Bool {
-        return !fullName.isEmpty
-        && !userName.isEmpty 
+        return !fullname.isEmpty
+        && !username.isEmpty
         && !email.isEmpty
         && email.contains("@")
         && !password.isEmpty
