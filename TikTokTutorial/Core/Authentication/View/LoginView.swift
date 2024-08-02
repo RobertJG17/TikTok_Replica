@@ -56,7 +56,13 @@ struct LoginView: View {
                 // login button
                 Button {
                     Task {
-                        await viewModel.login(withEmail: email, password: password)
+                        do {
+                            try await viewModel.login(withEmail: email, password: password)
+                        } catch {
+                            print("error when authenticating with Firebase client\n. ERROR: \(error.localizedDescription)")
+                            invalidEmailPassword = true
+                        }
+                        
                     }
                     
                     // firebase authentication
@@ -64,7 +70,9 @@ struct LoginView: View {
                     // success -> sign in
                     
                     // failure -> display red border
-                    invalidEmailPassword = true
+                    
+                    
+                    
                     
                 } label: {
                     Text("Login")

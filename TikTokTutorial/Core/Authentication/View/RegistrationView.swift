@@ -57,10 +57,15 @@ struct RegistrationView: View {
                 invalidPasswords = InvalidPasswordsHelper(password: password, validatePassword: validatePassword)
                 
                 if !invalidPasswords {
+                    print("DEBUG Registration View: Valid passwords")
                     // add user to firebase
                     Task {
                         await viewModel.createUser(withEmail: email, password: password, username: username, fullname: fullname)
                     }
+                    
+                    print("DEBUG Registration View: Task Completed")
+                } else {
+                    print("DEBUG Registration View: Invalid passwords")
                 }
             } label: {
                 Text("Sign Up")

@@ -16,11 +16,12 @@ class LoginViewModel: ObservableObject {
         self.authService = authService
     }
     
-    func login(withEmail email: String, password: String) async {
+    func login(withEmail email: String, password: String) async throws {
         do {
             try await authService.login(withEmail: email, password: password)
         } catch {
             print("DEBUG: Failed to login with error \(error.localizedDescription)")
+            throw error
         }
     }
 }

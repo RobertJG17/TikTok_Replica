@@ -5,8 +5,8 @@
 //  Created by Bobby Guerra on 7/8/24.
 //
 
-import Foundation
 import Firebase
+import FirebaseAuth
 
 
 class AuthService {
@@ -14,9 +14,22 @@ class AuthService {
     // The view models are responsible for invoking the respective functions below
     // and allow us to propogate errors back to our viewModels to handle them within our catch block
     
+    @Published var userSession: FirebaseAuth.User?
+    
+    func updateUserSession() {
+        self.userSession = Auth.auth().currentUser
+    }
+    
     func login(withEmail email: String,
                password: String) async throws {
-        print("DEBUG: Login with email \(email)")
+        do {
+            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            print("DEBUG: Hello user \(result.user.uid)")
+        } catch {
+            print("DEBUG: User login failed in AUTH SERVICE: \(error.localizedDescription)")
+            throw error
+        }
+        
     }
     
     func createUser(withEmail email: String, 
@@ -24,6 +37,18 @@ class AuthService {
                     username: String,
                     fullname: String) async throws {
         print("DEBUG: User info \(email) \(username) \(fullname)")
+        
+        do {
+            // ???: Why is my code sense not working here?
+            // !!!: Found these custom #pragma marks thru https://stackoverflow.com/questions/6662395/xcode-intellisense-meaning-of-letters-in-colored-boxes-like-f-t-c-m-p-c-k-etc
+            // MARK: also explains xcode's icon labeling with code sense
+            
+            let result = try await Auth.auth().createUser(withEmail: email, password: password) // different than uploading meta data (birthday, favorite sport, etc)
+            print("DEBUG: Hello user: \(result.user.uid)")
+        } catch {
+            print("DEBUG: Failed to create user with error: \(error.localizedDescription)")
+            throw error
+        }
     }
     
     func signOut() {

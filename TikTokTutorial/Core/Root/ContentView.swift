@@ -6,22 +6,24 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 // Swift UI Level up
 // Learn how to build content sharing app with SwiftUI Framework
-
-// Use comments to annotate bits and pieces of code to reinforce understanding
-
 struct ContentView: View {
+    @StateObject var viewModel = ContentViewModel(authService: AuthService())
+    
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, Tik Tok Change!")
+        Group {
+            if viewModel.userSession != nil {
+                MainTabView()
+            } else {
+                LoginView()
+            }
         }
-        .padding()
     }
+    
 }
 
 #Preview {
