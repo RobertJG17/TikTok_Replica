@@ -8,7 +8,7 @@
 import Firebase
 import FirebaseAuth
 
-
+@MainActor
 class AuthService {
     // MARK: We implement these functions across our viewModels (Login | Registration)
     // The view models are responsible for invoking the respective functions below
@@ -24,6 +24,7 @@ class AuthService {
                password: String) async throws {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            self.updateUserSession()
             print("DEBUG: Hello user \(result.user.uid)")
         } catch {
             print("DEBUG: User login failed in AUTH SERVICE: \(error.localizedDescription)")
@@ -44,6 +45,7 @@ class AuthService {
             // MARK: also explains xcode's icon labeling with code sense
             
             let result = try await Auth.auth().createUser(withEmail: email, password: password) // different than uploading meta data (birthday, favorite sport, etc)
+            self.updateUserSession()
             print("DEBUG: Hello user: \(result.user.uid)")
         } catch {
             print("DEBUG: Failed to create user with error: \(error.localizedDescription)")
@@ -53,6 +55,7 @@ class AuthService {
     
     func signOut() {
         // implement
+        print("DEBUG: USER \(userSession?.uid ?? "NO_UID") signed out")
         try? Auth.auth().signOut() // signs user out on backend
         self.userSession = nil     // updates routing logic by wiping user session
     }

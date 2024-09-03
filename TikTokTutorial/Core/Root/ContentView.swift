@@ -11,15 +11,22 @@ import FirebaseAuth
 // Swift UI Level up
 // Learn how to build content sharing app with SwiftUI Framework
 struct ContentView: View {
-    @StateObject var viewModel = ContentViewModel(authService: AuthService())
+    @StateObject var viewModel: ContentViewModel
+    private let authService: AuthService
     
+    init(authService: AuthService) {
+        self.authService = authService
+        
+        let viewModel = ContentViewModel(authService: authService)
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         Group {
             if viewModel.userSession != nil {
-                MainTabView()
+                MainTabView(authService: authService)
             } else {
-                LoginView()
+                LoginView(authService: authService)
             }
         }
     }
@@ -27,5 +34,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(authService: AuthService())
 }

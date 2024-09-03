@@ -29,8 +29,8 @@ struct CurrentUserProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Sign Out") {
-                        print("DEBUG: Sign out here")
-                        // call service 
+                        authService.signOut()
+                        // call service
                     }
                     .font(.subheadline)
                     .fontWeight(.semibold)

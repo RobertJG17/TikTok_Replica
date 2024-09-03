@@ -11,7 +11,16 @@ struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var invalidEmailPassword = false
-    @StateObject var viewModel = LoginViewModel(authService: AuthService())
+    @StateObject var viewModel: LoginViewModel
+    private let authService: AuthService
+    
+    init(authService: AuthService) {
+        self.authService = authService
+        
+        let viewModel = LoginViewModel(authService: authService)
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
     
     var body: some View {
         NavigationStack {
@@ -65,15 +74,6 @@ struct LoginView: View {
                         
                     }
                     
-                    // firebase authentication
-                    
-                    // success -> sign in
-                    
-                    // failure -> display red border
-                    
-                    
-                    
-                    
                 } label: {
                     Text("Login")
                         .foregroundStyle(.white)
@@ -90,7 +90,7 @@ struct LoginView: View {
                 Spacer()
                 
                 NavigationLink {
-                    RegistrationView()
+                    RegistrationView(authService: authService)
                 } label: {
                     HStack(spacing: 3) {
                         Text("Don't have an account?")
@@ -122,5 +122,5 @@ extension LoginView: AuthenticationFormProtocol {
 }
 
 #Preview {
-    LoginView()
+    LoginView(authService: AuthService())
 }

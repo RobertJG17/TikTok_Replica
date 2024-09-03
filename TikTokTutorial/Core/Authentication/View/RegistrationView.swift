@@ -15,7 +15,17 @@ struct RegistrationView: View {
     @State private var validatePassword: String = ""
     @State private var invalidPasswords: Bool = false
     @Environment(\.dismiss) var dismiss
-    @StateObject var viewModel = RegistrationViewModel(authService: AuthService())
+
+    @StateObject var viewModel: RegistrationViewModel
+    private let authService: AuthService
+    
+    init(authService: AuthService) {
+        self.authService = authService
+        
+        let viewModel = RegistrationViewModel(authService: AuthService())
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
     
     var body: some View {
         VStack {
@@ -130,5 +140,5 @@ extension RegistrationView: AuthenticationFormProtocol {
 }
 
 #Preview {
-    RegistrationView()
+    RegistrationView(authService: AuthService())
 }
