@@ -54,7 +54,6 @@ class AuthService {
     }
     
     func signOut() {
-        // implement
         print("DEBUG: USER \(userSession?.uid ?? "NO_UID") signed out")
         try? Auth.auth().signOut() // signs user out on backend
         self.userSession = nil     // updates routing logic by wiping user session

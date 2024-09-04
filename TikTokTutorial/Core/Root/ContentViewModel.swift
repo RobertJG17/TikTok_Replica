@@ -22,6 +22,10 @@ class ContentViewModel: ObservableObject {
         authService.updateUserSession()
     }
     
+    // using combine allows us to call this function once and
+    // listen for changes published to authService.userSession
+    // Once these changes are published, the userSession variable here
+    // will update the routing logic for the views.
     private func setupSubscribers() {
         authService.$userSession.sink { [weak self] user in
             self?.userSession = user
