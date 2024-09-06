@@ -17,9 +17,7 @@ class ProfileHeaderViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-        Task {
-            await fetchUsers() // username, fullname, email, uid
-        }
+        Task { await fetchUsers() }                     // attributes returned: username, fullname, email, uid
         setupUserInformationPropertyObserver()
     }
     
