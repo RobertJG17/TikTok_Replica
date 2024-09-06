@@ -46,6 +46,9 @@ class AuthService {
             
             let result = try await Auth.auth().createUser(withEmail: email, password: password) // different than uploading meta data (birthday, favorite sport, etc)
             self.updateUserSession()
+            
+            // writes data to firebase table leveraging firestore generated UUID
+            try await uploadUserData(withEmail: email, id: result.user.uid, username: username, fullname: fullname)
             print("DEBUG: Hello user: \(result.user.uid)")
         } catch {
             print("DEBUG: Failed to create user with error: \(error.localizedDescription)")
@@ -57,5 +60,16 @@ class AuthService {
         print("DEBUG: USER \(userSession?.uid ?? "NO_UID") signed out")
         try? Auth.auth().signOut() // signs user out on backend
         self.userSession = nil     // updates routing logic by wiping user session
+    }
+    
+    // User service implementation is not as intricate as AuthService
+    private func uploadUserData(withEmail email: String,
+                                id: String,
+                                username: String,
+                                fullname: String) async throws {
+        
+        // not storing user passwords to Firestore
+        let user = User(id: id, username: username, email: email, fullname: fullname)
+        try await UserService().uploadUserData(user)
     }
 }
