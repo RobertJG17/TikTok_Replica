@@ -11,8 +11,8 @@ import FirebaseFirestoreSwift
 
 
 enum FirebaseError: Error {
-    case unauthorized(message: String)
-    case userNotFound(message: String)
+    case FbeAuth(message: String)
+    case FbeUserNull(message: String)
 }
 
 // interface for uploading and retrieving data from firestore for a User
@@ -49,7 +49,7 @@ class UserService {
                 throw error
             }
         } else {
-            throw FirebaseError.unauthorized(message: "Unable to access Firebase with current authorization status")
+            throw FirebaseError.FbeAuth(message: "Unable to access Firebase with current authorization status")
         }
     }
     
@@ -64,7 +64,7 @@ class UserService {
     
     func retrieveUserFromDocument(querySnapshot: QuerySnapshot) {
         do {
-            guard let userDocument = querySnapshot.documents.first else { throw FirebaseError.userNotFound(message: "user not found") }
+            guard let userDocument = querySnapshot.documents.first else { throw FirebaseError.FbeUserNull(message: "user not found") }
             let id = userDocument["id"] as! String
             let username = userDocument["username"] as! String
             let email = userDocument["email"] as! String
@@ -79,7 +79,7 @@ class UserService {
                 )
             )
         } catch {
-            print("error encountered: \(error.localizedDescription)")
+            print("error encountered: \(error)")
             
             /*
              
