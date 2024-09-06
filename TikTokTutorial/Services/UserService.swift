@@ -40,7 +40,7 @@ class UserService {
         if let uid = Auth.auth().currentUser?.uid {
             let collection = fsClient.collection(collectionName)
             let query = collection.whereField(field, isEqualTo: uid)
-            
+
             do {
                 let querySnapshot = try await query.getDocuments()
                 retrieveData(collection: collectionName, snapshot: querySnapshot)
@@ -78,14 +78,19 @@ class UserService {
                 )
             )
         } else {
-            triggerUserUpdate(
-                user: User(
-                    id: "default_id",
-                    username: "default_username",
-                    email: "default_email",
-                    fullname: "default_fullname"
-                )
-            )
+            print("error encountered")
+            print("1 - Documents: ", querySnapshot.documents)
+            print("2 - First Document: ", querySnapshot.documents.first ?? "no docs")
+            
+            /*
+             
+             Encountered error here since I had a user authenticated but didn't have the functionality
+             to publish the user information to the user collection in Firestore.
+             
+             So when I went to the profile view, there was no username, as the authenticated user
+             had no initialized data from the registration process. (resolved by re-adding user through registration flow)
+             
+             */
         }
     }
 }

@@ -29,6 +29,7 @@ struct ProfileHeaderView: View {
                     .fontWeight(.semibold)
                     .onReceive(viewModel.$userInformation) { userInfo in        // on receive method call watches for changes to Published property userInformation
                         if let info = userInfo {
+                            print("USERINFO: ", userInfo)
                             self.username = info.username
                         } else {
                             print("userInfo nil")
