@@ -22,7 +22,7 @@ struct RegistrationView: View {
     init(authService: AuthService) {
         self.authService = authService
         
-        let viewModel = RegistrationViewModel(authService: AuthService())
+        let viewModel = RegistrationViewModel(authService: authService)
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     

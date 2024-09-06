@@ -5,7 +5,7 @@
 //  Created by Bobby Guerra on 6/27/24.
 //
 
-import SwiftUI
+import Foundation
 
 struct Post: Identifiable, Codable {
     let id: String

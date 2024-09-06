@@ -6,8 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
+
 
 struct ProfileHeaderView: View {
+    @StateObject private var viewModel = ProfileHeaderViewModel()              // view model instance
+    @State public var username: String?                                        // Later assigned once published property updates from firebase query
+    
     var body: some View {
         VStack(spacing: 16) {
             VStack(spacing: 8) {
@@ -18,32 +24,39 @@ struct ProfileHeaderView: View {
                     .foregroundStyle(Color(.systemGray5))
                 
                 // username
-                Text("@lewis.hamilton")
+                Text(username ?? "-")
                     .font(.subheadline)
                     .fontWeight(.semibold)
-            }
-            
-            // stats view
-            HStack(spacing: 16) {
-                UserStatView(value: 5, title: "Following")
-                UserStatView(value: 1, title: "Followers")
-                UserStatView(value: 7, title: "Likes")
-            }
-            
-            // action button
-            Button {
+                    .onReceive(viewModel.$userInformation) { userInfo in        // on receive method call watches for changes to Published property userInformation
+                        if let info = userInfo {
+                            self.username = info.username
+                        } else {
+                            print("userInfo nil")
+                        }
+                    }
                 
-            } label: {
-                Text("Edit Profile")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .frame(width: 360, height: 32)
-                    .foregroundStyle(.black)
-                    .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                // stats view
+                HStack(spacing: 16) {
+                    UserStatView(value: 5, title: "Following")
+                    UserStatView(value: 1, title: "Followers")
+                    UserStatView(value: 7, title: "Likes")
+                }
+                
+                // action button
+                Button {
+                    
+                } label: {
+                    Text("Edit Profile")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .frame(width: 360, height: 32)
+                        .foregroundStyle(.black)
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                }
+                
+                Divider()
             }
-            
-            Divider()
         }
     }
 }
@@ -51,4 +64,3 @@ struct ProfileHeaderView: View {
 #Preview {
     ProfileHeaderView()
 }
-
