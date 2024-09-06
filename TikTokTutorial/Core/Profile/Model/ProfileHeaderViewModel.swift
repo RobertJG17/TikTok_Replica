@@ -17,14 +17,22 @@ class ProfileHeaderViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-        Task { await userService.fetchUserInformation() }
+        Task {
+            await fetchUsers() // username, fullname, email, uid
+        }
         setupUserInformationPropertyObserver()
     }
     
-    // using combine allows us to call this function once and
-    // listen for changes published to userService.userInformation
-    // Once these changes are published, the userSession variable here
-    // will update the routing logic for the views.
+    func fetchUsers() async {
+        do {
+            try await userService.fetchInformation(collectionName: "users", field: "id")
+        } catch {
+            print("Error when running fetch: ")
+            print("ERROR: ", error)
+        }
+    }
+    
+    // setting up subscriber to UserService() userInformation variable
     private func setupUserInformationPropertyObserver() {
         userService.$userInformation.sink { [weak self] info in
             self?.userInformation = info

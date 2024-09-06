@@ -11,9 +11,8 @@ import FirebaseFirestore
 
 
 struct ProfileHeaderView: View {
-    // we observe state changes in our userInformation Published property
-    @StateObject private var viewModel = ProfileHeaderViewModel()
-    @State public var username: String?
+    @StateObject private var viewModel = ProfileHeaderViewModel()              // view model instance
+    @State public var username: String?                                        // Later assigned once published property updates from firebase query
     
     var body: some View {
         VStack(spacing: 16) {
@@ -28,12 +27,11 @@ struct ProfileHeaderView: View {
                 Text("\(username ?? "-")")
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .onReceive(viewModel.$userInformation) { data in // on receive method call watches for changes to Published property
-                        if let receivedData = data {
-                            print("data: ", receivedData)
-                            self.username = receivedData.username
+                    .onReceive(viewModel.$userInformation) { userInfo in        // on receive method call watches for changes to Published property userInformation
+                        if let info = userInfo {
+                            self.username = info.username
                         } else {
-                            print("no data")
+                            print("userInfo nil")
                         }
                     }
                 
