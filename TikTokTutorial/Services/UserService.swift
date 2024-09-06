@@ -64,7 +64,7 @@ class UserService {
     
     func retrieveUserFromDocument(querySnapshot: QuerySnapshot) {
         do {
-            guard let userDocument = querySnapshot.documents.first else { throw FirebaseError.FbeUserNull(message: "user not found") }
+            guard let userDocument = querySnapshot.documents.first else { throw FirebaseError.FbeUserNull(message: "user authenticated, but not found in user collection") }
             let id = userDocument["id"] as! String
             let username = userDocument["username"] as! String
             let email = userDocument["email"] as! String
