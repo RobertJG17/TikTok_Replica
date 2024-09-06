@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 
 enum FirebaseError: Error {
     case unauthorized(message: String)
+    case userNotFound(message: String)
 }
 
 // interface for uploading and retrieving data from firestore for a User
@@ -62,12 +63,12 @@ class UserService {
     }
     
     func retrieveUserFromDocument(querySnapshot: QuerySnapshot) {
-        if let userDocument = querySnapshot.documents.first {
-            let documentData = userDocument
-            let id = documentData["id"] as! String
-            let username = documentData["username"] as! String
-            let email = documentData["email"] as! String
-            let fullname = documentData["fullname"] as! String
+        do {
+            guard let userDocument = querySnapshot.documents.first else { throw FirebaseError.userNotFound(message: "user not found") }
+            let id = userDocument["id"] as! String
+            let username = userDocument["username"] as! String
+            let email = userDocument["email"] as! String
+            let fullname = userDocument["fullname"] as! String
             
             triggerUserUpdate(
                 user: User(
@@ -77,12 +78,13 @@ class UserService {
                     fullname: fullname
                 )
             )
-        } else {
-            print("error encountered")
-            print("1 - Documents: ", querySnapshot.documents)
-            print("2 - First Document: ", querySnapshot.documents.first ?? "no docs")
+        } catch {
+            print("error encountered: \(error.localizedDescription)")
             
             /*
+             
+             print("1 - Documents: ", querySnapshot.documents)
+             print("2 - First Document: ", querySnapshot.documents.first ?? "no docs")
              
              Encountered error here since I had a user authenticated but didn't have the functionality
              to publish the user information to the user collection in Firestore.
