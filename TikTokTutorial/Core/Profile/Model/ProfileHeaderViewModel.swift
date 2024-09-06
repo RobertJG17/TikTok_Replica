@@ -25,7 +25,7 @@ class ProfileHeaderViewModel: ObservableObject {
         do {
             try await userService.fetchInformation(collectionName: "users", field: "id")
         } catch {
-            print("Error when running fetch: ", error)
+            print(error)
         }
     }
     

@@ -44,7 +44,7 @@ class UserService {
 
             do {
                 let querySnapshot = try await query.getDocuments()
-                retrieveData(collection: collectionName, snapshot: querySnapshot)
+                try retrieveData(collection: collectionName, snapshot: querySnapshot)
             } catch {
                 throw error
             }
@@ -53,16 +53,20 @@ class UserService {
         }
     }
     
-    func retrieveData(collection: String, snapshot: QuerySnapshot) {
+    func retrieveData(collection: String, snapshot: QuerySnapshot) throws {
         switch(collection) {
         case "users":
-            retrieveUserFromDocument(querySnapshot: snapshot)
+            do {
+                try retrieveUserFromDocument(querySnapshot: snapshot)
+            } catch {
+                throw error
+            }
         default:
             print("exhaustive")
         }
     }
     
-    func retrieveUserFromDocument(querySnapshot: QuerySnapshot) {
+    func retrieveUserFromDocument(querySnapshot: QuerySnapshot) throws {
         do {
             guard let userDocument = querySnapshot.documents.first else { throw FirebaseError.FbeUserNull(message: "user authenticated, but not found in user collection") }
             let id = userDocument["id"] as! String
@@ -79,7 +83,7 @@ class UserService {
                 )
             )
         } catch {
-            print("error encountered: \(error)")
+            throw error
             
             /*
              
