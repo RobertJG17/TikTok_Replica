@@ -46,7 +46,7 @@ struct UserProfileView: View {
                 }) {
                     HStack {
                         Image(systemName: "chevron.left") // Custom back arrow
-                            .font(.title)
+                            .font(.title2)
                     }
                 }
             }
