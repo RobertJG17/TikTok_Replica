@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct MainTabView: View {
     @State private var selectedTab = 0
-    let authService: AuthService
+    private let authService: AuthService
+    private let userService: UserService
+    private let loggedInUserUid = Auth.auth().currentUser?.uid
     
-    init(authService: AuthService) {
+    init(authService: AuthService, userService: UserService) {
         self.authService = authService
+        self.userService = userService
     }
     
     var body: some View {
@@ -28,7 +32,7 @@ struct MainTabView: View {
                 .onAppear { selectedTab = 0 }
                 .tag(0)
              
-            ExploreView()
+            ExploreView(userService: userService)
                 .tabItem {
                     VStack {
                         Image(systemName: selectedTab == 1 ? "person.2.fill": "person.2")
@@ -56,7 +60,7 @@ struct MainTabView: View {
                 .onAppear { selectedTab = 3 }
                 .tag(3)
             
-            CurrentUserProfileView(authService: authService)
+            CurrentUserProfileView(authService: authService, userService: userService, uid: loggedInUserUid ?? "")
                 .tabItem {
                     VStack {
                         Image(systemName: selectedTab == 4 ? "person.fill": "person")
@@ -72,5 +76,5 @@ struct MainTabView: View {
 }
 
 #Preview {
-    MainTabView(authService: AuthService())
+    MainTabView(authService: AuthService(), userService: UserService())
 }

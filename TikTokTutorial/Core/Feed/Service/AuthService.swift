@@ -15,6 +15,10 @@ class AuthService {
     // and allow us to propogate errors back to our viewModels to handle them within our catch block
     
     @Published var userSession: FirebaseAuth.User?
+    let AuthUserService = UserService()                     // instance of UserService
+                                                            // to publish user data on register
+                                                            // separate from user service managed
+                                                            // throughout application
     
     func updateUserSession() {
         self.userSession = Auth.auth().currentUser
@@ -70,6 +74,6 @@ class AuthService {
         
         // not storing user passwords to Firestore
         let user = User(id: id, username: username, email: email, fullname: fullname)
-        try await UserService().uploadUserData(user)
+        try await AuthUserService.uploadUserData(user)
     }
 }

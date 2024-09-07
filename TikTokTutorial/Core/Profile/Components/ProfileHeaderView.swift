@@ -11,8 +11,19 @@ import FirebaseFirestore
 
 
 struct ProfileHeaderView: View {
-    @StateObject private var viewModel = ProfileHeaderViewModel()              // view model instance
+    @StateObject private var viewModel: ProfileHeaderViewModel           // view model instance
     @State public var username: String?                                        // Later assigned once published property updates from firebase query
+    
+    private let userService: UserService
+    public let uid: String
+    
+    init(userService: UserService, uid: String) {
+        self.userService = userService
+        self.uid = uid
+        
+        let profileHeaderViewModel = ProfileHeaderViewModel(userService: userService, uid: uid)
+        self._viewModel = StateObject(wrappedValue: profileHeaderViewModel)
+    }
     
     var body: some View {
         VStack(spacing: 16) {
@@ -62,5 +73,5 @@ struct ProfileHeaderView: View {
 }
 
 #Preview {
-    ProfileHeaderView()
+    ProfileHeaderView(userService: UserService(), uid: "")
 }

@@ -6,16 +6,25 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct CurrentUserProfileView: View {
-    let authService: AuthService
+    private let authService: AuthService
+    private let userService: UserService
+    private let uid: String
+    
+    init(authService: AuthService, userService: UserService, uid: String) {
+        self.authService = authService
+        self.userService = userService
+        self.uid = uid
+    }
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 2) {
                     // profile header
-                    ProfileHeaderView()
+                    ProfileHeaderView(userService: userService, uid: uid)
                     
                     // post grid view
                     PostGridView()
@@ -42,5 +51,5 @@ struct CurrentUserProfileView: View {
 }
 
 #Preview {
-    CurrentUserProfileView(authService: AuthService())
+    CurrentUserProfileView(authService: AuthService(), userService: UserService(), uid: "S1siDV70inemV92IqWFAvDcClsY2")
 }

@@ -7,23 +7,26 @@
 
 import Foundation
 import Combine
+import FirebaseAuth
 
 
 @MainActor
 class ProfileHeaderViewModel: ObservableObject {
     @Published var userInformation: User?
-        
-    private let userService = UserService()
     private var cancellables = Set<AnyCancellable>()
+    private let userService: UserService
+    public let uid: String
     
-    init() {
+    init(userService: UserService, uid: String) {
+        self.userService = userService
+        self.uid = uid
         Task { await fetchUsers() }                     // attributes returned: username, fullname, email, uid
         setupUserInformationPropertyObserver()
     }
     
     func fetchUsers() async {
         do {
-            try await userService.fetchInformation(collectionName: "users", field: "id")
+            try await self.userService.fetchInformation(collectionName: "users", parameters: ["id": self.uid])
         } catch {
             print(error)
         }
