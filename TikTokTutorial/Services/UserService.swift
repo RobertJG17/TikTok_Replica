@@ -10,66 +10,72 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 
-enum FirebaseError: Error {
-    case FbeAuth(message: String)
-    case FbeUserNull(message: String)
-    case FbeNullColl(message: String)
-    case FbeUpdatePublishProperty(message: String)
-}
-
 // interface for uploading and retrieving data from firestore for a User
 @MainActor
 class UserService {
     // MARK: Published property we use to update CurrentUserProfileView
-    @Published var userInformation: User?
+    @Published var user: User?
     
     // MARK: Published property we use to update ExploreView
     @Published var userList: [User] = []
     
+    // MARK: Published property we use to update PostGridView
+    @Published var posts: [Post] = []
+    
+    private var isFetching = false
+        
     func uploadUserData(_ user: User) async throws {
         do {
             let userData = try Firestore.Encoder().encode(user)
             try await Firestore.firestore().collection("users").document(user.id).setData(userData)
+            print("SUCCESS: user data published to firestore")
         } catch {
             throw error
         }
     }
     
-    func triggerUserUpdate(user: User) {
-        print("user updated")
-        self.userInformation = user
-    }
     
     // MARK: Async API Routing function, accepts Firestore collection name and query parameters
     func fetchInformation(collectionName: String, parameters: [String: String]?) async throws {
+        // MARK: DEBUG: Guard helps prevent multiple calls
+        guard !isFetching else { return }
+        isFetching = true
+        print("DEBUG: fetch information initiated")
+        
         // MARK: Guard syntax verifies we are an authorized Firebase User
         guard ((Auth.auth().currentUser?.uid) != nil)
         else {
-            throw FirebaseError.FbeAuth(message: "Unable to access Firebase with current authorization status")
+            throw FirebaseError.FbeAuth(message: "ERROR: Unable to access Firebase with current authorization status")
         }
         
         // MARK: Using conditional assignment to unwrap parameters - if they exist
         if let unwrappedParameters = parameters {
-            // MARK: Use unwrapped parameters to configure a custom firebase query
-            let querySnapshot = try await queryCollectionWithParams(collectionName: collectionName, parameters: unwrappedParameters)
             do {
+                // MARK: Use unwrapped parameters to configure a custom firebase query
+                let querySnapshot = try await queryCollectionWithParams(collectionName: collectionName, parameters: unwrappedParameters)
                 // MARK: Calling method to publish changes to variable, updating any potential subscribers
                 try updateCurrentUser(querySnapshot: querySnapshot)
+                isFetching = false
             } catch {
                 // MARK: Custom Firebase enum conforms to Error protocol, allowing us to implement custom error handling
-                throw FirebaseError.FbeUpdatePublishProperty(message: "error when attempting to update published property current user: \(error)")
+                isFetching = false
+                throw FirebaseError.FbeUpdateError(message: "ERROR: Unable to update current user: \(error)")
             }
             
         } else {
-            let querySnapshot = try await queryCollection(collectionName: collectionName)
             do {
+                let querySnapshot = try await queryCollection(collectionName: collectionName)
                 try updateUserList(querySnapshot: querySnapshot)
+                isFetching = false
+               
             } catch {
-                throw FirebaseError.FbeUpdatePublishProperty(message: "error when attempting to update published property user list: \(error)")
+                isFetching = false
+                throw FirebaseError.FbeUpdateError(message: "ERROR: Unable to update user list: \(error)")
             }
         }
     }
     
+    // ???: Function responsible for handling query with no parameters
     func queryCollection(collectionName: String) async throws -> QuerySnapshot {
         do {
             let fsClient = Firestore.firestore()                    // initialize firestore client
@@ -81,6 +87,7 @@ class UserService {
         }
     }
     
+    // ???: Function responsible for handling parameter driven query
     func queryCollectionWithParams(collectionName: String, parameters: [String: String]) async throws -> QuerySnapshot {
         do {
             // parameters = ["uid": "uid_value"]
@@ -109,9 +116,10 @@ class UserService {
         return query!
     }
     
+    // ???: Function responsible for parsing users firebase document and triggering Published variable update to userList
     func updateUserList(querySnapshot: QuerySnapshot) throws {
         do {
-            guard querySnapshot.documents.first != nil else { throw FirebaseError.FbeNullColl(message: "no collection found") }
+            guard querySnapshot.documents.first != nil else { throw FirebaseError.FbeDataNull(message: "ERROR: no data found in snapshot") }
             querySnapshot.documents.forEach { user in
                 let userAttributes = user.data()
                 
@@ -130,46 +138,44 @@ class UserService {
                     bio: bio,
                     profileImageUrl: profileImageUrl
                 )
-    
-                self.userList.append(user)
+                
+                /*print("User: \(user)")*/
+                
+                if !self.userList.contains(user) {
+                    self.userList.append(user)
+                }
             }
+            
+            print("SUCESS: user list updated")
         } catch {
             throw error
         }
+        
+        print("DEBUG: ****USER LIST*****: \(self.userList)")
     }
     
+    // ???: Function responsible for parsing firebase document and triggering Published variable update to user
     func updateCurrentUser(querySnapshot: QuerySnapshot) throws {
         do {
-            guard let userDocument = querySnapshot.documents.first else { throw FirebaseError.FbeUserNull(message: "user authenticated, but not found in user collection") }
+            guard let userDocument = querySnapshot.documents.first else { throw FirebaseError.FbeDataNull(message: "ERROR: no data found in snapshot") }
             
             let id = userDocument["id"] as! String
             let username = userDocument["username"] as! String
             let email = userDocument["email"] as! String
             let fullname = userDocument["fullname"] as! String
             
-            triggerUserUpdate(
-                user: User(
-                    id: id,
-                    username: username,
-                    email: email,
-                    fullname: fullname
-                )
+            self.user = User(
+                id: id,
+                username: username,
+                email: email,
+                fullname: fullname
             )
+            
+            print("SUCESS: user list updated")
         } catch {
             throw error
-            
-            /*
-             
-             print("1 - Documents: ", querySnapshot.documents)
-             print("2 - First Document: ", querySnapshot.documents.first ?? "no docs")
-             
-             Encountered error here since I had a user authenticated but didn't have the functionality
-             to publish the user information to the user collection in Firestore.
-             
-             So when I went to the profile view, there was no username, as the authenticated user
-             had no initialized data from the registration process. (resolved by re-adding user through registration flow)
-             
-             */
         }
+        
+        print("DEBUG: ****CURRENT USER*****: \(String(describing: self.user))")
     }
 }

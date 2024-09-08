@@ -105,5 +105,16 @@ struct FeedCell: View {
 }
 
 #Preview {
-    FeedCell(post: Post(id: NSUUID().uuidString, videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"), viewModel: FeedViewModel())
+    FeedCell(post: 
+        Post(
+            id: NSUUID().uuidString,
+            videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            location: "orn",
+            likes: 34,
+            userIds: ["kdfjdlk", "dkfjdls"],
+            likeIds: ["dfdkjslfj", "dlsfjsdkljfkl"]
+        ),
+        
+        viewModel: FeedViewModel()
+    )
 }

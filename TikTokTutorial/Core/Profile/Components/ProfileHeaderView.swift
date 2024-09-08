@@ -38,7 +38,7 @@ struct ProfileHeaderView: View {
                 Text(username ?? "-")
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .onReceive(viewModel.$userInformation) { userInfo in        // on receive method call watches for changes to Published property userInformation
+                    .onReceive(viewModel.$user) { userInfo in        // on receive method call watches for changes to Published property userInformation
                         if let info = userInfo {
                             self.username = info.username
                         } else {

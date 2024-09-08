@@ -12,13 +12,12 @@ import Combine
 class ExploreViewModel: ObservableObject {
     // MARK: Published property we want to attach to UserService published property
     @Published var userList: [User]?
-    
     private let userService: UserService
     private var cancellables = Set<AnyCancellable>()
 
     init(userService: UserService) {
         self.userService = userService
-        Task{ await fetchUserList() }
+        Task{ await self.fetchUserList() }
         setupUserListPropertyObserver()
     }
     
@@ -28,7 +27,6 @@ class ExploreViewModel: ObservableObject {
         } catch {
             print(error)
         }
-        
     }
     
     // MARK: Sets up a Combine subscription to observe changes to the userList property in userService
