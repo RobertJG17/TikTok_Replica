@@ -15,13 +15,18 @@ struct UserProfileView: View {
     private let userService: UserService
     public let uid: String
     public let username: String
+    @State public var posts: [Post]?
     
+    @StateObject private var viewModel: PostGridViewModel
     @Environment(\.dismiss) private var dismiss
 
     init(userService: UserService, uid: String, username: String) {
         self.userService = userService
         self.uid = uid
         self.username = username
+        
+        let postGridViewModel = PostGridViewModel(userService: userService, uid: uid)
+        self._viewModel = StateObject(wrappedValue: postGridViewModel)
     }
     
     var body: some View {
@@ -31,9 +36,19 @@ struct UserProfileView: View {
                     // profile header
                     ProfileHeaderView(userService: userService, uid: uid)
                     // post grid view
-                    PostGridView()
+                    if let userPosts = posts {
+                        PostGridView(posts: userPosts)
+                    } else {
+                        NullPostsView()
+                    }
                 }
                 .padding(.top)
+                .onReceive(viewModel.$posts) { publishedPosts in
+                    if let retrievedPosts = publishedPosts {
+                        print("DEBUG: PUBLISHED POSTS: ", retrievedPosts)
+                        posts = retrievedPosts
+                    }
+                }
             }
         }
 

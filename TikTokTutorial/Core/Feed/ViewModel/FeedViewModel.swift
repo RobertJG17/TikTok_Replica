@@ -30,10 +30,34 @@ class FeedViewModel: ObservableObject {
     
     func fetchPosts() {
         self.posts = [
-            .init(id: NSUUID().uuidString, videoUrl: videoUrls[0]),
-            .init(id: NSUUID().uuidString, videoUrl: videoUrls[1]),
-            .init(id: NSUUID().uuidString, videoUrl: videoUrls[2]),
-            .init(id: NSUUID().uuidString, videoUrl: videoUrls[3])
+            .init(
+                id: NSUUID().uuidString,
+                videoUrl: videoUrls[0],
+                location: "Orange",
+                likes: 500,
+                userIds: ["dklfsjdk;f", "kljlkk;j"],
+                likeIds: ["posdfdsjod", "sdfjdslfksdjlk;"]),
+            .init(
+                id: NSUUID().uuidString,
+                videoUrl: videoUrls[1],
+                location: "Orange",
+                likes: 500,
+                userIds: ["dklfsjdk;f", "kljlkk;j"],
+                likeIds: ["posdfdsjod", "sdfjdslfksdjlk;"]),
+            .init(
+                id: NSUUID().uuidString,
+                videoUrl: videoUrls[2],
+                location: "Orange",
+                likes: 500,
+                userIds: ["dklfsjdk;f", "kljlkk;j"],
+                likeIds: ["posdfdsjod", "sdfjdslfksdjlk;"]),
+            .init(
+                id: NSUUID().uuidString,
+                videoUrl: videoUrls[3],
+                location: "Orange",
+                likes: 500,
+                userIds: ["dklfsjdk;f", "kljlkk;j"],
+                likeIds: ["posdfdsjod", "sdfjdslfksdjlk;"]),
         ]
     }
     

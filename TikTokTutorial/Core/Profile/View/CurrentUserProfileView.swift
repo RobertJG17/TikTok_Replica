@@ -13,10 +13,17 @@ struct CurrentUserProfileView: View {
     private let userService: UserService
     private let uid: String
     
+    @State public var posts: [Post]?
+
+    @StateObject private var viewModel: PostGridViewModel
+    
     init(authService: AuthService, userService: UserService, uid: String) {
         self.authService = authService
         self.userService = userService
         self.uid = uid
+        
+        let postGridViewModel = PostGridViewModel(userService: userService, uid: uid)
+        self._viewModel = StateObject(wrappedValue: postGridViewModel)
     }
     
     var body: some View {
@@ -26,11 +33,19 @@ struct CurrentUserProfileView: View {
                     // profile header
                     ProfileHeaderView(userService: userService, uid: uid)
                     
-                    // post grid view
-                    PostGridView()
+                    if let userPosts = posts {
+                        PostGridView(posts: userPosts)
+                    } else {
+                        NullPostsView()
+                    }
                 }
-                
                 .padding(.top)
+                .onReceive(viewModel.$posts) { publishedPosts in
+                    if let retrievedPosts = publishedPosts {
+//                        print("DEBUG: PUBLISHED POSTS FROM CURRENTUSERPROFILEVIEW: ", retrievedPosts)
+                        posts = retrievedPosts
+                    }
+                }
             }
             
             .navigationTitle("Profile")

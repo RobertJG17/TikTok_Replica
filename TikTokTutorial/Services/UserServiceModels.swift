@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+// MARK: Used in UserService
 enum FirebaseError: Error {
     case FbeAuth(message: String)
     case FbeDataNull(message: String)
