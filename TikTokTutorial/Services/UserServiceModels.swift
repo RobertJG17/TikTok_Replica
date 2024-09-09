@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 // MARK: Used in UserService
 enum FirebaseError: Error {
@@ -14,12 +15,10 @@ enum FirebaseError: Error {
     case FbeUpdateError(message: String)
 }
 
-protocol FirebaseCollectionAlias {
-    var firebaseUsers: String { get }
+enum FirestoreCollection: String {
+    case users = "users"
+    case posts = "posts"
+    // Add other collections as needed
 }
 
-extension FirebaseCollectionAlias {
-    var firebaseUsers: String {
-        return "users"
-    }
-}
+

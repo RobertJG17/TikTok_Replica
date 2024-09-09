@@ -22,12 +22,20 @@ class UserService {
     // MARK: Published property we use to update PostGridView
     @Published var posts: [Post] = []
     
+    private let firestore: Firestore
+    private let auth: Auth
     private var isFetching = false
+    
+    
+    init(firestore: Firestore = Firestore.firestore(), auth: Auth = Auth.auth()) {
+        self.firestore = firestore                                                    // initialize firestore client
+        self.auth = auth
+    }
         
     func uploadUserData(_ user: User) async throws {
         do {
             let userData = try Firestore.Encoder().encode(user)
-            try await Firestore.firestore().collection("users").document(user.id).setData(userData)
+            try await self.firestore.collection(FirestoreCollection.users.rawValue).document(user.id).setData(userData)
             print("SUCCESS: user data published to firestore")
         } catch {
             throw error
@@ -43,7 +51,7 @@ class UserService {
         print("DEBUG: fetch information initiated")
         
         // MARK: Guard syntax verifies we are an authorized Firebase User
-        guard ((Auth.auth().currentUser?.uid) != nil)
+        guard ((auth.currentUser?.uid) != nil)
         else {
             throw FirebaseError.FbeAuth(message: "ERROR: Unable to access Firebase with current authorization status")
         }
@@ -78,8 +86,7 @@ class UserService {
     // ???: Function responsible for handling query with no parameters
     func queryCollection(collectionName: String) async throws -> QuerySnapshot {
         do {
-            let fsClient = Firestore.firestore()                    // initialize firestore client
-            let collection = fsClient.collection(collectionName)
+            let collection = self.firestore.collection(collectionName)
             let querySnapshot = try await collection.getDocuments()
             return querySnapshot
         } catch {
@@ -91,8 +98,7 @@ class UserService {
     func queryCollectionWithParams(collectionName: String, parameters: [String: String]) async throws -> QuerySnapshot {
         do {
             // parameters = ["uid": "uid_value"]
-            let fsClient = Firestore.firestore()                    // initialize firestore client
-            let collection = fsClient.collection(collectionName)
+            let collection = self.firestore.collection(collectionName)
             let query = getFilteredCollection(collection: collection, parameters: parameters)
             let querySnapshot = try await query.getDocuments()
             return querySnapshot

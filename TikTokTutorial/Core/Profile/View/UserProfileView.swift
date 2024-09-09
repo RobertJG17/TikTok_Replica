@@ -12,7 +12,8 @@ import FirebaseAuth
 // same vars, no user service, and no log out button
 
 struct UserProfileView: View {
-    private let userService: UserService
+    // MARK: New userService to not update current user information published across application
+    private let userService = UserService()
     public let uid: String
     public let username: String
     @State public var posts: [Post]?
@@ -20,8 +21,7 @@ struct UserProfileView: View {
     @StateObject private var viewModel: PostGridViewModel
     @Environment(\.dismiss) private var dismiss
 
-    init(userService: UserService, uid: String, username: String) {
-        self.userService = userService
+    init(uid: String, username: String) {
         self.uid = uid
         self.username = username
         
@@ -71,6 +71,6 @@ struct UserProfileView: View {
 }
 
 #Preview {
-    UserProfileView(userService: UserService(), uid: "S1siDV70inemV92IqWFAvDcClsY2", username: "Bibbity")
+    UserProfileView(uid: "S1siDV70inemV92IqWFAvDcClsY2", username: "Bibbity")
 }
 
