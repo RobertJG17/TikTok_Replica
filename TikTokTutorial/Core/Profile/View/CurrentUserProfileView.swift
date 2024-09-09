@@ -34,9 +34,9 @@ struct CurrentUserProfileView: View {
                     ProfileHeaderView(userService: userService, uid: uid)
                     
                     if let userPosts = posts {
-                        PostGridView(posts: posts!)
+                        PostGridView(posts: userPosts)
                     } else {
-                        NullPostsView()
+                        NullPostsView(user: "current")
                     }
                 }
                 .padding(.top)

@@ -39,7 +39,7 @@ struct UserProfileView: View {
                     if let userPosts = posts {
                         PostGridView(posts: userPosts)
                     } else {
-                        NullPostsView()
+                        NullPostsView(user: "public")
                     }
                 }
                 .padding(.top)
