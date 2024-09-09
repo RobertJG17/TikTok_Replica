@@ -55,6 +55,8 @@
 		C5BA78632C2F8D5600D8A27E /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78622C2F8D5600D8A27E /* AuthenticationFormProtocol.swift */; };
 		C5DA72862C8E2311001EA568 /* UserServiceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA72852C8E2311001EA568 /* UserServiceModels.swift */; };
 		C5DA72882C8EB1E5001EA568 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA72872C8EB1E5001EA568 /* Cache.swift */; };
+		C5DA728B2C8F6F05001EA568 /* UploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA728A2C8F6F04001EA568 /* UploadView.swift */; };
+		C5DA728F2C8F6FFC001EA568 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA728E2C8F6FFC001EA568 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +100,8 @@
 		C5BA78622C2F8D5600D8A27E /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
 		C5DA72852C8E2311001EA568 /* UserServiceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceModels.swift; sourceTree = "<group>"; };
 		C5DA72872C8EB1E5001EA568 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		C5DA728A2C8F6F04001EA568 /* UploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadView.swift; sourceTree = "<group>"; };
+		C5DA728E2C8F6FFC001EA568 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +194,7 @@
 		C55B997E2C2B983B003AC9BE /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C5DA72892C8F6EE9001EA568 /* Upload */,
 				C55B998C2C2B98B5003AC9BE /* Authentication */,
 				C55B998B2C2B98B4003AC9BE /* Comments */,
 				C55B998A2C2B98B2003AC9BE /* Components */,
@@ -420,6 +425,31 @@
 			path = TikTokTutorial/Core/Authentication/ViewModel;
 			sourceTree = SOURCE_ROOT;
 		};
+		C5DA72892C8F6EE9001EA568 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				C5DA728D2C8F6FDB001EA568 /* Components */,
+				C5DA728C2C8F6FD4001EA568 /* Views */,
+			);
+			path = Upload;
+			sourceTree = "<group>";
+		};
+		C5DA728C2C8F6FD4001EA568 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C5DA728A2C8F6F04001EA568 /* UploadView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C5DA728D2C8F6FDB001EA568 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C5DA728E2C8F6FFC001EA568 /* ImagePicker.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -514,6 +544,7 @@
 				C55B999C2C2D0D92003AC9BE /* NotificationCell.swift in Sources */,
 				C5DA72862C8E2311001EA568 /* UserServiceModels.swift in Sources */,
 				C55B99A12C2D385F003AC9BE /* ProfileHeaderView.swift in Sources */,
+				C5DA728F2C8F6FFC001EA568 /* ImagePicker.swift in Sources */,
 				C529889A2C8A9856000B1168 /* UserService.swift in Sources */,
 				C55B99A62C2D3E05003AC9BE /* UserStatView.swift in Sources */,
 				C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */,
@@ -533,6 +564,7 @@
 				C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */,
 				C5BA785F2C2F744200D8A27E /* RegistrationView.swift in Sources */,
 				C55B99962C2CFCCD003AC9BE /* ExploreView.swift in Sources */,
+				C5DA728B2C8F6F05001EA568 /* UploadView.swift in Sources */,
 				C55B99A32C2D386D003AC9BE /* PostGridView.swift in Sources */,
 				C52988A92C8CC913000B1168 /* UserProfileView.swift in Sources */,
 				C55B999F2C2D37FB003AC9BE /* CurrentUserProfileView.swift in Sources */,
