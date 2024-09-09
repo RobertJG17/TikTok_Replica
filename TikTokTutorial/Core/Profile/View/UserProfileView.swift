@@ -13,7 +13,7 @@ import FirebaseAuth
 
 struct UserProfileView: View {
     // MARK: New userService to not update current user information published across application
-    private let userService = UserService()
+    private let publicUserService = UserService()
     public let uid: String
     public let username: String
     @State public var posts: [Post]?
@@ -25,7 +25,7 @@ struct UserProfileView: View {
         self.uid = uid
         self.username = username
         
-        let postGridViewModel = PostGridViewModel(userService: userService, uid: uid)
+        let postGridViewModel = PostGridViewModel(userService: publicUserService, uid: uid)
         self._viewModel = StateObject(wrappedValue: postGridViewModel)
     }
     
@@ -34,7 +34,7 @@ struct UserProfileView: View {
             ScrollView {
                 VStack(spacing: 2) {
                     // profile header
-                    ProfileHeaderView(userService: userService, uid: uid)
+                    ProfileHeaderView(userService: publicUserService, uid: uid)
                     // post grid view
                     if let userPosts = posts {
                         PostGridView(posts: userPosts)

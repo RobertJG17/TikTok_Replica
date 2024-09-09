@@ -12,6 +12,6 @@ struct Post: Identifiable, Codable {
     let videoUrl: String            // media of post (photo/video)
     let location: String            // where the media was captured
     let likes: Int                  // number of likes (count of likeIds)
-    let userIds: [String]           // array of strings
-    let likeIds: [String]           // array of strings
+    let taggedUserIds: [String]           // array of strings (ids of users tags
+    let likedUserIds: [String]           // array of strings (ids of users who liked post)
 }

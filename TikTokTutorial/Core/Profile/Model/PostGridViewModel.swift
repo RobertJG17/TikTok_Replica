@@ -20,7 +20,9 @@ class PostGridViewModel: ObservableObject {
     init(userService: UserService, uid: String) {
         self.userService = userService
         self.uid = uid
-        Task { await fetchPosts() }                     // attributes returned: username, fullname, email, uid
+        if (self.posts == nil) {
+            Task { await fetchPosts() }                 // attributes returned: id, videoUrl, location, likes, taggedUserIds, likedUserIds
+        }
         setupPostsPropertyObserver()
     }
     
