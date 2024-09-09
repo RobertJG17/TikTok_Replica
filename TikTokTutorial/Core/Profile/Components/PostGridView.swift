@@ -47,8 +47,8 @@ struct PostGridView: View {// 3 items of even width -2 pixels
                 videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                 location: "orange",
                 likes: 5,
-                userIds: ["", "", "", ""],
-                likeIds: ["", "", "", ""]
+                taggedUserIds: ["kdfjdlk", "dkfjdls"],
+                likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]
             ),
             
             Post(
@@ -56,8 +56,8 @@ struct PostGridView: View {// 3 items of even width -2 pixels
                 videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                 location: "orange",
                 likes: 5,
-                userIds: ["", "", "", ""],
-                likeIds: ["", "", "", ""]
+                taggedUserIds: ["kdfjdlk", "dkfjdls"],
+                likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]
             )
         ]
     )

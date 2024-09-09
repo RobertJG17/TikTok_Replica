@@ -54,6 +54,7 @@
 		C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */; };
 		C5BA78632C2F8D5600D8A27E /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78622C2F8D5600D8A27E /* AuthenticationFormProtocol.swift */; };
 		C5DA72862C8E2311001EA568 /* UserServiceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA72852C8E2311001EA568 /* UserServiceModels.swift */; };
+		C5DA72882C8EB1E5001EA568 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA72872C8EB1E5001EA568 /* Cache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +97,7 @@
 		C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextFieldModifier.swift; sourceTree = "<group>"; };
 		C5BA78622C2F8D5600D8A27E /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
 		C5DA72852C8E2311001EA568 /* UserServiceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceModels.swift; sourceTree = "<group>"; };
+		C5DA72872C8EB1E5001EA568 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */,
+				C5DA72872C8EB1E5001EA568 /* Cache.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				C5BA78632C2F8D5600D8A27E /* AuthenticationFormProtocol.swift in Sources */,
 				C547D26D2C3CA826000E7E79 /* RegistrationViewModel.swift in Sources */,
 				C55B999A2C2D0D87003AC9BE /* NotificationsView.swift in Sources */,
+				C5DA72882C8EB1E5001EA568 /* Cache.swift in Sources */,
 				C55B996D2C2B973A003AC9BE /* TikTokTutorialApp.swift in Sources */,
 				C52988A32C8B87E0000B1168 /* ExploreViewModel.swift in Sources */,
 				C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */,

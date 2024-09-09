@@ -12,7 +12,8 @@ import FirebaseAuth
 // same vars, no user service, and no log out button
 
 struct UserProfileView: View {
-    private let userService: UserService
+    // MARK: New userService to not update current user information published across application
+    private let publicUserService = UserService()
     public let uid: String
     public let username: String
     @State public var posts: [Post]?
@@ -20,12 +21,11 @@ struct UserProfileView: View {
     @StateObject private var viewModel: PostGridViewModel
     @Environment(\.dismiss) private var dismiss
 
-    init(userService: UserService, uid: String, username: String) {
-        self.userService = userService
+    init(uid: String, username: String) {
         self.uid = uid
         self.username = username
         
-        let postGridViewModel = PostGridViewModel(userService: userService, uid: uid)
+        let postGridViewModel = PostGridViewModel(userService: publicUserService, uid: uid)
         self._viewModel = StateObject(wrappedValue: postGridViewModel)
     }
     
@@ -34,7 +34,7 @@ struct UserProfileView: View {
             ScrollView {
                 VStack(spacing: 2) {
                     // profile header
-                    ProfileHeaderView(userService: userService, uid: uid)
+                    ProfileHeaderView(userService: publicUserService, uid: uid)
                     // post grid view
                     if let userPosts = posts {
                         PostGridView(posts: userPosts)
@@ -45,8 +45,11 @@ struct UserProfileView: View {
                 .padding(.top)
                 .onReceive(viewModel.$posts) { publishedPosts in
                     if let retrievedPosts = publishedPosts {
-                        print("DEBUG: PUBLISHED POSTS: ", retrievedPosts)
-                        posts = retrievedPosts
+                        if !retrievedPosts.isEmpty {
+                            print("DEBUG: PUBLISHED POSTS FROM USERPROFILEVIEW: ", retrievedPosts)
+                            self.posts = retrievedPosts
+                        }
+                        
                     }
                 }
             }
@@ -71,6 +74,6 @@ struct UserProfileView: View {
 }
 
 #Preview {
-    UserProfileView(userService: UserService(), uid: "S1siDV70inemV92IqWFAvDcClsY2", username: "Bibbity")
+    UserProfileView(uid: "S1siDV70inemV92IqWFAvDcClsY2", username: "Bibbity")
 }
 

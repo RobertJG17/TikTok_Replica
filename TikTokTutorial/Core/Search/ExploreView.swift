@@ -26,7 +26,6 @@ struct ExploreView: View {
                     ForEach(userList ?? []) { user in
                         NavigationLink {
                             UserProfileView(
-                                userService: userService,
                                 uid: user.id,
                                 username: user.username
                             )
@@ -41,7 +40,9 @@ struct ExploreView: View {
             }
             .onReceive(viewModel.$userList) { list in
                 if let publishedList = list {
-                    self.userList = publishedList
+                    if !publishedList.isEmpty {
+                        self.userList = publishedList
+                    }
                 } else {
                     print("no users in list")
                 }

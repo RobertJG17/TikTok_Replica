@@ -35,29 +35,29 @@ class FeedViewModel: ObservableObject {
                 videoUrl: videoUrls[0],
                 location: "Orange",
                 likes: 500,
-                userIds: ["dklfsjdk;f", "kljlkk;j"],
-                likeIds: ["posdfdsjod", "sdfjdslfksdjlk;"]),
+                taggedUserIds: ["kdfjdlk", "dkfjdls"],
+                likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
             .init(
                 id: NSUUID().uuidString,
                 videoUrl: videoUrls[1],
                 location: "Orange",
                 likes: 500,
-                userIds: ["dklfsjdk;f", "kljlkk;j"],
-                likeIds: ["posdfdsjod", "sdfjdslfksdjlk;"]),
+                taggedUserIds: ["kdfjdlk", "dkfjdls"],
+                likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
             .init(
                 id: NSUUID().uuidString,
                 videoUrl: videoUrls[2],
                 location: "Orange",
                 likes: 500,
-                userIds: ["dklfsjdk;f", "kljlkk;j"],
-                likeIds: ["posdfdsjod", "sdfjdslfksdjlk;"]),
+                taggedUserIds: ["kdfjdlk", "dkfjdls"],
+                likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
             .init(
                 id: NSUUID().uuidString,
                 videoUrl: videoUrls[3],
                 location: "Orange",
                 likes: 500,
-                userIds: ["dklfsjdk;f", "kljlkk;j"],
-                likeIds: ["posdfdsjod", "sdfjdslfksdjlk;"]),
+                taggedUserIds: ["kdfjdlk", "dkfjdls"],
+                likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
         ]
     }
     

@@ -111,8 +111,8 @@ struct FeedCell: View {
             videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
             location: "orn",
             likes: 34,
-            userIds: ["kdfjdlk", "dkfjdls"],
-            likeIds: ["dfdkjslfj", "dlsfjsdkljfkl"]
+            taggedUserIds: ["kdfjdlk", "dkfjdls"],
+            likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]
         ),
         
         viewModel: FeedViewModel()
