@@ -34,7 +34,7 @@ struct CurrentUserProfileView: View {
                     ProfileHeaderView(userService: userService, uid: uid)
                     
                     if let userPosts = posts {
-                        PostGridView(posts: userPosts)
+                        PostGridView(posts: posts!)
                     } else {
                         NullPostsView()
                     }
@@ -42,8 +42,11 @@ struct CurrentUserProfileView: View {
                 .padding(.top)
                 .onReceive(viewModel.$posts) { publishedPosts in
                     if let retrievedPosts = publishedPosts {
-//                        print("DEBUG: PUBLISHED POSTS FROM CURRENTUSERPROFILEVIEW: ", retrievedPosts)
-                        posts = retrievedPosts
+                        if !retrievedPosts.isEmpty {
+                            print("DEBUG: PUBLISHED POSTS FROM CURRENTUSERPROFILEVIEW: ", retrievedPosts)
+                            self.posts = retrievedPosts
+                        }
+                        
                     }
                 }
             }

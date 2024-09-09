@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct Cache<T> {
+    let data: T
+    let timestamp: Date
+}

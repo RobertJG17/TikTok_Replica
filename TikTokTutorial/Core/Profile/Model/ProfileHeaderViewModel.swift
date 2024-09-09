@@ -9,28 +9,31 @@ import Foundation
 import Combine
 import FirebaseAuth
 
-
+// TODO: Look into @MainActor
 @MainActor
 class ProfileHeaderViewModel: ObservableObject {
     @Published var user: User?
     private var cancellables = Set<AnyCancellable>()
-    private let publicUserService: UserService
+    private let userService: UserService
     public let uid: String
+
     
     init(userService: UserService, uid: String) {
-        self.publicUserService = userService
+        self.userService = userService
         self.uid = uid
-        
-        if (self.user == nil) {
-            Task{ await self.fetchUsers() }             // attributes returned: username, fullname, email, uid
+        if (!self.userService.isCacheValid(for: self.userService.userCache)) {
+            Task{ await self.fetchUsers() }          // attributes returned: username, fullname, email, uid
+        } else {
+            self.userService.invalidateCache(property: "user")
         }
-        
+
         setupUserInformationPropertyObserver()
     }
     
     func fetchUsers() async {
         do {
-            try await self.publicUserService.fetchInformation(collectionName: "users", parameters: ["id": self.uid])
+            let snapshot = try await self.userService.fetchInformation(collectionName: "users", parameters: ["id": self.uid])
+            try self.userService.updateCurrentUser(querySnapshot: snapshot)
         } catch {
             print(error)
         }
@@ -38,7 +41,7 @@ class ProfileHeaderViewModel: ObservableObject {
     
     // setting up subscriber to UserService() userInformation variable
     private func setupUserInformationPropertyObserver() {
-        publicUserService.$user.sink { [weak self] info in
+        userService.$user.sink { [weak self] info in
             self?.user = info
         }.store(in: &cancellables)
     }

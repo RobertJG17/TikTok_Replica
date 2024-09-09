@@ -13,6 +13,7 @@ enum FirebaseError: Error {
     case FbeAuth(message: String)
     case FbeDataNull(message: String)
     case FbeUpdateError(message: String)
+    case FbeDataFetching(message: String)
 }
 
 enum FirestoreCollection: String {

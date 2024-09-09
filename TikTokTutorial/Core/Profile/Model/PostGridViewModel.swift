@@ -20,15 +20,26 @@ class PostGridViewModel: ObservableObject {
     init(userService: UserService, uid: String) {
         self.userService = userService
         self.uid = uid
-        if (self.posts == nil) {
-            Task { await fetchPosts() }                 // attributes returned: id, videoUrl, location, likes, taggedUserIds, likedUserIds
+        
+        if (!self.userService.isCacheValid(for: self.userService.postsCache)) {
+            // MARK: attributes returned - id, videoUrl, location, likes, taggedUserIds, likedUserIds
+            Task { await fetchPosts() }
+        } else {
+            self.userService.invalidateCache(property: "posts")
         }
+        
         setupPostsPropertyObserver()
     }
     
     func fetchPosts() async {
         do {
-            try await self.userService.fetchInformation(collectionName: "posts", parameters: ["id": self.uid])
+            if (!self.userService.isCacheValid(for: self.userService.postsCache)) {
+                let snapshot = try await self.userService.fetchInformation(collectionName: "posts", parameters: ["id": self.uid])
+                // MARK: Calling method to publish changes to variable, updating any potential subscribers
+                try self.userService.updatePosts(querySnapshot: snapshot)
+            } else {
+                self.userService.invalidateCache(property: "posts")
+            }
         } catch {
             print(error)
         }

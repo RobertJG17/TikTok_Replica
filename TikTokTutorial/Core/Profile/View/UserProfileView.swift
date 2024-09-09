@@ -45,8 +45,11 @@ struct UserProfileView: View {
                 .padding(.top)
                 .onReceive(viewModel.$posts) { publishedPosts in
                     if let retrievedPosts = publishedPosts {
-                        print("DEBUG: PUBLISHED POSTS: ", retrievedPosts)
-                        posts = retrievedPosts
+                        if !retrievedPosts.isEmpty {
+                            print("DEBUG: PUBLISHED POSTS FROM USERPROFILEVIEW: ", retrievedPosts)
+                            self.posts = retrievedPosts
+                        }
+                        
                     }
                 }
             }

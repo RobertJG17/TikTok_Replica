@@ -15,15 +15,22 @@ class ExploreViewModel: ObservableObject {
     private let userService: UserService
     private var cancellables = Set<AnyCancellable>()
 
+
     init(userService: UserService) {
         self.userService = userService
-        Task{ await self.fetchUserList() }
+        if (!self.userService.isCacheValid(for: userService.userListCache)) {
+            Task{ await self.fetchUserList() }
+        } else {
+            self.userService.invalidateCache(property: "userList")
+        }
+        
         setupUserListPropertyObserver()
     }
     
     func fetchUserList() async {
         do {
-            try await self.userService.fetchInformation(collectionName: "users", parameters: nil)
+            let snapshot = try await self.userService.fetchInformation(collectionName: "users", parameters: nil)
+            try self.userService.updateUserList(querySnapshot: snapshot)
         } catch {
             print(error)
         }
