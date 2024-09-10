@@ -8,9 +8,7 @@ Essential Features: (85%)
 We created a one to one association between our service and model layer to isolate data fetching needs as much as possible.
 Pattern:
 
-fetchUserInformation (Service) -> setupUserInformationPropertyObserver (Service) (users collection)
-fetchUserMetadata (Service) -> setupUserMetadataPropertyObserver (Service)       (user stats collection)
-fetchUserPostdata (Service) -> setupUserPostdataPropertyObserver (Service)       (user posts collection) 
+![Service Architecture](Assets/ServiceArchitecture.jpeg)
 
 With related data associated by FUID (Firestore unique id)
 
