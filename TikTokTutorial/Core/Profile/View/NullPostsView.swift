@@ -9,14 +9,16 @@ import SwiftUI
 
 struct NullPostsView: View {
     private let user: String
+    private let userService: UserService?
     private let height = UIScreen.main.bounds.width
     private var paddingTop: CGFloat {
         return (height / 2.0) - (height / 6.0)                      // since header occupies top 3rd
                                                                     // of screen, push view down a bit
     }
     
-    init(user: String) {
+    init(user: String, userService: UserService?) {
         self.user = user
+        self.userService = userService
     }
     
     
@@ -31,20 +33,17 @@ struct NullPostsView: View {
             case "current":
                 
                 NavigationLink {
-                    UploadView()
-                    
+                    if let service = userService {
+                        UploadView(userService: service)
+                    }
                 } label: {
                     VStack {
                         HStack {
-                            Text("📷")
-                                .font(.system(size: 60, weight: .bold, design: .serif))
-                        
                             Text("Upload a post!")
-                                .font(.system(size: 28, weight: .bold, design: .serif))
+                                .font(.system(size: 20, weight: .bold))
                                 .foregroundStyle(Color.black)
-                                .shadow(color: Color.purple,radius: 1, x: 1, y: 1)
                         }
-                        
+                        Spacer()
                         Text("➕")
                         
                     }
@@ -78,5 +77,5 @@ struct NullPostsView: View {
 }
 
 #Preview {
-    NullPostsView(user: "current")
+    NullPostsView(user: "current", userService: UserService())
 }

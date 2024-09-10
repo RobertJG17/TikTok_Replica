@@ -106,6 +106,21 @@ class UserService: ObservableObject {
         }
     }
     
+    func publishInformation(collectionName: String, parameters: [String: String]) async throws {
+        print("DEBUG: publish information initiated")
+        
+        // MARK: Guard syntax verifies we are an authorized Firebase User
+        guard ((Auth.auth().currentUser?.uid) != nil)
+        else {
+            throw FirebaseError.FbeAuth(message: "ERROR: Unable to access Firebase with current authorization status")
+        }
+        
+        let fsClient = Firestore.firestore()                                    // initialize firestore client
+        let collection = fsClient.collection(collectionName)
+        
+//        publishDataTo
+    }
+    
     // ???: Function responsible for handling query with no parameters
     func queryCollection(client: Firestore, collection: CollectionReference) async throws -> QuerySnapshot {
         do {

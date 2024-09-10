@@ -8,13 +8,9 @@
 import SwiftUI
 import UIKit
 
-enum MediaType {
-    case photo
-    case video
-}
 
-struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var image: UIImage?
+struct MediaPicker: UIViewControllerRepresentable {
+    @Binding var selectedMedia: SelectedMedia?
     @Binding var mediaType: MediaType
 
     func makeCoordinator() -> Coordinator {
@@ -32,16 +28,18 @@ struct ImagePicker: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
 
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        var parent: ImagePicker
+        var parent: MediaPicker
 
-        init(_ parent: ImagePicker) {
+        init(_ parent: MediaPicker) {
             self.parent = parent
         }
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let image = info[.originalImage] as? UIImage {
-                parent.image = image
-            }
+               self.parent.selectedMedia = .image(image)
+           } else if let videoURL = info[.mediaURL] as? URL {
+               self.parent.selectedMedia = .video(videoURL)
+           }
             picker.dismiss(animated: true)
         }
 
