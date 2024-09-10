@@ -8,7 +8,7 @@ Essential Features: (85%)
 We created a one to one association between our service and model layer to isolate data fetching needs as much as possible.
 Pattern:
 
-![Service Architecture](Images/ServiceArchitecture.jpeg)
+![Service Architecture](Images/ServiceArchitecture)
 
 With related data associated by FUID (Firestore unique id)
 
