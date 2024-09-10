@@ -12,14 +12,13 @@ import FirebaseFirestore
 enum FirebaseError: Error {
     case FbeAuth(message: String)
     case FbeDataNull(message: String)
-    case FbeUpdateError(message: String)
-    case FbeDataFetching(message: String)
+    case FbeGenericError(message: String)
+    case FbeDataUploadError(message: String)
 }
 
-enum FirestoreCollection: String {
-    case users = "users"
-    case posts = "posts"
-    // Add other collections as needed
+enum FirestoreData: String {
+    case users
+    case posts
 }
 
 

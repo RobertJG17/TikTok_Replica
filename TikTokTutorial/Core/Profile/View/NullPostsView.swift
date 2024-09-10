@@ -44,8 +44,8 @@ struct NullPostsView: View {
                                 .foregroundStyle(Color.black)
                         }
                         Spacer()
-                        Text("➕")
-                        
+                        Image(systemName: "plus") // Custom back arrow
+                            .font(.title2)
                     }
                     
                 }

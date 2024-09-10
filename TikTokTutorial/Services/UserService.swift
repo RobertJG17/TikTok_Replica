@@ -32,15 +32,15 @@ class UserService: ObservableObject {
     public let ttlDuration: TimeInterval = 30
     
             
-    func uploadUserData(_ user: User) async throws {
-        do {
-            let userData = try Firestore.Encoder().encode(user)
-            try await Firestore.firestore().collection(FirestoreCollection.users.rawValue).document(user.id).setData(userData)
-            print("SUCCESS: user data published to firestore")
-        } catch {
-            throw error
-        }
-    }
+//    func uploadUserData(_ user: User) async throws {
+//        do {
+//            let userData = try Firestore.Encoder().encode(user)
+//            try await Firestore.firestore().collection(FirestoreCollection.users.rawValue).document(user.id).setData(userData)
+//            print("SUCCESS: user data published to firestore")
+//        } catch {
+//            throw error
+//        }
+//    }
     
     func isCacheValid<T>(for cache: Cache<T>?) -> Bool {
         if let cacheData = cache {
@@ -94,29 +94,54 @@ class UserService: ObservableObject {
                 return try await queryCollectionWithParams(client: fsClient, collection: collection, parameters: unwrappedParameters)
             } catch {
                 // MARK: Custom Firebase enum conforms to Error protocol, allowing us to implement custom error handling
-                throw FirebaseError.FbeUpdateError(message: "ERROR: Unable to update current user: \(error)")
+                throw FirebaseError.FbeGenericError(message: "ERROR: Unable to update current user: \(error)")
             }
             
         } else {
             do {
                 return try await queryCollection(client: fsClient, collection: collection)
             } catch {
-                throw FirebaseError.FbeUpdateError(message: "ERROR: Unable to update user list: \(error)")
+                throw FirebaseError.FbeGenericError(message: "ERROR: Unable to update user list: \(error)")
             }
         }
     }
     
-    func publishInformation(collectionName: String, parameters: [String: String]) async throws {
-        print("DEBUG: publish information initiated")
-        
+    func publishInformation(collection: FirestoreData, data: Any) async throws {
         // MARK: Guard syntax verifies we are an authorized Firebase User
         guard ((Auth.auth().currentUser?.uid) != nil)
         else {
             throw FirebaseError.FbeAuth(message: "ERROR: Unable to access Firebase with current authorization status")
         }
         
-        let fsClient = Firestore.firestore()                                    // initialize firestore client
-        let collection = fsClient.collection(collectionName)
+        do {
+            // don't need user need post
+            switch collection {
+            case FirestoreData.users:
+                do {
+                    guard let userData = data as? User else { throw FirebaseError.FbeGenericError(message: "Unable to cast data as User") }
+                    let user = try Firestore.Encoder().encode(userData)
+                    try await Firestore.firestore().collection(FirestoreData.users.rawValue).document(userData.id).setData(user)
+                    print("SUCCESS: User published to firestore")
+                } catch {
+                    throw FirebaseError.FbeGenericError(message: "Error encountered when publishing data: \(error)")
+                }
+            case FirestoreData.posts:
+                do {
+                    guard let userPost = data as? Post else { throw FirebaseError.FbeGenericError(message: "Unable to cast data as Post") }
+                    let post = try Firestore.Encoder().encode(userPost)
+                    try await Firestore.firestore().collection(FirestoreData.posts.rawValue).document(userPost.id).setData(post)
+                    print("SUCCESS: Post published to firestore")
+                } catch {
+                    throw FirebaseError.FbeGenericError(message: "Error encountered when publishing data: \(error)")
+                }
+            }
+        } catch {
+            throw error
+        }
+        
+        
+//        let fsClient = Firestore.firestore()                                    // initialize firestore client
+//        let collection = fsClient.collection(collectionName)
         
 //        publishDataTo
     }

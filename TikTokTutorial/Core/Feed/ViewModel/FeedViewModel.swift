@@ -32,29 +32,33 @@ class FeedViewModel: ObservableObject {
         self.posts = [
             .init(
                 id: NSUUID().uuidString,
+                title: "post1",
+                caption: "Buck Bunny!",
                 videoUrl: videoUrls[0],
-                location: "Orange",
                 likes: 500,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
             .init(
                 id: NSUUID().uuidString,
+                title: "post2",
+                caption: "ElephantsDream",
                 videoUrl: videoUrls[1],
-                location: "Orange",
                 likes: 500,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
             .init(
                 id: NSUUID().uuidString,
+                title: "post3",
+                caption: "ForBiggerBlazes",
                 videoUrl: videoUrls[2],
-                location: "Orange",
                 likes: 500,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
             .init(
                 id: NSUUID().uuidString,
+                title: "post4",
+                caption: "ForBiggerEscapes",
                 videoUrl: videoUrls[3],
-                location: "Orange",
                 likes: 500,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
@@ -68,8 +72,10 @@ class FeedViewModel: ObservableObject {
                                     // is constant declaration here necessary?
             player.currentItem == nil else { return }
         
-        let item = AVPlayerItem(url: URL(string: post.videoUrl)!)
-        player.replaceCurrentItem(with: item)
+        if let videoUrl = post.videoUrl {
+            let item = AVPlayerItem(url: URL(string: videoUrl)!)
+            player.replaceCurrentItem(with: item)
+        }
     }
     
     func triggerPlaybackAction() {
@@ -91,13 +97,12 @@ class FeedViewModel: ObservableObject {
     
     func playVideoOnChangeOfScrollPosition(postId: String?) {
         guard let currentPost = posts.first(where: { $0.id == postId }) else { return }
-        
         // remove video from stack on transition to show nothing as content of next video loads
         player.replaceCurrentItem(with: nil)
         
-        let playerItem = AVPlayerItem(url: URL(string: currentPost.videoUrl)! )
-        player.replaceCurrentItem(with: playerItem)
+        if let videoUrl = currentPost.videoUrl {
+            let playerItem = AVPlayerItem(url: URL(string: videoUrl)! )
+            player.replaceCurrentItem(with: playerItem)
+        }
     }
-    
-    
 }

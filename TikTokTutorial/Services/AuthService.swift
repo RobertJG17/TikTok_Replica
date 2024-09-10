@@ -44,10 +44,6 @@ class AuthService: ObservableObject {
         print("DEBUG: User info \(email) \(username) \(fullname)")
         
         do {
-            // ???: Why is my code sense not working here?
-            // !!!: Found these custom #pragma marks thru https://stackoverflow.com/questions/6662395/xcode-intellisense-meaning-of-letters-in-colored-boxes-like-f-t-c-m-p-c-k-etc
-            // MARK: also explains xcode's icon labeling with code sense
-            
             let result = try await Auth.auth().createUser(withEmail: email, password: password) // different than uploading meta data (birthday, favorite sport, etc)
             self.updateUserSession()
             
@@ -72,8 +68,13 @@ class AuthService: ObservableObject {
                                 username: String,
                                 fullname: String) async throws {
         
-        // not storing user passwords to Firestore
-        let user = User(id: id, username: username, email: email, fullname: fullname)
-        try await AuthUserService.uploadUserData(user)
+        let user = User(
+            id: id,
+            username: username,
+            email: email,
+            fullname: fullname
+        )
+        
+        try await AuthUserService.publishInformation(collection: FirestoreData.users, data: user)
     }
 }

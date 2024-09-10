@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 
 enum MediaType {
@@ -13,153 +14,142 @@ enum MediaType {
     case video
 }
 
-enum SelectedMedia {
+enum SelectedMedia: Equatable {
     case image(UIImage)
     case video(URL)
 }
 
 
+// should I even support different media types for uploads?
+// might be easier if I only have to worry about a user adding a normal media post
+
 struct UploadView: View {
+    private let userService: UserService
+    private let height = UIScreen.main.bounds.height
+    private let width = UIScreen.main.bounds.width
+    
+    private var placeholder: String = "Enter http:// here..."
+    
     @State private var title: String = ""
     @State private var caption: String = ""
     @State private var selectedMedia: SelectedMedia? = nil
     @State private var mediaType: MediaType = .photo
     @State private var showMediaPicker: Bool = false
-    @State private var showUploadTag: String = "picker_upload_tag"
-    @State private var urlString: String = "Enter http:// here..."
+    @State private var urlString: String = ""
     
-    private let height = UIScreen.main.bounds.height
-    private let width = UIScreen.main.bounds.width
+    @State private var isLoading: Bool = false
+
+    private var uploadButtonDisabled: Bool {
+        return title.isEmpty || caption.isEmpty || selectedMedia == nil
+    }
     
-    private let userService: UserService
+    private func toggleMediaPicker() {
+        showMediaPicker.toggle()
+    }
     
-    // need user service here to make publish call,
-    // need to pass down existing user service
-    // to have reference to logged in user
+    private func emptySelectedMedia() {
+        selectedMedia = nil
+    }
+
+    private func uploadMedia() {
+        let post: Post = Post(
+            id: UUID().uuidString,
+            title: title,
+            caption: caption,
+            videoUrl: nil, // ???: IDK what to put here
+            likes: 0,
+            taggedUserIds: [],
+            likedUserIds: []
+        )
+       
+        Task {
+            do {
+                isLoading.toggle()
+                try await userService.publishInformation(
+                    collection: FirestoreData.posts,
+                    data: post
+                )
+                isLoading.toggle()
+            } catch {
+                print(error)
+            }
+        }
+    }
+        
+    // MARK: Need user service here to make publish call, need to pass down existing user service to have reference to logged in user
     init(userService: UserService) {
         self.userService = userService
     }
 
     var body: some View {
         VStack {
-            VStack {
-                Text("Title")
-                    .font(.headline)
-
-                // Title TextField
-                TextField("Enter title", text: $title)
-            }
-            .padding(.bottom, 20)
+            UploadTextField(
+                publishedValue: $title,
+                animationTriggerValue: $caption,
+                label: "title",
+                bottomPadding: 20
+            )
             
-            VStack {
-                Text("Caption")
-                    .font(.headline)
-
-                // Title TextField
-                TextField("Enter caption", text: $caption)
-            }
-            .padding(.bottom, 100)
-               
-
-            // Show the selected image or video thumbnail
-            if let media = selectedMedia {
-                switch(media) {
-                case .image(let uiImage):
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 200)
-                case .video(let url):
-                    Text("Video URL: \(url.absoluteString)")
-                        .padding()
-                default:
-                    Text(".image | .video case not hit")
-                }
-            } else {
-                Text("No media selected")
-                    .padding()
-            }
-
-            // Upload Type Picker
-            Picker("Select UploadType Type", selection: $showUploadTag) {
-                Text("Upload").tag("picker_upload_tag")
-                Text("URL").tag("picker_url_tag")
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
+            UploadTextField(
+                publishedValue: $caption,
+                animationTriggerValue: $title,
+                label: "caption",
+                bottomPadding: 100
+            )
             
+            MediaPickerButton(
+                showMediaPicker: showMediaPicker,
+                width: width, 
+                height: height,
+                title: title,
+                caption: caption, 
+                toggleMediaPicker: toggleMediaPicker
+            )
             
-            if (showUploadTag == "picker_url_tag") {
-                TextField("", text: $urlString)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    .onAppear {
-                        if (urlString.isEmpty) {
-                            urlString = "Enter http:// here..."
-                        }
-                    }
-                    .onChange(of: urlString) { oldValue, newValue in
-                        if (oldValue.isEmpty && newValue.isEmpty) {
-                            urlString = "Enter http:// here..."
-                        }
-                    }
-                    .onTapGesture {
-                        if (urlString ==  "Enter http:// here...") {
-                            urlString = ""
-                        }
-                    }
-                    .opacity(urlString == "Enter http:// here..." ? 0.4 : 1)
-            } else {
-                // Button to open the ImagePicker
-                Button(action: {
-                    showMediaPicker = true
-                }) {
-                    Image(systemName: "photo.on.rectangle") // Replace with your icon name or system image
-                        .resizable() // Make the image resizable
-                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
-                        .padding()
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                        .frame(maxWidth: width / 3, maxHeight: height / 3) // Adjust frame size
-                }
-            }
+            MediaPreview(
+                title: title,
+                caption: caption,
+                selectedMedia: selectedMedia
+            )
             
-            // Button to upload
-            Button(action: {
-                // Handle the upload logic here
-                uploadMedia()
-            }) {
-                Text("Upload")
-                    .padding()
-                    .background(Color.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+            HStack {
+                ApplicationButton(
+                    action: uploadMedia,
+                    text: "Upload",
+                    background: uploadButtonDisabled ? Color.gray : Color.black,
+                    color: .white,
+                    radius: 8,
+                    message: "Upload Media button clicked!!"
+                )
+                    .disabled(uploadButtonDisabled)
+                    .opacity(uploadButtonDisabled ? 0.7 : 1)
+                
+                
+                ApplicationButton(
+                    action: emptySelectedMedia,
+                    systemImage: "trash",
+                    background: Color.red,
+                    color: .white,
+                    radius: 8,
+                    message: "Media Deleted!!"
+                )
             }
-            .disabled(title.isEmpty || caption.isEmpty || selectedMedia == nil)
             .frame(maxWidth: .infinity, maxHeight: height - height * 0.25)
-            
+            .animation(.bouncy, value: selectedMedia)
+
         }
-        .sheet(isPresented: $showMediaPicker) {
+        .sheet(isPresented: $showMediaPicker) {                                 // bool toggled when tapping MediaPicker Button
             MediaPicker(selectedMedia: $selectedMedia, mediaType: $mediaType)
         }
         .padding()
-    }
-    
-    private func setTag(tag: String) {
-        self.showUploadTag = tag
-    }
-
-    private func uploadMedia() {
-        // Your upload logic here
-        guard selectedMedia != nil else { return }
-        
-        // title
-        // caption
-        // selected
-        
-        // Example upload code
-        print("Uploading image with title: \(title) and caption: \(caption)")
+        .overlay {
+            // Conditional Spinner
+            if isLoading {
+                ProgressView("Uploading...")
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .padding()
+            }
+        }
     }
 }
 

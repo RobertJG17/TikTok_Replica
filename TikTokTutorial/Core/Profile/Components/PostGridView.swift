@@ -44,8 +44,9 @@ struct PostGridView: View {// 3 items of even width -2 pixels
         posts: [
             Post(
                 id: "post_id",
-                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                location: "orange",
+                title: "post1",
+                caption: "caption",
+                videoUrl: "orange",
                 likes: 5,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]
@@ -53,8 +54,9 @@ struct PostGridView: View {// 3 items of even width -2 pixels
             
             Post(
                 id: "post_id",
-                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                location: "orange",
+                title: "post2",
+                caption: "caption",
+                videoUrl: "orange",
                 likes: 5,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]

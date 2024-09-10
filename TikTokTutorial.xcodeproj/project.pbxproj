@@ -21,6 +21,10 @@
 		C52988A92C8CC913000B1168 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52988A82C8CC913000B1168 /* UserProfileView.swift */; };
 		C52988AB2C8D19DE000B1168 /* Followers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52988AA2C8D19DE000B1168 /* Followers.swift */; };
 		C52988AD2C8D1D6E000B1168 /* PostGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52988AC2C8D1D6E000B1168 /* PostGridViewModel.swift */; };
+		C52AA8EE2C90942D00137B79 /* MediaPickerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52AA8ED2C90942D00137B79 /* MediaPickerButton.swift */; };
+		C52AA8F02C9098C100137B79 /* UploadTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52AA8EF2C9098C100137B79 /* UploadTextField.swift */; };
+		C52AA8F22C90A29100137B79 /* MediaPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52AA8F12C90A29100137B79 /* MediaPreview.swift */; };
+		C52AA8F42C90A3E200137B79 /* UploadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52AA8F32C90A3E200137B79 /* UploadButton.swift */; };
 		C537A46F2C3DE1920032C6B3 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C537A46E2C3DE1920032C6B3 /* ContentViewModel.swift */; };
 		C547D2692C3CA403000E7E79 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547D2682C3CA403000E7E79 /* AuthService.swift */; };
 		C547D26B2C3CA4F8000E7E79 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547D26A2C3CA4F8000E7E79 /* LoginViewModel.swift */; };
@@ -53,7 +57,7 @@
 		C5BA785F2C2F744200D8A27E /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA785A2C2F744200D8A27E /* RegistrationView.swift */; };
 		C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */; };
 		C5BA78632C2F8D5600D8A27E /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78622C2F8D5600D8A27E /* AuthenticationFormProtocol.swift */; };
-		C5DA72862C8E2311001EA568 /* UserServiceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA72852C8E2311001EA568 /* UserServiceModels.swift */; };
+		C5DA72862C8E2311001EA568 /* ServiceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA72852C8E2311001EA568 /* ServiceModels.swift */; };
 		C5DA72882C8EB1E5001EA568 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA72872C8EB1E5001EA568 /* Cache.swift */; };
 		C5DA728B2C8F6F05001EA568 /* UploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA728A2C8F6F04001EA568 /* UploadView.swift */; };
 		C5DA728F2C8F6FFC001EA568 /* MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA728E2C8F6FFC001EA568 /* MediaPicker.swift */; };
@@ -69,6 +73,10 @@
 		C52988A82C8CC913000B1168 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		C52988AA2C8D19DE000B1168 /* Followers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Followers.swift; sourceTree = "<group>"; };
 		C52988AC2C8D1D6E000B1168 /* PostGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGridViewModel.swift; sourceTree = "<group>"; };
+		C52AA8ED2C90942D00137B79 /* MediaPickerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerButton.swift; sourceTree = "<group>"; };
+		C52AA8EF2C9098C100137B79 /* UploadTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTextField.swift; sourceTree = "<group>"; };
+		C52AA8F12C90A29100137B79 /* MediaPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreview.swift; sourceTree = "<group>"; };
+		C52AA8F32C90A3E200137B79 /* UploadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadButton.swift; sourceTree = "<group>"; };
 		C52CBE3E2C34704800E06774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C537A46E2C3DE1920032C6B3 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		C547D2682C3CA403000E7E79 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -98,7 +106,7 @@
 		C5BA785A2C2F744200D8A27E /* RegistrationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextFieldModifier.swift; sourceTree = "<group>"; };
 		C5BA78622C2F8D5600D8A27E /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
-		C5DA72852C8E2311001EA568 /* UserServiceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceModels.swift; sourceTree = "<group>"; };
+		C5DA72852C8E2311001EA568 /* ServiceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceModels.swift; sourceTree = "<group>"; };
 		C5DA72872C8EB1E5001EA568 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		C5DA728A2C8F6F04001EA568 /* UploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadView.swift; sourceTree = "<group>"; };
 		C5DA728E2C8F6FFC001EA568 /* MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPicker.swift; sourceTree = "<group>"; };
@@ -238,8 +246,9 @@
 		C55B99822C2B987D003AC9BE /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C547D2682C3CA403000E7E79 /* AuthService.swift */,
 				C52988992C8A9856000B1168 /* UserService.swift */,
-				C5DA72852C8E2311001EA568 /* UserServiceModels.swift */,
+				C5DA72852C8E2311001EA568 /* ServiceModels.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -368,7 +377,6 @@
 		C55B99AB2C2D490C003AC9BE /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				C547D2682C3CA403000E7E79 /* AuthService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -446,6 +454,10 @@
 			isa = PBXGroup;
 			children = (
 				C5DA728E2C8F6FFC001EA568 /* MediaPicker.swift */,
+				C52AA8ED2C90942D00137B79 /* MediaPickerButton.swift */,
+				C52AA8EF2C9098C100137B79 /* UploadTextField.swift */,
+				C52AA8F12C90A29100137B79 /* MediaPreview.swift */,
+				C52AA8F32C90A3E200137B79 /* UploadButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -538,18 +550,22 @@
 			files = (
 				C50490492C8D434A0098EE50 /* VideoCellView.swift in Sources */,
 				C55B99922C2CF03F003AC9BE /* FeedView.swift in Sources */,
+				C52AA8F22C90A29100137B79 /* MediaPreview.swift in Sources */,
 				C55B99B02C2DD477003AC9BE /* CustomVideoPlayer.swift in Sources */,
 				C547D26B2C3CA4F8000E7E79 /* LoginViewModel.swift in Sources */,
 				C52988982C8A96E2000B1168 /* User.swift in Sources */,
 				C55B999C2C2D0D92003AC9BE /* NotificationCell.swift in Sources */,
-				C5DA72862C8E2311001EA568 /* UserServiceModels.swift in Sources */,
+				C52AA8EE2C90942D00137B79 /* MediaPickerButton.swift in Sources */,
+				C5DA72862C8E2311001EA568 /* ServiceModels.swift in Sources */,
 				C55B99A12C2D385F003AC9BE /* ProfileHeaderView.swift in Sources */,
 				C5DA728F2C8F6FFC001EA568 /* MediaPicker.swift in Sources */,
 				C529889A2C8A9856000B1168 /* UserService.swift in Sources */,
 				C55B99A62C2D3E05003AC9BE /* UserStatView.swift in Sources */,
 				C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */,
+				C52AA8F42C90A3E200137B79 /* UploadButton.swift in Sources */,
 				C547D2692C3CA403000E7E79 /* AuthService.swift in Sources */,
 				C537A46F2C3DE1920032C6B3 /* ContentViewModel.swift in Sources */,
+				C52AA8F02C9098C100137B79 /* UploadTextField.swift in Sources */,
 				C52988A12C8AD5AC000B1168 /* ProfileHeaderViewModel.swift in Sources */,
 				C55B99942C2CF183003AC9BE /* FeedCell.swift in Sources */,
 				C55B99AE2C2D4968003AC9BE /* FeedViewModel.swift in Sources */,

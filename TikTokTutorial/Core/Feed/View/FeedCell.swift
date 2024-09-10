@@ -108,8 +108,9 @@ struct FeedCell: View {
     FeedCell(post: 
         Post(
             id: NSUUID().uuidString,
-            videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            location: "orn",
+            title: "post1",
+            caption: "caption",
+            videoUrl: "orn",
             likes: 34,
             taggedUserIds: ["kdfjdlk", "dkfjdls"],
             likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]
