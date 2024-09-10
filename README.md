@@ -14,8 +14,7 @@ fetchUserPostdata (Service) -> setupUserPostdataPropertyObserver (Service)      
 
 With related data associated by FUID (Firestore unique id)
 
-Found these custom #pragma marks thru stackoverflow [thread]("https://stackoverflow.com/questions/6662395/xcode-intellisense-meaning-of-letters-in-colored-boxes-like-f-t-c-m-p-c-k-etc")
-MARK: also explains xcode's icon labeling with code sense
+Found these custom #pragma marks thru stackoverflow [thread](https://stackoverflow.com/questions/6662395/xcode-intellisense-meaning-of-letters-in-colored-boxes-like-f-t-c-m-p-c-k-etc) (also explains xcode's icon labeling with code sense)
     
 ### View Components 
 
