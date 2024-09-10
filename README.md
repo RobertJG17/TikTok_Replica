@@ -23,8 +23,8 @@ Found these custom #pragma marks thru stackoverflow [thread](https://stackoverfl
 - [x] LoginView
 - [x] RegistrationView
 - [x] UploadView
-- [] FollowingView
-- [] FollowersView
+- [ ] FollowingView
+- [ ] FollowersView
 
 <br/>
 
@@ -34,8 +34,8 @@ Found these custom #pragma marks thru stackoverflow [thread](https://stackoverfl
 - [x] PostGridViewModel                 (for posts @Published Property)
 - [x] ContentViewModel                  (for userSession @Published Property)
 - [x] ExploreViewModel                  (for userList @Published Property)
-- [] FollowingViewModel
-- [] FollowersViewModel
+- [ ] FollowingViewModel
+- [ ] FollowersViewModel
 
 
 <br/>
