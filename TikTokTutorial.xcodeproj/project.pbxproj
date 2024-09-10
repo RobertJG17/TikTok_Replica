@@ -215,7 +215,6 @@
 				C55B99872C2B98B0003AC9BE /* Root */,
 				C55B99862C2B989D003AC9BE /* Search */,
 				C55B99852C2B989C003AC9BE /* TabBar */,
-				C55B99842C2B989A003AC9BE /* UploadMedia */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -263,13 +262,6 @@
 				C55B999B2C2D0D92003AC9BE /* NotificationCell.swift */,
 			);
 			path = Notifications;
-			sourceTree = "<group>";
-		};
-		C55B99842C2B989A003AC9BE /* UploadMedia */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UploadMedia;
 			sourceTree = "<group>";
 		};
 		C55B99852C2B989C003AC9BE /* TabBar */ = {
