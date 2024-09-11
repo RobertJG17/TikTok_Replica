@@ -21,4 +21,8 @@ enum FirestoreData: String {
     case posts
 }
 
-
+enum FirebaseResult: String {
+    case success
+    case failure
+    case nores
+}

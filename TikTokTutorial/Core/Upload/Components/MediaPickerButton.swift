@@ -30,17 +30,27 @@ struct MediaPickerButton: View {
         Button(action: {
             self.toggleMediaPicker()
         }) {
-            Image(systemName: "photo.on.rectangle")                 // Replace with your icon name or system image
-                .resizable()                                        // Make the image resizable
-                .aspectRatio(contentMode: .fit)                     // Maintain aspect ratio
+            /*Image(systemName: "photo.on.rectangle") */                // Replace with your icon name or system image
+            Text("Upload Post")                                   // Make the image resizable
                 .padding()
                 .background(Color.black)
-                .foregroundColor(.white)
+                .foregroundColor(Color.white)
                 .cornerRadius(8)
-                .frame(width: 100, height: 100)
+                .frame(width: .infinity, height: 100)
         }
         .position(CGPoint(x: width - (width * 0.55), y: height - (height * 0.95)))
         .animation(.bouncy, value: title)
         .animation(.bouncy, value: caption)
     }
+}
+
+#Preview {
+    MediaPickerButton(
+        showMediaPicker: true,
+        width: UIScreen.main.bounds.width,
+        height: UIScreen.main.bounds.height,
+        title: "title",
+        caption: "caption",
+        toggleMediaPicker: {} 
+    )
 }

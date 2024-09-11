@@ -15,13 +15,11 @@ struct ProfileHeaderView: View {
     @State public var username: String?                                        // Later assigned once published property updates from firebase query
     
     private let userService: UserService
-    public let uid: String
     
-    init(userService: UserService, uid: String) {
+    init(userService: UserService) {
         self.userService = userService
-        self.uid = uid
         
-        let profileHeaderViewModel = ProfileHeaderViewModel(userService: userService, uid: uid)
+        let profileHeaderViewModel = ProfileHeaderViewModel(userService: userService)
         self._viewModel = StateObject(wrappedValue: profileHeaderViewModel)
     }
     
@@ -73,5 +71,5 @@ struct ProfileHeaderView: View {
 }
 
 #Preview {
-    ProfileHeaderView(userService: UserService(), uid: "")
+    ProfileHeaderView(userService: UserService())
 }

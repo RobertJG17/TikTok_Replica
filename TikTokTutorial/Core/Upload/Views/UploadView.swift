@@ -30,8 +30,10 @@ struct UploadView: View {
     private let width = UIScreen.main.bounds.width
     
     private var placeholder: String = "Enter http:// here..."
-    
+    private var mediaId: String = UUID().uuidString
+        
     @State private var title: String = ""
+    @State private var formattedTitle: String? = nil
     @State private var caption: String = ""
     @State private var selectedMedia: SelectedMedia? = nil
     @State private var mediaType: MediaType = .photo
@@ -39,6 +41,10 @@ struct UploadView: View {
     @State private var urlString: String = ""
     
     @State private var isLoading: Bool = false
+    
+    private func formatTitle(title: String) -> String {
+        return title.replacingOccurrences(of: " ", with: "_")
+    }
 
     private var uploadButtonDisabled: Bool {
         return title.isEmpty || caption.isEmpty || selectedMedia == nil
@@ -55,7 +61,7 @@ struct UploadView: View {
     private func uploadMedia() {
         let post: Post = Post(
             userId: Auth.auth().currentUser!.uid,
-            id: UUID().uuidString,
+            id: mediaId,
             title: title,
             caption: caption,
             mediaUrl: nil,
@@ -141,7 +147,12 @@ struct UploadView: View {
 
         }
         .sheet(isPresented: $showMediaPicker) {                                 // bool toggled when tapping MediaPicker Button
-            MediaPicker(selectedMedia: $selectedMedia, mediaType: $mediaType)
+            MediaPicker(
+                selectedMedia: $selectedMedia,
+                mediaType: $mediaType,
+                mediaId: mediaId,
+                title: formattedTitle!
+            )
         }
         .padding()
         .overlay {

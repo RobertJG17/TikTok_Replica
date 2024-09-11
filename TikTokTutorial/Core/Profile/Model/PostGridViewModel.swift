@@ -15,31 +15,22 @@ class PostGridViewModel: ObservableObject {
     @Published var posts: [Post]?
     private var cancellables = Set<AnyCancellable>()
     private let userService: UserService
-    public let uid: String
+    private let uid: String = Auth.auth().currentUser!.uid
     
-    init(userService: UserService, uid: String) {
+    init(userService: UserService) {
         self.userService = userService
-        self.uid = uid
         
-        if (!self.userService.isCacheValid(for: self.userService.postsCache)) {
-            // MARK: attributes returned - id, videoUrl, location, likes, taggedUserIds, likedUserIds
-            Task { await fetchPosts() }
-        } else {
-            self.userService.invalidateCache(property: "posts")
-        }
-        
+        // MARK: attributes returned - id, videoUrl, location, likes, taggedUserIds, likedUserIds
+        Task { await fetchPosts() }
+
         setupPostsPropertyObserver()
     }
     
     func fetchPosts() async {
         do {
-            if (!self.userService.isCacheValid(for: self.userService.postsCache)) {
-                let snapshot = try await self.userService.fetchInformation(collectionName: "posts", parameters: ["id": self.uid])
-                // MARK: Calling method to publish changes to variable, updating any potential subscribers
-                try self.userService.updatePosts(querySnapshot: snapshot)
-            } else {
-                self.userService.invalidateCache(property: "posts")
-            }
+            let snapshot = try await self.userService.fetchInformation(collectionName: "posts", parameters: ["id": self.uid])
+            // MARK: Calling method to publish changes to variable, updating any potential subscribers
+            try self.userService.updatePosts(querySnapshot: snapshot)
         } catch {
             print(error)
         }

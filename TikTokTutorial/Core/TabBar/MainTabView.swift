@@ -12,7 +12,6 @@ struct MainTabView: View {
     @State private var selectedTab = 0
     private let authService: AuthService
     private let userService: UserService
-    private let loggedInUserUid = Auth.auth().currentUser?.uid
     
     init(authService: AuthService, userService: UserService) {
         self.authService = authService
@@ -60,7 +59,7 @@ struct MainTabView: View {
                 .onAppear { selectedTab = 3 }
                 .tag(3)
             
-            CurrentUserProfileView(authService: authService, userService: userService, uid: loggedInUserUid ?? "")
+            CurrentUserProfileView(authService: authService, userService: userService)
                 .tabItem {
                     VStack {
                         Image(systemName: selectedTab == 4 ? "person.fill": "person")

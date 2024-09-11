@@ -11,18 +11,16 @@ import FirebaseAuth
 struct CurrentUserProfileView: View {
     private let authService: AuthService
     private let userService: UserService
-    private let uid: String
     
     @State public var posts: [Post]?
 
     @StateObject private var viewModel: PostGridViewModel
     
-    init(authService: AuthService, userService: UserService, uid: String) {
+    init(authService: AuthService, userService: UserService) {
         self.authService = authService
         self.userService = userService
-        self.uid = uid
         
-        let postGridViewModel = PostGridViewModel(userService: userService, uid: uid)
+        let postGridViewModel = PostGridViewModel(userService: userService)
         self._viewModel = StateObject(wrappedValue: postGridViewModel)
     }
     
@@ -31,7 +29,7 @@ struct CurrentUserProfileView: View {
             ScrollView {
                 VStack(spacing: 2) {
                     // profile header
-                    ProfileHeaderView(userService: userService, uid: uid)
+                    ProfileHeaderView(userService: userService)
                     
                     if let userPosts = posts {
                         PostGridView(posts: userPosts)
@@ -69,5 +67,5 @@ struct CurrentUserProfileView: View {
 }
 
 #Preview {
-    CurrentUserProfileView(authService: AuthService(), userService: UserService(), uid: "S1siDV70inemV92IqWFAvDcClsY2")
+    CurrentUserProfileView(authService: AuthService(), userService: UserService())
 }

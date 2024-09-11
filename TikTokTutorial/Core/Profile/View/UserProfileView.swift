@@ -25,7 +25,7 @@ struct UserProfileView: View {
         self.uid = uid
         self.username = username
         
-        let postGridViewModel = PostGridViewModel(userService: publicUserService, uid: uid)
+        let postGridViewModel = PostGridViewModel(userService: publicUserService)
         self._viewModel = StateObject(wrappedValue: postGridViewModel)
     }
     
@@ -34,7 +34,7 @@ struct UserProfileView: View {
             ScrollView {
                 VStack(spacing: 2) {
                     // profile header
-                    ProfileHeaderView(userService: publicUserService, uid: uid)
+                    ProfileHeaderView(userService: publicUserService)
                     // post grid view
                     if let userPosts = posts {
                         PostGridView(posts: userPosts)

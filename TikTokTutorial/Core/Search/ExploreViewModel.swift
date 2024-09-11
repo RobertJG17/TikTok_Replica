@@ -18,12 +18,8 @@ class ExploreViewModel: ObservableObject {
 
     init(userService: UserService) {
         self.userService = userService
-        if (!self.userService.isCacheValid(for: userService.userListCache)) {
-            Task{ await self.fetchUserList() }
-        } else {
-            self.userService.invalidateCache(property: "userList")
-        }
-        
+        Task{ await self.fetchUserList() }
+
         setupUserListPropertyObserver()
     }
     
