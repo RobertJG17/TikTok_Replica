@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
 
 
 // interface for uploading and retrieving data from firestore for a User
@@ -22,6 +23,10 @@ class UserService: ObservableObject {
     
     // MARK: Published property we use to update PostGridView
     @Published var posts: [Post] = []
+    
+    @Published var isLoading: Bool = false
+    @Published var uploadURL: URL?
+    @Published var uploadError: Error?
     
     // Cached data
     public var userCache: Cache<User>?
@@ -106,7 +111,10 @@ class UserService: ObservableObject {
         }
     }
     
-    func publishInformation(collection: FirestoreData, data: Any) async throws {
+    func publishInformation(
+        collection: FirestoreData,                  // users OR posts for now
+        data: Any
+    ) async throws {
         // MARK: Guard syntax verifies we are an authorized Firebase User
         guard ((Auth.auth().currentUser?.uid) != nil)
         else {
@@ -127,10 +135,24 @@ class UserService: ObservableObject {
                 }
             case FirestoreData.posts:
                 do {
+                    // !!!: CODE TO UPLOAD DATA TO POSTS COLLECTION
                     guard let userPost = data as? Post else { throw FirebaseError.FbeGenericError(message: "Unable to cast data as Post") }
+                    
+                    print("USER POST: \(userPost)")
                     let post = try Firestore.Encoder().encode(userPost)
                     try await Firestore.firestore().collection(FirestoreData.posts.rawValue).document(userPost.id).setData(post)
                     print("SUCCESS: Post published to firestore")
+                    
+                    uploadMediaToFirestore() { result in
+                        self.isLoading.toggle()
+                        
+                        switch result {
+                        case .success(let url):
+                            self.uploadURL = url
+                        case .failure(let error):
+                            self.uploadError = error
+                        }
+                    }
                 } catch {
                     throw FirebaseError.FbeGenericError(message: "Error encountered when publishing data: \(error)")
                 }
@@ -138,13 +160,137 @@ class UserService: ObservableObject {
         } catch {
             throw error
         }
-        
-        
-//        let fsClient = Firestore.firestore()                                    // initialize firestore client
-//        let collection = fsClient.collection(collectionName)
-        
-//        publishDataTo
     }
+    
+    func uploadMediaToFirestore(completion: @escaping (Result<URL, Error>) -> Void) {
+        print("User DEFAULTS: ", UserDefaults.standard.dictionaryRepresentation())
+        if let fileURLString = UserDefaults.standard.string(forKey: "postMediaURL") {
+            print("FILE URL STRING: ", fileURLString)
+            let (storageRef, file, metadata) = buildFileAndMetaData(fileURLString: fileURLString)
+            setupUploadTasks(storageRef: storageRef, file: file, metadata: metadata)
+
+        } else {
+            print("No file URL String")
+        }
+    }
+    
+    func buildFileAndMetaData(
+        fileURLString: String
+    ) -> (StorageReference, URL, StorageMetadata) {
+        let file = URL(string: fileURLString)!
+        let fileName = file.lastPathComponent
+        
+        // Initialize Firebase Storage Client
+        let storage = Storage.storage()
+        // Initialize Firebase reference
+        let reference = storage.reference()
+
+        // Create the file metadata
+        let metadata = StorageMetadata()
+        
+        // Create Storage Reference
+        let storageRef = reference.child("TikTokTutorialMedia/\(fileName)")
+        
+        // Get the file extension and determine the content type
+        let fileExtension = file.pathExtension
+        metadata.contentType = parseContentType(forFileExtension: fileExtension)
+        
+        return (storageRef, file, metadata)
+    }
+    
+    func setupUploadTasks(
+        storageRef: StorageReference,
+        file: URL,
+        metadata: StorageMetadata
+    ) {
+        // Upload file and metadata to the object 'images/mountains.jpg'
+        let uploadTask = storageRef.putFile(from: file, metadata: metadata)
+
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.observe(.resume) { snapshot in
+            // !!!: Also fires when the upload starts!
+            print("Upload resumed")
+            self.isLoading.toggle()
+        }
+
+        uploadTask.observe(.pause) { snapshot in
+            print("Upload paused")
+        }
+
+        uploadTask.observe(.progress) { snapshot in
+          // Upload reported progress
+          let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+            / Double(snapshot.progress!.totalUnitCount)
+        }
+
+        uploadTask.observe(.success) { snapshot in
+            // Upload completed successfully
+            print("Upload paused")
+            self.isLoading.toggle()
+
+        }
+
+        uploadTask.observe(.failure) { snapshot in
+            if let error = snapshot.error as? NSError {
+                switch (StorageErrorCode(rawValue: error.code)!) {
+                case .objectNotFound:
+                    print("File doesn't exist \(error)")
+                    break
+                case .unauthorized:
+                    print("User doesn't have permission to access file \(error)")
+                    break
+                case .cancelled:
+                    print("User canceled the upload \(error)")
+                    break
+                    
+                // TODO: Figure out any other cases to handle to make this exhaustive
+                /* ... */
+
+                case .unknown:
+                    print("Unknown error occurred, inspect the server response\(error)")
+                    break
+                default:
+                    // TODO: Implement retry
+                    print("A separate error occurred: \(error)")
+                    break
+                }
+            }
+            
+            self.isLoading.toggle()
+        }
+    }
+    
+    // MARK: (Method) Parse content type for media
+    func parseContentType(forFileExtension fileExtension: String) -> String {
+        switch fileExtension.lowercased() {
+        // Image MIME types
+        case "jpg", "jpeg":
+            return "image/jpeg"
+        case "png":
+            return "image/png"
+        case "gif":
+            return "image/gif"
+        case "bmp":
+            return "image/bmp"
+        case "webp":
+            return "image/webp"
+        
+        // Video MIME types
+        case "mp4":
+            return "video/mp4"
+        case "mov":
+            return "video/quicktime"
+        case "avi":
+            return "video/x-msvideo"
+        case "mkv":
+            return "video/x-matroska"
+        
+        // Default MIME type for unknown file types
+        default:
+            return "application/octet-stream"
+        }
+    }
+
     
     // ???: Function responsible for handling query with no parameters
     func queryCollection(client: Firestore, collection: CollectionReference) async throws -> QuerySnapshot {

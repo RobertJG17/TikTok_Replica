@@ -107,10 +107,11 @@ struct FeedCell: View {
 #Preview {
     FeedCell(post: 
         Post(
+            userId: "user_id",
             id: NSUUID().uuidString,
             title: "post1",
             caption: "caption",
-            videoUrl: "orn",
+            mediaUrl: "orn",
             likes: 34,
             taggedUserIds: ["kdfjdlk", "dkfjdls"],
             likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]

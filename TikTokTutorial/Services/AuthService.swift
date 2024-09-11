@@ -75,6 +75,9 @@ class AuthService: ObservableObject {
             fullname: fullname
         )
         
-        try await AuthUserService.publishInformation(collection: FirestoreData.users, data: user)
+        try await AuthUserService.publishInformation(
+            collection: FirestoreData.users,
+            data: user
+        )
     }
 }

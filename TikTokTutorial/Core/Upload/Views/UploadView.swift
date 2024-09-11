@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 import FirebaseFirestore
 
 
@@ -53,10 +54,11 @@ struct UploadView: View {
 
     private func uploadMedia() {
         let post: Post = Post(
+            userId: Auth.auth().currentUser!.uid,
             id: UUID().uuidString,
             title: title,
             caption: caption,
-            videoUrl: nil, // ???: IDK what to put here
+            mediaUrl: nil,
             likes: 0,
             taggedUserIds: [],
             likedUserIds: []

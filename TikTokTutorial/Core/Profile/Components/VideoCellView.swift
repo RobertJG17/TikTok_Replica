@@ -23,10 +23,11 @@ struct VideoCellView: View {// 3 items of even width -2 pixels
 #Preview {
     VideoCellView(post: 
         Post(
+            userId: "user_id",
             id: "post_id",
             title: "post1",
             caption: "caption",
-            videoUrl: "orange",
+            mediaUrl: "orange",
             likes: 5,
             taggedUserIds: ["kdfjdlk", "dkfjdls"],
             likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]

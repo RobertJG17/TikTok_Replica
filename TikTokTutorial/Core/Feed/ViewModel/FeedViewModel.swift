@@ -31,34 +31,38 @@ class FeedViewModel: ObservableObject {
     func fetchPosts() {
         self.posts = [
             .init(
+                userId: "user_id",
                 id: NSUUID().uuidString,
                 title: "post1",
                 caption: "Buck Bunny!",
-                videoUrl: videoUrls[0],
+                mediaUrl: videoUrls[0],
                 likes: 500,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
             .init(
+                userId: "user_id",
                 id: NSUUID().uuidString,
                 title: "post2",
                 caption: "ElephantsDream",
-                videoUrl: videoUrls[1],
+                mediaUrl: videoUrls[1],
                 likes: 500,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
             .init(
+                userId: "user_id",
                 id: NSUUID().uuidString,
                 title: "post3",
                 caption: "ForBiggerBlazes",
-                videoUrl: videoUrls[2],
+                mediaUrl: videoUrls[2],
                 likes: 500,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
             .init(
+                userId: "user_id",
                 id: NSUUID().uuidString,
                 title: "post4",
                 caption: "ForBiggerEscapes",
-                videoUrl: videoUrls[3],
+                mediaUrl: videoUrls[3],
                 likes: 500,
                 taggedUserIds: ["kdfjdlk", "dkfjdls"],
                 likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]),
@@ -72,8 +76,8 @@ class FeedViewModel: ObservableObject {
                                     // is constant declaration here necessary?
             player.currentItem == nil else { return }
         
-        if let videoUrl = post.videoUrl {
-            let item = AVPlayerItem(url: URL(string: videoUrl)!)
+        if let mediaUrl = post.mediaUrl {
+            let item = AVPlayerItem(url: URL(string: mediaUrl)!)
             player.replaceCurrentItem(with: item)
         }
     }
@@ -100,8 +104,8 @@ class FeedViewModel: ObservableObject {
         // remove video from stack on transition to show nothing as content of next video loads
         player.replaceCurrentItem(with: nil)
         
-        if let videoUrl = currentPost.videoUrl {
-            let playerItem = AVPlayerItem(url: URL(string: videoUrl)! )
+        if let mediaUrl = currentPost.mediaUrl {
+            let playerItem = AVPlayerItem(url: URL(string: mediaUrl)! )
             player.replaceCurrentItem(with: playerItem)
         }
     }
