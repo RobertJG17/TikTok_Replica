@@ -7,14 +7,14 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 @MainActor
 class ExploreViewModel: ObservableObject {
     // MARK: Published property we want to attach to UserService published property
     @Published var userList: [User]?
-    private let userService: UserService
+    private var userService: UserService
     private var cancellables = Set<AnyCancellable>()
-
 
     init(userService: UserService) {
         self.userService = userService

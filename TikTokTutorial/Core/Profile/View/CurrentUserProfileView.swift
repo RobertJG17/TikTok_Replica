@@ -9,19 +9,29 @@ import SwiftUI
 import FirebaseAuth
 
 struct CurrentUserProfileView: View {
-    private let authService: AuthService
-    private let userService: UserService
+    @StateObject private var viewModel: ProfileViewModel
+    @State private var user: User?
+    @State private var posts: [Post]?
     
-    @State public var posts: [Post]?
-
-    @StateObject private var viewModel: PostGridViewModel
     
+    // MARK: Authentication and User Service dependency injection flow continue
+    private var authService: AuthService
+    private var userService: UserService
+        
     init(authService: AuthService, userService: UserService) {
         self.authService = authService
         self.userService = userService
         
-        let postGridViewModel = PostGridViewModel(userService: userService)
-        self._viewModel = StateObject(wrappedValue: postGridViewModel)
+        let profileViewModel = ProfileViewModel(userService: userService)
+        self._viewModel = StateObject(wrappedValue: profileViewModel)
+    }
+    
+    private func userDidUpdate(user: Published<User?>.Publisher.Output) {
+        self.user = user
+    }
+    
+    private func postsDidUpdate(posts: Published<[Post]?>.Publisher.Output) {
+        self.posts = posts
     }
     
     var body: some View {
@@ -29,24 +39,27 @@ struct CurrentUserProfileView: View {
             ScrollView {
                 VStack(spacing: 2) {
                     // profile header
-                    ProfileHeaderView(userService: userService)
+                    ProfileHeader(user: user)
+                        .onReceive(viewModel.$user) { publishedUser in
+                            userDidUpdate(user: publishedUser)
+                        }
                     
-                    if let userPosts = posts {
-                        PostGridView(posts: userPosts)
-                    } else {
-                        NullPostsView(user: "current", userService: userService)
+                    // TODO: Find some way to capture loading state after fetching posts
+                    Group {
+                        if let userPosts = posts, !userPosts.isEmpty {
+                            PostGrid(posts: userPosts)
+                        } else {
+                            NullPosts(
+                                userType: UserProfileViewTypes.currentUser,
+                                userService: userService
+                            )
+                        }
+                    }
+                    .onReceive(viewModel.$posts) { publishedPosts in
+                        postsDidUpdate(posts: publishedPosts)
                     }
                 }
                 .padding(.top)
-                .onReceive(viewModel.$posts) { publishedPosts in
-                    if let retrievedPosts = publishedPosts {
-                        if !retrievedPosts.isEmpty {
-                            print("DEBUG: PUBLISHED POSTS FROM CURRENTUSERPROFILEVIEW: ", retrievedPosts)
-                            self.posts = retrievedPosts
-                        }
-                        
-                    }
-                }
             }
             
             .navigationTitle("Profile")

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VideoCellView: View {// 3 items of even width -2 pixels
+struct VideoCell: View {// 3 items of even width -2 pixels
     let post: Post
    
     init(post: Post) {
@@ -16,12 +16,12 @@ struct VideoCellView: View {// 3 items of even width -2 pixels
     
     var body: some View {
         // what to return?
-        Text("Video")
+        Text("Post")
     }
 }
 
 #Preview {
-    VideoCellView(post: 
+    VideoCell(post: 
         Post(
             userId: "user_id",
             id: "post_id",

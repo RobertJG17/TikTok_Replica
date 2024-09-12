@@ -7,6 +7,7 @@
 
 import Firebase
 import FirebaseAuth
+import Combine
 
 @MainActor
 class AuthService: ObservableObject {

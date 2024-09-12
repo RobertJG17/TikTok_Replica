@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserStatView: View {
+struct UserStat: View {
     let value: Int
     let title: String
     
@@ -26,5 +26,5 @@ struct UserStatView: View {
 
 
 #Preview {
-    UserStatView(value: 5, title: "Followers")
+    UserStat(value: 5, title: "Followers")
 }

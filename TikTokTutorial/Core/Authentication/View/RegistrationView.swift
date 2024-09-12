@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RegistrationView: View {
+    @StateObject var viewModel: RegistrationViewModel
     @State private var fullname: String = ""
     @State private var username: String = ""
     @State private var email: String = ""
@@ -16,8 +17,7 @@ struct RegistrationView: View {
     @State private var invalidPasswords: Bool = false
     @Environment(\.dismiss) var dismiss
 
-    @StateObject var viewModel: RegistrationViewModel
-    private let authService: AuthService
+    private var authService: AuthService
     
     init(authService: AuthService) {
         self.authService = authService

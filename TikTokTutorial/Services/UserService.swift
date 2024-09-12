@@ -145,8 +145,8 @@ class UserService: ObservableObject {
         }
 
         uploadTask.observe(.progress) { snapshot in
-          // Upload reported progress
-          let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+            // Upload reported progress
+            let _ = 100.0 * Double(snapshot.progress!.completedUnitCount)
             / Double(snapshot.progress!.totalUnitCount)
         }
 
@@ -159,6 +159,7 @@ class UserService: ObservableObject {
 
         uploadTask.observe(.failure) { snapshot in
             if let error = getStorageUploadErrorHandler(snapshot: snapshot) {
+                print("in .failure closure, ERROR: \(error)")
                 self.result = FirebaseResult.failure
             } else {
                 print("UNHANDLED ERROR FROM .FAILURE CLOSURE")

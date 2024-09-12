@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NotificationCell: View {
     var body: some View {
-        
         // profile icon next to action next to description
         HStack {
             Image(systemName: "person.circle.fill")

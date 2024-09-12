@@ -6,11 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
 
 
 class LoginViewModel: ObservableObject {
-    
-    private let authService: AuthService
+    private var authService: AuthService
     
     init(authService: AuthService) {
         self.authService = authService

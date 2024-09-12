@@ -19,25 +19,32 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   }
 }
 
-//@main
-//struct TikTokTutorialApp: App {
-//    var body: some Scene {
-//        WindowGroup {
-//            ContentView()
-//        }
-//    }
-//}
-
 @main
 struct TikTokTutorialApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    private let authService = AuthService()
-    private let userService = UserService()
+    @StateObject private var userService = UserService()
+    private var authService = AuthService()
 
     var body: some Scene {
         WindowGroup {
-            ContentView(authService: authService, userService: userService)
+            ContentView(
+                authService: authService,
+                userService: userService
+            )
         }
     }
 }
+
+/*
+    ORIGINAL MAIN
+ 
+    @main
+    struct TikTokTutorialApp: App {
+     var body: some Scene {
+         WindowGroup {
+             ContentView()
+         }
+     }
+    }
+*/

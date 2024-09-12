@@ -12,7 +12,7 @@ struct LoginView: View {
     @State private var password = ""
     @State private var invalidEmailPassword = false
     @StateObject var viewModel: LoginViewModel
-    private let authService: AuthService
+    private var authService: AuthService
     
     init(authService: AuthService) {
         self.authService = authService

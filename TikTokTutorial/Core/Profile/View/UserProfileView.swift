@@ -8,72 +8,53 @@
 import SwiftUI
 import FirebaseAuth
 
-// user profile view very similar to curr user profile view
-// same vars, no user service, and no log out button
 
 struct UserProfileView: View {
-    // MARK: New userService to not update current user information published across application
-    private let publicUserService = UserService()
-    public let uid: String
-    public let username: String
-    @State public var posts: [Post]?
+    @StateObject private var viewModel: ProfileViewModel
+    private var username: String
     
-    @StateObject private var viewModel: PostGridViewModel
-    @Environment(\.dismiss) private var dismiss
-
-    init(uid: String, username: String) {
-        self.uid = uid
-        self.username = username
+    // MARK: New userService to not update current user information published across application
+    private var publicUserService = UserService()
         
-        let postGridViewModel = PostGridViewModel(userService: publicUserService)
-        self._viewModel = StateObject(wrappedValue: postGridViewModel)
+    init(username: String) {
+        self.username = username
+        let profileViewModel = ProfileViewModel(userService: publicUserService)
+        self._viewModel = StateObject(wrappedValue: profileViewModel)
     }
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 2) {
-                    // profile header
-                    ProfileHeaderView(userService: publicUserService)
-                    // post grid view
-                    if let userPosts = posts {
-                        PostGridView(posts: userPosts)
-                    } else {
-                        NullPostsView(user: "public", userService: nil)
+                    ProfileHeader(username: username)
+   
+                    // TODO: Find some way to capture loading state after fetching posts
+                    Group {
+                        if let userPosts = viewModel.posts, !userPosts.isEmpty {
+                            PostGrid(posts: userPosts)
+                        } else {
+                            NullPosts(
+                                userType: UserProfileViewTypes.publicUser,
+                                userService: nil
+                            )
+                        }
                     }
                 }
                 .padding(.top)
-                .onReceive(viewModel.$posts) { publishedPosts in
-                    if let retrievedPosts = publishedPosts {
-                        if !retrievedPosts.isEmpty {
-                            print("DEBUG: PUBLISHED POSTS FROM USERPROFILEVIEW: ", retrievedPosts)
-                            self.posts = retrievedPosts
-                        }
-                        
-                    }
-                }
             }
         }
 
         .navigationTitle("User Profile")
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    HStack {
-                        Image(systemName: "chevron.left") // Custom back arrow
-                            .font(.title2)
-                    }
-                }
+            ToolbarItem(placement: .topBarLeading) {
+                ToolbarBackButtonItem()
             }
         }
-        
     }
 }
 
 #Preview {
-    UserProfileView(uid: "S1siDV70inemV92IqWFAvDcClsY2", username: "Bibbity")
+    UserProfileView()
 }
 

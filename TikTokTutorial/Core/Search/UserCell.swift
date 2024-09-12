@@ -38,5 +38,8 @@ struct UserCell: View {
 }
 
 #Preview {
-    UserCell(username: "username", fullname: "fullname")
+    UserCell(
+        username: "username",
+        fullname: "fullname"
+    )
 }

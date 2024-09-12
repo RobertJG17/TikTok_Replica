@@ -8,6 +8,10 @@
 import Foundation
 import FirebaseFirestore
 
+enum GenericErrors: Error {
+    case Uninitialized
+}
+
 // MARK: Used in UserService
 enum FirebaseError: Error {
     case FbeAuth(message: String)
@@ -25,4 +29,19 @@ enum FirebaseResult: String {
     case success
     case failure
     case nores
+}
+
+enum MediaType {
+    case photo
+    case video
+}
+
+enum SelectedMedia: Equatable {
+    case image(UIImage)
+    case video(URL)
+}
+
+enum UserProfileViewTypes {
+    case currentUser
+    case publicUser
 }

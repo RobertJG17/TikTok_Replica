@@ -10,7 +10,7 @@ import SwiftUI
 struct ExploreView: View {
     @StateObject private var viewModel: ExploreViewModel
     @State public var userList: [User]?
-    private let userService: UserService
+    private var userService: UserService
     
     init(userService: UserService) {
         self.userService = userService
@@ -25,12 +25,12 @@ struct ExploreView: View {
                 LazyVStack(spacing: 16) {
                     ForEach(userList ?? []) { user in
                         NavigationLink {
-                            UserProfileView(
-                                uid: user.id,
-                                username: user.username
-                            )
+                            UserProfileView(username: user.username)
                         } label: {
-                            UserCell(username: user.username, fullname: user.fullname)
+                            UserCell(
+                                username: user.username,
+                                fullname: user.fullname
+                            )
                                 .onTapGesture {
                                     print("User tapped: \(user)")
                                 }

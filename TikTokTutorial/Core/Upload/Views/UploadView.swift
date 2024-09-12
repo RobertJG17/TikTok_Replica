@@ -10,37 +10,25 @@ import FirebaseAuth
 import FirebaseFirestore
 
 
-enum MediaType {
-    case photo
-    case video
-}
-
-enum SelectedMedia: Equatable {
-    case image(UIImage)
-    case video(URL)
-}
-
-
-// should I even support different media types for uploads?
-// might be easier if I only have to worry about a user adding a normal media post
-
 struct UploadView: View {
-    private let userService: UserService
-    private let height = UIScreen.main.bounds.height
-    private let width = UIScreen.main.bounds.width
-    
-    private var placeholder: String = "Enter http:// here..."
-    private var mediaId: String = UUID().uuidString
-        
     @State private var title: String = ""
     @State private var formattedTitle: String? = nil
     @State private var caption: String = ""
     @State private var selectedMedia: SelectedMedia? = nil
     @State private var mediaType: MediaType = .photo
     @State private var showMediaPicker: Bool = false
-    @State private var urlString: String = ""
-    
     @State private var isLoading: Bool = false
+    
+    private var userService: UserService
+    private let height = UIScreen.main.bounds.height
+    private let width = UIScreen.main.bounds.width
+    private var placeholder: String = "Enter http:// here..."
+    private var mediaId: String = UUID().uuidString
+
+    // MARK: Need user service here to make publish call, need to pass down existing user service to have reference to logged in user
+    init(userService: UserService) {
+        self.userService = userService
+    }
     
     private func formatTitle(title: String) -> String {
         return title.replacingOccurrences(of: " ", with: "_")
@@ -83,11 +71,6 @@ struct UploadView: View {
             }
         }
     }
-        
-    // MARK: Need user service here to make publish call, need to pass down existing user service to have reference to logged in user
-    init(userService: UserService) {
-        self.userService = userService
-    }
 
     var body: some View {
         VStack {
@@ -110,7 +93,7 @@ struct UploadView: View {
                 width: width, 
                 height: height,
                 title: title,
-                caption: caption, 
+                caption: caption,
                 toggleMediaPicker: toggleMediaPicker
             )
             
@@ -151,7 +134,7 @@ struct UploadView: View {
                 selectedMedia: $selectedMedia,
                 mediaType: $mediaType,
                 mediaId: mediaId,
-                title: formattedTitle!
+                title: formattedTitle ?? ""
             )
         }
         .padding()

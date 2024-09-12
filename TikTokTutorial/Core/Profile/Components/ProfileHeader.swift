@@ -10,17 +10,11 @@ import FirebaseAuth
 import FirebaseFirestore
 
 
-struct ProfileHeaderView: View {
-    @StateObject private var viewModel: ProfileHeaderViewModel           // view model instance
-    @State public var username: String?                                        // Later assigned once published property updates from firebase query
+struct ProfileHeader: View {
+    private var username: String?
     
-    private let userService: UserService
-    
-    init(userService: UserService) {
-        self.userService = userService
-        
-        let profileHeaderViewModel = ProfileHeaderViewModel(userService: userService)
-        self._viewModel = StateObject(wrappedValue: profileHeaderViewModel)
+    init(username: String?) {
+        self.username = username
     }
     
     var body: some View {
@@ -36,19 +30,12 @@ struct ProfileHeaderView: View {
                 Text(username ?? "-")
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .onReceive(viewModel.$user) { userInfo in        // on receive method call watches for changes to Published property userInformation
-                        if let info = userInfo {
-                            self.username = info.username
-                        } else {
-                            print("userInfo nil")
-                        }
-                    }
                 
                 // stats view
                 HStack(spacing: 16) {
-                    UserStatView(value: 5, title: "Following")
-                    UserStatView(value: 1, title: "Followers")
-                    UserStatView(value: 7, title: "Likes")
+                    UserStat(value: 5, title: "Following")
+                    UserStat(value: 1, title: "Followers")
+                    UserStat(value: 7, title: "Likes")
                 }
                 
                 // action button
@@ -71,5 +58,5 @@ struct ProfileHeaderView: View {
 }
 
 #Preview {
-    ProfileHeaderView(userService: UserService())
+    ProfileHeader(username: "")
 }

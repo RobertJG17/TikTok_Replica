@@ -10,8 +10,8 @@ import FirebaseAuth
 
 struct MainTabView: View {
     @State private var selectedTab = 0
-    private let authService: AuthService
-    private let userService: UserService
+    private var authService: AuthService
+    private var userService: UserService
     
     init(authService: AuthService, userService: UserService) {
         self.authService = authService
@@ -31,7 +31,9 @@ struct MainTabView: View {
                 .onAppear { selectedTab = 0 }
                 .tag(0)
              
-            ExploreView(userService: userService)
+            ExploreView(
+                userService: userService
+            )
                 .tabItem {
                     VStack {
                         Image(systemName: selectedTab == 1 ? "person.2.fill": "person.2")
@@ -42,7 +44,9 @@ struct MainTabView: View {
                 .onAppear { selectedTab = 1 }
                 .tag(1)
             
-            UploadView(userService: userService)
+            UploadView(
+                userService: userService
+            )
                 .tabItem { Image(systemName: "plus") }
                 .onAppear { selectedTab = 2 }
                 .tag(2)
@@ -59,7 +63,10 @@ struct MainTabView: View {
                 .onAppear { selectedTab = 3 }
                 .tag(3)
             
-            CurrentUserProfileView(authService: authService, userService: userService)
+            CurrentUserProfileView(
+                authService: authService,
+                userService: userService
+            )
                 .tabItem {
                     VStack {
                         Image(systemName: selectedTab == 4 ? "person.fill": "person")
