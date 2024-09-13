@@ -9,29 +9,18 @@ import SwiftUI
 import FirebaseAuth
 
 struct CurrentUserProfileView: View {
-    @StateObject private var viewModel: ProfileViewModel
-    @State private var user: User?
-    @State private var posts: [Post]?
+    @Binding private var user: User?
+    @Binding private var posts: [Post]?
     
     
-    // MARK: Authentication and User Service dependency injection flow continue
-    private var authService: AuthService
     private var userService: UserService
-        
-    init(authService: AuthService, userService: UserService) {
-        self.authService = authService
+    private var authService: AuthService
+    
+    init(user: Binding<User?>, posts: Binding<[Post]?>, userService: UserService, authService: AuthService) {
+        self._user = user
+        self._posts = posts
         self.userService = userService
-        
-        let profileViewModel = ProfileViewModel(userService: userService)
-        self._viewModel = StateObject(wrappedValue: profileViewModel)
-    }
-    
-    private func userDidUpdate(user: Published<User?>.Publisher.Output) {
-        self.user = user
-    }
-    
-    private func postsDidUpdate(posts: Published<[Post]?>.Publisher.Output) {
-        self.posts = posts
+        self.authService = authService
     }
     
     var body: some View {
@@ -39,10 +28,7 @@ struct CurrentUserProfileView: View {
             ScrollView {
                 VStack(spacing: 2) {
                     // profile header
-                    ProfileHeader(user: user)
-                        .onReceive(viewModel.$user) { publishedUser in
-                            userDidUpdate(user: publishedUser)
-                        }
+                    ProfileHeader(username: user?.username)
                     
                     // TODO: Find some way to capture loading state after fetching posts
                     Group {
@@ -54,9 +40,6 @@ struct CurrentUserProfileView: View {
                                 userService: userService
                             )
                         }
-                    }
-                    .onReceive(viewModel.$posts) { publishedPosts in
-                        postsDidUpdate(posts: publishedPosts)
                     }
                 }
                 .padding(.top)
@@ -79,6 +62,10 @@ struct CurrentUserProfileView: View {
     }
 }
 
-#Preview {
-    CurrentUserProfileView(authService: AuthService(), userService: UserService())
-}
+//#Preview {
+//    CurrentUserProfileView(
+//        user: User(id: "", username: "", email: "", fullname: "", bio: "", profileImageUrl: ""),
+//        userService: UserService(),
+//        authService: AuthService()
+//    )
+//}

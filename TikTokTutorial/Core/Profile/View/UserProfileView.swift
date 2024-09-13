@@ -10,27 +10,23 @@ import FirebaseAuth
 
 
 struct UserProfileView: View {
-    @StateObject private var viewModel: ProfileViewModel
-    private var username: String
+    @Binding private var user: User?
+    private var posts: [Post]?
     
     // MARK: New userService to not update current user information published across application
-    private var publicUserService = UserService()
-        
-    init(username: String) {
-        self.username = username
-        let profileViewModel = ProfileViewModel(userService: publicUserService)
-        self._viewModel = StateObject(wrappedValue: profileViewModel)
+    init(user: Binding<User?>) {
+        self._user = user
     }
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 2) {
-                    ProfileHeader(username: username)
+                    ProfileHeader(username: user?.username)
    
                     // TODO: Find some way to capture loading state after fetching posts
                     Group {
-                        if let userPosts = viewModel.posts, !userPosts.isEmpty {
+                        if let userPosts = posts, !userPosts.isEmpty {
                             PostGrid(posts: userPosts)
                         } else {
                             NullPosts(
@@ -54,7 +50,7 @@ struct UserProfileView: View {
     }
 }
 
-#Preview {
-    UserProfileView()
-}
+//#Preview {
+//    UserProfileView(user: User(id: "", username: "", email: "", fullname: "", bio: "", profileImageUrl: ""))
+//}
 

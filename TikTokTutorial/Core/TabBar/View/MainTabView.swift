@@ -9,13 +9,21 @@ import SwiftUI
 import FirebaseAuth
 
 struct MainTabView: View {
+    @StateObject private var viewModel: TabBarViewModel
+    @State private var user: User?
+    @State private var posts: [Post]?
+    @State private var userList: [User]?
     @State private var selectedTab = 0
     private var authService: AuthService
     private var userService: UserService
+
     
     init(authService: AuthService, userService: UserService) {
         self.authService = authService
         self.userService = userService
+        
+        let tabBarViewModel = TabBarViewModel(userService: userService)
+        self._viewModel = StateObject(wrappedValue: tabBarViewModel)
     }
     
     var body: some View {
@@ -32,7 +40,7 @@ struct MainTabView: View {
                 .tag(0)
              
             ExploreView(
-                userService: userService
+                userList: $userList
             )
                 .tabItem {
                     VStack {
@@ -41,8 +49,18 @@ struct MainTabView: View {
                         Text("Friends")
                     }
                 }
-                .onAppear { selectedTab = 1 }
                 .tag(1)
+                .onAppear {
+                    selectedTab = 1
+                    viewModel.fetchUserList(collection: FirestoreData.users.rawValue)
+                }
+                .onReceive(viewModel.$userList) { publishedUserList in
+                    if let currentUserList = publishedUserList {
+                        self.userList = currentUserList
+                    } else {
+                        print(FirebaseError.GenericError)
+                    }
+                }
             
             UploadView(
                 userService: userService
@@ -64,8 +82,10 @@ struct MainTabView: View {
                 .tag(3)
             
             CurrentUserProfileView(
-                authService: authService,
-                userService: userService
+                user: $user,
+                posts: $posts,
+                userService: userService,
+                authService: authService
             )
                 .tabItem {
                     VStack {
@@ -74,8 +94,26 @@ struct MainTabView: View {
                         Text("Profile")
                     }
                 }
-                .onAppear { selectedTab = 4 }
                 .tag(4)
+                .onAppear {
+                    selectedTab = 4
+                    viewModel.fetchCurrentUser(collection: FirestoreData.users.rawValue)
+                }
+                .onReceive(viewModel.$user) { publishedUser in
+                    if let currentUser = publishedUser {
+                        self.user = currentUser
+                        viewModel.fetchPosts(collection: FirestoreData.posts.rawValue, id: currentUser.id)
+                    } else {
+                        print(FirebaseError.GenericError)
+                    }
+                }
+                .onReceive(viewModel.$posts) { publishedPosts in
+                    if let currentPosts = publishedPosts {
+                        self.posts = currentPosts
+                    } else {
+                        print(FirebaseError.GenericError)
+                    }
+                }
         }
         .tint(.black)
     }

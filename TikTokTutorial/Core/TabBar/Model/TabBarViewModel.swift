@@ -10,16 +10,11 @@ import Combine
 import FirebaseAuth
 
 
-enum UserServiceProperty {
-    case user
-    case posts
-}
-
 @MainActor
 class TabBarViewModel: ObservableObject {
-    @Published var user: User?
-    @Published var posts: [Post]?
-    @Published var userList: [User]?
+    @Published public var user: User?
+    @Published public var posts: [Post]?
+    @Published public var userList: [User]?
     
     private var userService: UserService
     
@@ -31,66 +26,81 @@ class TabBarViewModel: ObservableObject {
         self.userService = userService
         setupUserPropertyObserver()
         setupPostsPropertyObserver()
+        setupUserListPropertyObserver()
     }
     
-    func fetch(id: String?, property: UserServiceProperty) async {
-        do {
-            print("Id: ", id)
-            guard let userId = id else { throw GenericErrors.Uninitialized }
-            
-            switch(property) {
-            case UserServiceProperty.user:
-                print("in user property switch")
+    
+    func fetchCurrentUser(collection: String = FirestoreData.users.rawValue) {
+        Task {
+            do {
+                guard let userId = Auth.auth().currentUser?.uid else { throw FirebaseError.FbeAuth(message: "No user id found in TabBarViewModel fetchCurrentUser") }
+                
+                print("about to get snapshot")
                 let snapshot = try await self.userService.fetchInformation(
-                    collectionName: "users",
+                    collectionName: collection,
                     parameters: [
                         "id": userId
                     ]
                 )
+                
+                print("about to enter updateCurrentUser")
                 try self.userService.updateCurrentUser(querySnapshot: snapshot)
-                print("called updatedCurrentUser")
-            case UserServiceProperty.posts:
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
+    
+    func fetchPosts(collection: String, id: String) {
+        Task {
+            do {
+                guard let userId = Auth.auth().currentUser?.uid else { throw FirebaseError.FbeAuth(message: "No user id found in TabBarViewModel fetchPosts") }
                 let snapshot = try await self.userService.fetchInformation(
                     collectionName: "posts",
                     parameters: [
-                        "id": userId
+                        "id": id
                     ]
                 )
-                // MARK: Calling method to publish changes to variable, updating any potential subscribers
                 try self.userService.updatePosts(querySnapshot: snapshot)
-                
+            } catch {
+                print(error)
             }
-        } catch {
-            print("Error in profile view model fetch: \(error)")
         }
-        
     }
     
+    func fetchUserList(collection: String) {
+        Task {
+            do {
+                let snapshot = try await self.userService.fetchInformation(
+                    collectionName: "users",
+                    parameters: nil
+                )
+                try self.userService.updateUserList(querySnapshot: snapshot)
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+    
+    
+    // MARK: Subscribers for properties
     private func setupUserPropertyObserver() {
         userService.$user.sink { [weak self] user in
-            print("USER FROM PROPERTY OBSERVER: ", user as Any)
             self?.user = user
-            if let userId = user?.id {
-                Task {
-                    await self?.fetch(id: userId, property: .user)
-                }
-            }
-            
         }.store(in: &userCancellables)
     }
     
     private func setupPostsPropertyObserver() {
         userService.$posts.sink { [weak self] posts in
             self?.posts = posts
-            if let userId = self?.user?.id {
-                Task {
-                    await self?.fetch(id: userId, property: .posts)
-                }
-            }
-            
-            
         }.store(in: &postsCancellables)
     }
+    
+    private func setupUserListPropertyObserver() {
+        userService.$userList.sink { [weak self] userList in
+            self?.userList = userList
+        }.store(in: &userListCancellables)
+    }
 }
-
-

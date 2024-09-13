@@ -8,15 +8,14 @@
 import Foundation
 import FirebaseFirestore
 
-enum GenericErrors: Error {
-    case Uninitialized
-}
-
 // MARK: Used in UserService
 enum FirebaseError: Error {
     case FbeAuth(message: String)
     case FbeDataNull(message: String)
-    case FbeGenericError(message: String)
+    case PublishError(message: String)
+    case FetchError(message: String)
+    case GenericError
+    case CastError(message: String)
     case FbeDataUploadError(message: String)
 }
 

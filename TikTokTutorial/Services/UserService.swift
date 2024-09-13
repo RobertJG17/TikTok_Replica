@@ -60,14 +60,14 @@ class UserService: ObservableObject {
                 return try await queryCollectionWithParams(client: fsClient, collection: collection, parameters: unwrappedParameters)
             } catch {
                 // MARK: Custom Firebase enum conforms to Error protocol, allowing us to implement custom error handling
-                throw FirebaseError.FbeGenericError(message: "ERROR: Unable to update current user: \(error)")
+                throw FirebaseError.FetchError(message: "Error trying to run query collection w/ params: \(error)")
             }
             
         } else {
             do {
                 return try await queryCollection(client: fsClient, collection: collection)
             } catch {
-                throw FirebaseError.FbeGenericError(message: "ERROR: Unable to update user list: \(error)")
+                throw FirebaseError.FetchError(message: "Error trying to run query collection w/ no params: \(error)")
             }
         }
     }
@@ -87,26 +87,23 @@ class UserService: ObservableObject {
             switch collection {
             case FirestoreData.users:
                 do {
-                    guard let userData = data as? User else { throw FirebaseError.FbeGenericError(message: "Unable to cast data as User") }
+                    guard let userData = data as? User else { throw FirebaseError.CastError(message: "Unable to cast data as User") }
                     let user = try Firestore.Encoder().encode(userData)
                     try await Firestore.firestore().collection(FirestoreData.users.rawValue).document(userData.id).setData(user)
                     print("SUCCESS: User published to firestore")
                 } catch {
-                    throw FirebaseError.FbeGenericError(message: "Error encountered when publishing data: \(error)")
+                    throw FirebaseError.PublishError(message: "Error in publishInformation switch, case FirestoreData.users: \(error)")
                 }
             case FirestoreData.posts:
                 do {
-                    // !!!: CODE TO UPLOAD DATA TO POSTS COLLECTION
-                    guard let userPost = data as? Post else { throw FirebaseError.FbeGenericError(message: "Unable to cast data as Post") }
-                    
-                    print("USER POST: \(userPost)")
+                    guard let userPost = data as? Post else { throw FirebaseError.CastError(message: "Unable to cast data as Post") }
                     let post = try Firestore.Encoder().encode(userPost)
                     try await Firestore.firestore().collection(FirestoreData.posts.rawValue).document(userPost.id).setData(post)
                     print("SUCCESS: Post published to firestore")
                     
                     uploadMediaToFirestore() { _ in }
                 } catch {
-                    throw FirebaseError.FbeGenericError(message: "Error encountered when publishing data: \(error)")
+                    throw FirebaseError.PublishError(message: "Error in publishInformation switch, case FirestoreData.posts: \(error)")
                 }
             }
         } catch {
@@ -237,7 +234,7 @@ class UserService: ObservableObject {
     func updateCurrentUser(querySnapshot: QuerySnapshot) throws {
         do {
             guard let userDocument = querySnapshot.documents.first else { throw FirebaseError.FbeDataNull(message: "ERROR: no data found in snapshot") }
-            
+                        
             let id = userDocument["id"] as! String
             let username = userDocument["username"] as! String
             let email = userDocument["email"] as! String
@@ -251,8 +248,6 @@ class UserService: ObservableObject {
             )
             
             self.user = currentUser
-
-            print("DEBUG: --CURRENT USER--: \(String(describing: self.user))")
         } catch {
             throw error
         }
