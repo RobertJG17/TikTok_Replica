@@ -102,7 +102,7 @@ struct MainTabView: View {
                 .onReceive(viewModel.$user) { publishedUser in
                     if let currentUser = publishedUser {
                         self.user = currentUser
-                        viewModel.fetchPosts(collection: FirestoreData.posts.rawValue, id: currentUser.id)
+                        viewModel.fetchPosts(collection: FirestoreData.posts.rawValue, userId: currentUser.id)
                     } else {
                         print(FirebaseError.GenericError)
                     }

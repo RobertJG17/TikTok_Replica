@@ -12,36 +12,35 @@ import SwiftUI
 @MainActor
 class ExploreViewModel: ObservableObject {
     // MARK: Published property we want to attach to UserService published property
-    @Published var userList: [User]?
+    @Published var posts: [Post]?
     private var userService: UserService
     private var cancellables = Set<AnyCancellable>()
 
     init(userService: UserService) {
         self.userService = userService
-        Task{ await self.fetchUserList() }
-
-        setupUserListPropertyObserver()
+        setupUserPostPropertyObserver()
     }
     
-    func fetchUserList() async {
-        do {
-            let snapshot = try await self.userService.fetchInformation(collectionName: "users", parameters: nil)
-            try self.userService.updateUserList(querySnapshot: snapshot)
-        } catch {
-            print(error)
+    // TODO: ALTER IMPLEMENTATION FOR FETCHING A USERS POSTS
+    // !!!: parmeter no longer a default, will have to leverage user to pass in id
+    func fetchUserPost(userId: String, collection: String = FirestoreData.posts.rawValue) {
+        Task {
+            do {
+                let snapshot = try await self.userService.fetchInformation(
+                    collectionName: collection,
+                    parameters: [FirestorePostParameters.userId
+                        .rawValue: userId ]
+                )
+                try self.userService.updatePosts(querySnapshot: snapshot)
+            } catch {
+                print(error)
+            }
         }
     }
     
-    // MARK: Sets up a Combine subscription to observe changes to the userList property in userService
-    private func setupUserListPropertyObserver() {
-        userService.$userList.sink { [weak self] list in
-            self?.userList = list
+    private func setupUserPostPropertyObserver() {
+        userService.$posts.sink { [weak self] posts in
+            self?.posts = posts
         }.store(in: &cancellables)
     }
-    /*
-        MARK: 
-        Whenever userService.$userList publishes a new value
-        (i.e., when userList changes in userService), the sink closure is triggered.
-        It updates the local userList property of the current object (self) with the new value.
-    */
 }

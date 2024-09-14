@@ -35,15 +35,13 @@ class TabBarViewModel: ObservableObject {
             do {
                 guard let userId = Auth.auth().currentUser?.uid else { throw FirebaseError.FbeAuth(message: "No user id found in TabBarViewModel fetchCurrentUser") }
                 
-                print("about to get snapshot")
                 let snapshot = try await self.userService.fetchInformation(
                     collectionName: collection,
                     parameters: [
-                        "id": userId
+                        FirestoreUserParameters.id.rawValue: userId
                     ]
                 )
                 
-                print("about to enter updateCurrentUser")
                 try self.userService.updateCurrentUser(querySnapshot: snapshot)
             } catch {
                 print(error)
@@ -52,14 +50,14 @@ class TabBarViewModel: ObservableObject {
         }
     }
     
-    func fetchPosts(collection: String, id: String) {
+    func fetchPosts(collection: String, userId: String) {
         Task {
             do {
-                guard let userId = Auth.auth().currentUser?.uid else { throw FirebaseError.FbeAuth(message: "No user id found in TabBarViewModel fetchPosts") }
+                guard (Auth.auth().currentUser?.uid != nil) else { throw FirebaseError.FbeAuth(message: "No user id found in TabBarViewModel fetchPosts") }
                 let snapshot = try await self.userService.fetchInformation(
-                    collectionName: "posts",
+                    collectionName: FirestoreData.posts.rawValue,
                     parameters: [
-                        "id": id
+                        FirestorePostParameters.userId.rawValue: userId
                     ]
                 )
                 try self.userService.updatePosts(querySnapshot: snapshot)
@@ -73,7 +71,7 @@ class TabBarViewModel: ObservableObject {
         Task {
             do {
                 let snapshot = try await self.userService.fetchInformation(
-                    collectionName: "users",
+                    collectionName: FirestoreData.users.rawValue,
                     parameters: nil
                 )
                 try self.userService.updateUserList(querySnapshot: snapshot)

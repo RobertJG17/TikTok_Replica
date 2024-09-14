@@ -10,12 +10,13 @@ import FirebaseAuth
 
 
 struct UserProfileView: View {
-    @Binding private var user: User?
-    private var posts: [Post]?
+    @Binding private var posts: [Post]?
+    private var user: User?
     
     // MARK: New userService to not update current user information published across application
-    init(user: Binding<User?>) {
-        self._user = user
+    init(user: User, posts: Binding<[Post]?>) {
+        self.user = user
+        self._posts = posts
     }
     
     var body: some View {

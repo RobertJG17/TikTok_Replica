@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct ExploreView: View {
+    @StateObject private var viewModel: ExploreViewModel
     @Binding public var userList: [User]?
     @State private var selectedUser: User?
+    @State private var posts: [Post]?
     
-    
-    // TODO: Create @Binding public var posts: [Post]?
-    // TODO: Cretea User Service
-    
+    private let publicUserService: UserService = UserService()
     
     init(userList: Binding<[User]?>) {
         self._userList = userList
+        
+        let exploreViewModel = ExploreViewModel(userService: publicUserService)
+        self._viewModel = StateObject(wrappedValue: exploreViewModel)
     }
         
     var body: some View {
@@ -26,18 +28,27 @@ struct ExploreView: View {
                 LazyVStack(spacing: 16) {
                     ForEach(userList ?? []) { user in
                         NavigationLink {
-                            UserProfileView(user: $selectedUser)
-                                .onAppear {
-                                    selectedUser = user
+                            UserProfileView(
+                                user: user,
+                                posts: $posts
+                            )
+                            .onAppear {
+                                self.selectedUser = user
+                                if let userId = selectedUser?.id, let username = selectedUser?.username {
+                                    print("Fetching posts for \(username)")
+                                    viewModel.fetchUserPost(userId: userId)
+                                } else {
+                                    print("no user id")
                                 }
+                            }
+                            .onReceive(viewModel.$posts) { posts in
+                                self.posts = posts
+                            }
                         } label: {
                             UserCell(
                                 username: user.username,
                                 fullname: user.fullname
                             )
-                                .onTapGesture {
-                                    print("User tapped: \(user)")
-                                }
                         }
                     }
                 }

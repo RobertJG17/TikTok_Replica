@@ -113,7 +113,6 @@ class UserService: ObservableObject {
     
     func uploadMediaToFirestore(completion: @escaping (Result<URL, Error>) -> Void) {
         if let fileURLString = UserDefaults.standard.string(forKey: "postMediaURL") {
-            print("FILE URL STRING: ", fileURLString)
             let (storageRef, file, metadata) = buildFileAndMetaData(fileURLString: fileURLString)
             setupUploadTasks(storageRef: storageRef, file: file, metadata: metadata)
         } else {
@@ -216,9 +215,7 @@ class UserService: ObservableObject {
                     bio: bio,
                     profileImageUrl: profileImageUrl
                 )
-                
-                /*print("User: \(user)")*/
-                
+                                
                 if !self.userList.contains(user) {
                     self.userList.append(user)
                 }
@@ -255,10 +252,12 @@ class UserService: ObservableObject {
     
     func updatePosts(querySnapshot: QuerySnapshot) throws {
         do {
-            print("UPDATE POSTS QUERY SNAPSHOT: ", querySnapshot.metadata)
+            print("UPDATE POSTS QUERY SNAPSHOT: ", querySnapshot.documents)
             guard querySnapshot.documents.first != nil else { throw FirebaseError.FbeDataNull(message: "ERROR: no data found in snapshot") }
             
-            print("DEBUG: --USER POSTS-- \(String(describing: self.posts))")
+            querySnapshot.documents.forEach { document in
+                print("Document: ", document.data())
+            }
             
             // only enter this function if cache is invalidated
 //            postsCache = Cache(data: self.posts, timestamp: Date())
