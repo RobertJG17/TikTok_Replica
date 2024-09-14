@@ -30,7 +30,7 @@ struct PostGrid: View {
                     // TODO: Create Video Cell View
                     // should be able to pass in post
                     VideoCell(
-                        post: post
+                        post: TemporaryFeedModel(id: "", mediaUrl: "")
                     )
                 })
                     .frame(width: width, height: 160)

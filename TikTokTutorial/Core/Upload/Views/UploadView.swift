@@ -133,8 +133,7 @@ struct UploadView: View {
             MediaPicker(
                 selectedMedia: $selectedMedia,
                 mediaType: $mediaType,
-                mediaId: mediaId,
-                title: formattedTitle ?? ""
+                mediaId: mediaId
             )
         }
         .padding()

@@ -71,6 +71,39 @@ func getStorageUploadErrorHandler(snapshot: StorageTaskSnapshot) -> NSError? {
     return nil
 }
 
+func setupUploadTasks(
+    uploadTask: StorageUploadTask
+) {
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.observe(.resume) { snapshot in
+        // !!!: Also fires when the upload starts!
+        print("Upload resumed")
+    }
+    
+    uploadTask.observe(.pause) { snapshot in
+        print("Upload paused")
+    }
+
+    uploadTask.observe(.progress) { snapshot in
+        // Upload reported progress
+        let _ = 100.0 * Double(snapshot.progress!.completedUnitCount)
+        / Double(snapshot.progress!.totalUnitCount)
+    }
+
+    uploadTask.observe(.success) { snapshot in
+        // Upload completed successfully
+        print("Upload succeeded \(snapshot.status)!")
+    }
+
+    uploadTask.observe(.failure) { snapshot in
+        if let error = getStorageUploadErrorHandler(snapshot: snapshot) {
+            print("in .failure closure, ERROR: \(error)")
+        } else {
+            print("UNHANDLED ERROR FROM .FAILURE CLOSURE")
+        }
+    }
+}
+
 func buildFileAndMetaData(
     fileURLString: String
 ) -> (StorageReference, URL, StorageMetadata) {
@@ -93,4 +126,20 @@ func buildFileAndMetaData(
     metadata.contentType = parseContentType(forFileExtension: fileExtension)
     
     return (storageRef, file, metadata)
+}
+
+func downloadFile(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
+    print("about to enter download file function")
+    URLSession.shared.dataTask(with: url) { data, response, error in
+        if let error = error {
+            completion(.failure(error))
+            return
+        }
+        guard let data = data else {
+            let error = NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data"])
+            completion(.failure(error))
+            return
+        }
+        completion(.success(data))
+    }.resume()
 }

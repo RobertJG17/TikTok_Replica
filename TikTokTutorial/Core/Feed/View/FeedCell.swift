@@ -9,10 +9,10 @@ import SwiftUI
 import AVKit
 
 struct FeedCell: View {
-    let post: Post
+    let post: TemporaryFeedModel
     var viewModel: FeedViewModel
     
-    init(post: Post, viewModel: FeedViewModel) {
+    init(post: TemporaryFeedModel, viewModel: FeedViewModel) {
         self.post = post
         self.viewModel = viewModel
     }
@@ -106,15 +106,9 @@ struct FeedCell: View {
 
 #Preview {
     FeedCell(post: 
-        Post(
-            userId: "user_id",
+        TemporaryFeedModel(
             id: NSUUID().uuidString,
-            title: "post1",
-            caption: "caption",
-            mediaUrl: "orn",
-            likes: 34,
-            taggedUserIds: ["kdfjdlk", "dkfjdls"],
-            likedUserIds: ["dfdkjslfj", "dlsfjsdkljfkl"]
+            mediaUrl: ""
         ),
         
         viewModel: FeedViewModel()

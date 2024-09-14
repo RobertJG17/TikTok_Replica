@@ -13,7 +13,6 @@ struct MediaPicker: UIViewControllerRepresentable {
     @Binding var selectedMedia: SelectedMedia?
     @Binding var mediaType: MediaType
     let mediaId: String
-    let title: String
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -32,21 +31,19 @@ struct MediaPicker: UIViewControllerRepresentable {
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         var parent: MediaPicker
         let mediaId: String
-        let title: String
 
         init(_ parent: MediaPicker) {
             self.parent = parent
             self.mediaId = parent.mediaId
-            self.title = parent.title
         }
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let image = info[.originalImage] as? UIImage {
                 self.parent.selectedMedia = .image(image)
-                saveImageToTemporaryDirectory(image: image, fileName: "_\(title)_\(mediaId).jpg")
+                saveImageToTemporaryDirectory(image: image, fileName: "\(mediaId).jpg")
            } else if let videoURL = info[.mediaURL] as? URL {
                self.parent.selectedMedia = .video(videoURL)
-               saveVideoToTemporaryDirectory(videoURL: videoURL, fileName: "_\(title)_\(mediaId).mp4")
+               saveVideoToTemporaryDirectory(videoURL: videoURL, fileName: "\(mediaId).mp4")
 
            }
             picker.dismiss(animated: true)

@@ -55,6 +55,7 @@
 		C5B32ED92C920BFF00EE4013 /* ServiceHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B32ED82C920BFF00EE4013 /* ServiceHelpers.swift */; };
 		C5B32EDF2C926BBB00EE4013 /* ToolbarBackButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B32EDE2C926BBB00EE4013 /* ToolbarBackButtonItem.swift */; };
 		C5B32EE32C9394B100EE4013 /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B32EE22C9394B100EE4013 /* TabBarViewModel.swift */; };
+		C5B32EE52C95989D00EE4013 /* TemporaryFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B32EE42C95989D00EE4013 /* TemporaryFeedModel.swift */; };
 		C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78592C2F744200D8A27E /* LoginView.swift */; };
 		C5BA785F2C2F744200D8A27E /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA785A2C2F744200D8A27E /* RegistrationView.swift */; };
 		C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */; };
@@ -105,6 +106,7 @@
 		C5B32ED82C920BFF00EE4013 /* ServiceHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceHelpers.swift; sourceTree = "<group>"; };
 		C5B32EDE2C926BBB00EE4013 /* ToolbarBackButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarBackButtonItem.swift; sourceTree = "<group>"; };
 		C5B32EE22C9394B100EE4013 /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
+		C5B32EE42C95989D00EE4013 /* TemporaryFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryFeedModel.swift; sourceTree = "<group>"; };
 		C5BA78592C2F744200D8A27E /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C5BA785A2C2F744200D8A27E /* RegistrationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextFieldModifier.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				C55B99A82C2D48DE003AC9BE /* Post.swift */,
 				C52988972C8A96E2000B1168 /* User.swift */,
 				C52988AA2C8D19DE000B1168 /* Followers.swift */,
+				C5B32EE42C95989D00EE4013 /* TemporaryFeedModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				C52AA8F42C90A3E200137B79 /* UploadButton.swift in Sources */,
 				C547D2692C3CA403000E7E79 /* AuthService.swift in Sources */,
 				C537A46F2C3DE1920032C6B3 /* ContentViewModel.swift in Sources */,
+				C5B32EE52C95989D00EE4013 /* TemporaryFeedModel.swift in Sources */,
 				C5B32EDF2C926BBB00EE4013 /* ToolbarBackButtonItem.swift in Sources */,
 				C5B32ED92C920BFF00EE4013 /* ServiceHelpers.swift in Sources */,
 				C52AA8F02C9098C100137B79 /* UploadTextField.swift in Sources */,

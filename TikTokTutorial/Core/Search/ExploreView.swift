@@ -42,6 +42,7 @@ struct ExploreView: View {
                                 }
                             }
                             .onReceive(viewModel.$posts) { posts in
+                                print("Posts: ", posts as Any)
                                 self.posts = posts
                             }
                         } label: {

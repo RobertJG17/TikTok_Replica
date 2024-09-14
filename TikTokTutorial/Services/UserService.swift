@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
@@ -95,15 +96,24 @@ class UserService: ObservableObject {
                     throw FirebaseError.PublishError(message: "Error in publishInformation switch, case FirestoreData.users: \(error)")
                 }
             case FirestoreData.posts:
-                do {
-                    guard let userPost = data as? Post else { throw FirebaseError.CastError(message: "Unable to cast data as Post") }
-                    let post = try Firestore.Encoder().encode(userPost)
-                    try await Firestore.firestore().collection(FirestoreData.posts.rawValue).document(userPost.id).setData(post)
-                    print("SUCCESS: Post published to firestore")
-                    
-                    uploadMediaToFirestore() { _ in }
-                } catch {
-                    throw FirebaseError.PublishError(message: "Error in publishInformation switch, case FirestoreData.posts: \(error)")
+                uploadMediaToFirestore() { result in
+                    do {
+                        switch result {
+                            case .success(let url):
+                                guard var userPost = data as? Post else { throw FirebaseError.CastError(message: "Unable to cast data as Post") }
+                                userPost.imageUrl = url.absoluteString
+                                userPost.timestamp = Timestamp.init()
+                                let post = try Firestore.Encoder().encode(userPost)
+                                Task { try await Firestore.firestore().collection(FirestoreData.posts.rawValue).document(userPost.id).setData(post) }
+                                print("SUCCESS: Post published to firestore")
+                            case .failure(let error):
+                                print("File upload failed with error: \(error.localizedDescription)")
+                                // Handle the error
+                            }
+
+                    } catch {
+                        print("Firestore posts error: \(error)")
+                    }
                 }
             }
         } catch {
@@ -114,54 +124,30 @@ class UserService: ObservableObject {
     func uploadMediaToFirestore(completion: @escaping (Result<URL, Error>) -> Void) {
         if let fileURLString = UserDefaults.standard.string(forKey: "postMediaURL") {
             let (storageRef, file, metadata) = buildFileAndMetaData(fileURLString: fileURLString)
-            setupUploadTasks(storageRef: storageRef, file: file, metadata: metadata)
+            let uploadTask = storageRef.putFile(from: file, metadata: metadata) { metadata, error in
+                if let error = error {
+                    completion(.failure(error))  // Call the closure with the error
+                    return
+                }
+                
+                storageRef.downloadURL { url, error in
+                    if let error = error {
+                        completion(.failure(error))  // Call the closure with the error
+                        return
+                    }
+                    
+                    guard let downloadURL = url else {
+                        let error = NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Download URL is nil"])
+                        completion(.failure(error))  // Call the closure with the error
+                        return
+                    }
+                    
+                    completion(.success(downloadURL))  // Call the closure with the success URL
+                }
+            }
+            setupUploadTasks(uploadTask: uploadTask)
         } else {
             print("No file URL String")
-        }
-    }
-    
-    func setupUploadTasks(
-        storageRef: StorageReference,
-        file: URL,
-        metadata: StorageMetadata
-    ) {
-        // Upload file and metadata to the object 'images/mountains.jpg'
-        let uploadTask = storageRef.putFile(from: file, metadata: metadata)
-
-        // Listen for state changes, errors, and completion of the upload.
-        uploadTask.observe(.resume) { snapshot in
-            // !!!: Also fires when the upload starts!
-            print("Upload resumed")
-            self.isLoading.toggle()
-        }
-        
-        uploadTask.observe(.pause) { snapshot in
-            print("Upload paused")
-            self.isLoading.toggle()
-        }
-
-        uploadTask.observe(.progress) { snapshot in
-            // Upload reported progress
-            let _ = 100.0 * Double(snapshot.progress!.completedUnitCount)
-            / Double(snapshot.progress!.totalUnitCount)
-        }
-
-        uploadTask.observe(.success) { snapshot in
-            // Upload completed successfully
-            print("Upload succeeded \(snapshot.status)!")
-            self.result = FirebaseResult.success
-            self.isLoading.toggle()
-        }
-
-        uploadTask.observe(.failure) { snapshot in
-            if let error = getStorageUploadErrorHandler(snapshot: snapshot) {
-                print("in .failure closure, ERROR: \(error)")
-                self.result = FirebaseResult.failure
-            } else {
-                print("UNHANDLED ERROR FROM .FAILURE CLOSURE")
-            }
-            
-            self.isLoading.toggle()
         }
     }
     
@@ -252,17 +238,33 @@ class UserService: ObservableObject {
     
     func updatePosts(querySnapshot: QuerySnapshot) throws {
         do {
-            print("UPDATE POSTS QUERY SNAPSHOT: ", querySnapshot.documents)
+            print("querysnap: ", querySnapshot)
             guard querySnapshot.documents.first != nil else { throw FirebaseError.FbeDataNull(message: "ERROR: no data found in snapshot") }
             
+            print("passed document guard")
+            var userPosts: [Post] = []
+            
             querySnapshot.documents.forEach { document in
-                print("Document: ", document.data())
+                guard let fetchedPost = Post(from: document) else { return }
+                guard let imageUrl = fetchedPost.imageUrl else { return }
+                
+                userPosts.append(fetchedPost)
+                                
+                // TODO: Invoke function at different point in time, worry about posts array for now
+//                downloadFile(from: URL(string: imageUrl)!) { result in
+//                    print("entered switch \(fetchedPost)")
+//                    switch result {
+//                    case .success(let data):
+//                        userPosts.append(fetchedPost)
+//                    case .failure(let error):
+//                        print("Error: ", error)
+//                    }
+//                }
             }
-            
-            // only enter this function if cache is invalidated
-//            postsCache = Cache(data: self.posts, timestamp: Date())
+            print("User posts: ", userPosts)
+            self.posts = userPosts
         } catch {
-            
+            throw error
         }
     }
 }
