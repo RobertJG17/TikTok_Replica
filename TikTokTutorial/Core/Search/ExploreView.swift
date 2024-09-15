@@ -41,8 +41,11 @@ struct ExploreView: View {
                                     print("no user id")
                                 }
                             }
+                            .onDisappear(perform: {
+                                // TODO: Implement publicUserService.resetPosts()
+                                publicUserService.resetPosts()
+                            })
                             .onReceive(viewModel.$posts) { posts in
-                                print("Posts: ", posts as Any)
                                 self.posts = posts
                             }
                         } label: {

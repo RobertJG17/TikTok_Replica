@@ -6,50 +6,58 @@
 //
 
 import SwiftUI
+import Combine
 
+enum MediaPickerTextFields: String {
+    case title
+    case caption
+}
 
 struct MediaPickerButton: View {
+    @StateObject private var viewModel: DebounceViewModel
+    @Binding private var title: String
+    @Binding private var caption: String
+    
     private var showMediaPicker: Bool
     private let width: CGFloat
     private let height: CGFloat
-    private let title: String
-    private let caption: String
+    
     private let toggleMediaPicker: () -> Void
-    
-    private var isButtonDisabled: Bool {
-        print("Bool test: \(title != "" && caption != "")")
-        return title == "" && caption == ""
-    }
-
-    
+        
     init(
         showMediaPicker: Bool,
         width: CGFloat,
         height: CGFloat,
-        title: String,
-        caption: String,
+        title: Binding<String>,
+        caption: Binding<String>,
         toggleMediaPicker: @escaping () -> Void
     ) {
         self.showMediaPicker = showMediaPicker
         self.width = width
         self.height = height
-        self.title = title
-        self.caption = caption
+        self._title = title
+        self._caption = caption
         self.toggleMediaPicker = toggleMediaPicker
-        
+
+        let initFields = [
+            MediaPickerTextFields.title.rawValue: title.wrappedValue,
+            MediaPickerTextFields.caption.rawValue: caption.wrappedValue
+        ]
+        let debounceViewModel = DebounceViewModel(initialFields: initFields)
+        self._viewModel = StateObject(wrappedValue: debounceViewModel)
     }
-    
+
     var body: some View {
         Button(action: {
             self.toggleMediaPicker()
-            print("Button disabled \(isButtonDisabled)")
+            print("Button disabled \(viewModel.isButtonDisabled)")
         }) {
             /*Image(systemName: "photo.on.rectangle") */                // Replace with your icon name or system image
             Image(systemName: "arrow.up.circle")                                  // Make the image resizable
                 .resizable()
                 .padding()
                 .background(
-                    isButtonDisabled ?
+                    viewModel.isButtonDisabled ?
                     Color.gray:
                     Color.black
                 )
@@ -57,7 +65,7 @@ struct MediaPickerButton: View {
                 .cornerRadius(8)
                 .frame(width: width / 4.5, height: height/10)
                 .opacity(
-                    isButtonDisabled ?
+                    viewModel.isButtonDisabled ?
                         0.9:
                         1
                 )
@@ -65,17 +73,24 @@ struct MediaPickerButton: View {
         .position(CGPoint(x: width - (width * 0.55), y: height - (height * 0.95)))
         .animation(.bouncy, value: title)
         .animation(.bouncy, value: caption)
-        .disabled(isButtonDisabled)
+        .disabled(viewModel.isButtonDisabled)
+        .onChange(of: title) { _, newValue in
+            viewModel.updateField(MediaPickerTextFields.title.rawValue, value: newValue)
+        }
+        .onChange(of: caption) { _, newValue in
+            viewModel.updateField(MediaPickerTextFields.caption.rawValue, value: newValue)
+        }
+
     }
 }
 
-#Preview {
-    MediaPickerButton(
-        showMediaPicker: true,
-        width: UIScreen.main.bounds.width,
-        height: UIScreen.main.bounds.height,
-        title: "title",
-        caption: "caption",
-        toggleMediaPicker: {}
-    )
-}
+//#Preview {
+//    MediaPickerButton(
+//        showMediaPicker: true,
+//        width: UIScreen.main.bounds.width,
+//        height: UIScreen.main.bounds.height,
+//        title: "title",
+//        caption: "caption",
+//        toggleMediaPicker: {}
+//    )
+//}

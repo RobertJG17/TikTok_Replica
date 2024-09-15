@@ -24,13 +24,6 @@ class UserService: ObservableObject {
     
     // MARK: Published property we use to update PostGridView
     @Published var posts: [Post] = []
-    
-    @Published var isLoading: Bool = false
-    @Published var result: FirebaseResult = FirebaseResult.nores
-    
-    
-    // TTL durations (e.g., 5 minutes)
-    public let ttlDuration: TimeInterval = 30
 
     
     func closeConnectionToFirestore(firestoreClient: Firestore) async throws {
@@ -39,6 +32,10 @@ class UserService: ObservableObject {
         } catch {
             throw FirebaseError.FbeAuth(message: "Failed to terminate Firestore instance")
         }
+    }
+    
+    func resetPosts() {
+        self.posts = []
     }
     
     // MARK: Async API Routing function, accepts Firestore collection name and query parameters
@@ -58,6 +55,8 @@ class UserService: ObservableObject {
         if let unwrappedParameters = parameters {
             do {
                 // MARK: Use unwrapped parameters to configure a custom firebase query
+                // TODO: Combine into single queryCollection w/ optional params
+                // TODO: Add a void closure to close Firestore ctx
                 return try await queryCollectionWithParams(client: fsClient, collection: collection, parameters: unwrappedParameters)
             } catch {
                 // MARK: Custom Firebase enum conforms to Error protocol, allowing us to implement custom error handling

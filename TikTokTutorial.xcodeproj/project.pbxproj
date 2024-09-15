@@ -56,6 +56,7 @@
 		C5B32EDF2C926BBB00EE4013 /* ToolbarBackButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B32EDE2C926BBB00EE4013 /* ToolbarBackButtonItem.swift */; };
 		C5B32EE32C9394B100EE4013 /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B32EE22C9394B100EE4013 /* TabBarViewModel.swift */; };
 		C5B32EE52C95989D00EE4013 /* TemporaryFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B32EE42C95989D00EE4013 /* TemporaryFeedModel.swift */; };
+		C5B32EE72C963BF800EE4013 /* DebouncedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B32EE62C963BF700EE4013 /* DebouncedViewModel.swift */; };
 		C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78592C2F744200D8A27E /* LoginView.swift */; };
 		C5BA785F2C2F744200D8A27E /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA785A2C2F744200D8A27E /* RegistrationView.swift */; };
 		C5BA78612C2F77ED00D8A27E /* StandardTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */; };
@@ -107,6 +108,7 @@
 		C5B32EDE2C926BBB00EE4013 /* ToolbarBackButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarBackButtonItem.swift; sourceTree = "<group>"; };
 		C5B32EE22C9394B100EE4013 /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
 		C5B32EE42C95989D00EE4013 /* TemporaryFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryFeedModel.swift; sourceTree = "<group>"; };
+		C5B32EE62C963BF700EE4013 /* DebouncedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncedViewModel.swift; sourceTree = "<group>"; };
 		C5BA78592C2F744200D8A27E /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C5BA785A2C2F744200D8A27E /* RegistrationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextFieldModifier.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			children = (
 				C5BA78602C2F77ED00D8A27E /* StandardTextFieldModifier.swift */,
 				C5B32ED82C920BFF00EE4013 /* ServiceHelpers.swift */,
+				C5B32EE62C963BF700EE4013 /* DebouncedViewModel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -602,6 +605,7 @@
 				C55B999A2C2D0D87003AC9BE /* NotificationsView.swift in Sources */,
 				C55B996D2C2B973A003AC9BE /* TikTokTutorialApp.swift in Sources */,
 				C52988A32C8B87E0000B1168 /* ExploreViewModel.swift in Sources */,
+				C5B32EE72C963BF800EE4013 /* DebouncedViewModel.swift in Sources */,
 				C5BA785E2C2F744200D8A27E /* LoginView.swift in Sources */,
 				C5BA785F2C2F744200D8A27E /* RegistrationView.swift in Sources */,
 				C55B99962C2CFCCD003AC9BE /* ExploreView.swift in Sources */,

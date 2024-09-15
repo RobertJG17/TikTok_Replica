@@ -92,8 +92,8 @@ struct UploadView: View {
                 showMediaPicker: showMediaPicker,
                 width: width, 
                 height: height,
-                title: title,
-                caption: caption,
+                title: $title,
+                caption: $caption,
                 toggleMediaPicker: toggleMediaPicker
             )
             
