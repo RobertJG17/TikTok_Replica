@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NullPosts: View {
+struct NullPostsView: View {
     private let userType: UserProfileViewTypes
     private var userService: UserService?
     private let height = UIScreen.main.bounds.width
@@ -73,7 +73,7 @@ struct NullPosts: View {
 }
 
 #Preview {
-    NullPosts(
+    NullPostsView(
         userType: UserProfileViewTypes.currentUser,
         userService: UserService()
     )

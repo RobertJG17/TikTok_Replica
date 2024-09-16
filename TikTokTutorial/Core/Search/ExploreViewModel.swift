@@ -8,7 +8,6 @@
 import Foundation
 import Combine
 import SwiftUI
-
 @MainActor
 class ExploreViewModel: ObservableObject {
     // MARK: Published property we want to attach to UserService published property

@@ -45,9 +45,7 @@ struct Post: Identifiable, Codable {
     // Initializer to create a Post from Firestore document
     init?(from document: QueryDocumentSnapshot) {
         let data = document.data()
-        
-        print("DATA: \(data["imageUrl"])")
-        
+                
         // Extract fields safely
         guard let userId = data["userId"] as? String,
               let id = data["id"] as? String,
@@ -84,7 +82,7 @@ struct Post: Identifiable, Codable {
         self.likes = likes
         self.taggedUserIds = taggedUserIds
         self.likedUserIds = likedUserIds
-        self.imageUrl = imageUrl // Assuming `imageUrl` isn't available from the document
+        self.imageUrl = imageUrl
         self.timestamp = timestamp
     }
 }

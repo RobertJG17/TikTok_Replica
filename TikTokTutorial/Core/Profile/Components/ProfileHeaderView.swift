@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 
-struct ProfileHeader: View {
+struct ProfileHeaderView: View {
     private var username: String?
     
     init(username: String?) {
@@ -33,9 +33,9 @@ struct ProfileHeader: View {
                 
                 // stats view
                 HStack(spacing: 16) {
-                    UserStat(value: 5, title: "Following")
-                    UserStat(value: 1, title: "Followers")
-                    UserStat(value: 7, title: "Likes")
+                    UserStatView(value: 5, title: "Following")
+                    UserStatView(value: 1, title: "Followers")
+                    UserStatView(value: 7, title: "Likes")
                 }
                 
                 // action button
@@ -58,5 +58,5 @@ struct ProfileHeader: View {
 }
 
 #Preview {
-    ProfileHeader(username: "")
+    ProfileHeaderView(username: "")
 }

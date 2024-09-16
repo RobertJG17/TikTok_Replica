@@ -23,14 +23,14 @@ struct UserProfileView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 2) {
-                    ProfileHeader(username: user?.username)
+                    ProfileHeaderView(username: user?.username)
    
                     // TODO: Find some way to capture loading state after fetching posts
                     Group {
-                        if let userPosts = posts, !userPosts.isEmpty {
-                            PostGrid(posts: userPosts)
+                        if posts != nil && !posts!.isEmpty {
+                            PostGridView(posts: $posts)
                         } else {
-                            NullPosts(
+                            NullPostsView(
                                 userType: UserProfileViewTypes.publicUser,
                                 userService: nil
                             )

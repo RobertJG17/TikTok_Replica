@@ -205,8 +205,6 @@ class UserService: ObservableObject {
                     self.userList.append(user)
                 }
             }
-            
-            print("DEBUG: --USER LIST--: \(String(describing: self.userList))")
         } catch {
             throw error
         }
@@ -237,30 +235,17 @@ class UserService: ObservableObject {
     
     func updatePosts(querySnapshot: QuerySnapshot) throws {
         do {
-            print("querysnap: ", querySnapshot)
-            guard querySnapshot.documents.first != nil else { throw FirebaseError.FbeDataNull(message: "ERROR: no data found in snapshot") }
+            guard querySnapshot.documents.first != nil else {
+                self.posts = []
+                throw FirebaseError.FbeDataNull(message: "ERROR: no data found in snapshot")
+            }
             
-            print("passed document guard")
             var userPosts: [Post] = []
-            
             querySnapshot.documents.forEach { document in
                 guard let fetchedPost = Post(from: document) else { return }
-                guard let imageUrl = fetchedPost.imageUrl else { return }
-                
                 userPosts.append(fetchedPost)
-                                
-                // TODO: Invoke function at different point in time, worry about posts array for now
-//                downloadFile(from: URL(string: imageUrl)!) { result in
-//                    print("entered switch \(fetchedPost)")
-//                    switch result {
-//                    case .success(let data):
-//                        userPosts.append(fetchedPost)
-//                    case .failure(let error):
-//                        print("Error: ", error)
-//                    }
-//                }
             }
-            print("User posts: ", userPosts)
+
             self.posts = userPosts
         } catch {
             throw error
