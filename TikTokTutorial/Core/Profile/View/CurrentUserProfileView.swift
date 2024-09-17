@@ -9,16 +9,16 @@ import SwiftUI
 import FirebaseAuth
 
 struct CurrentUserProfileView: View {
-    @Binding private var user: User?
-    @Binding private var posts: [Post]?
+    private var user: User?
+    private var posts: [Post]?
     
     
     private var userService: UserService
     private var authService: AuthService
     
-    init(user: Binding<User?>, posts: Binding<[Post]?>, userService: UserService, authService: AuthService) {
-        self._user = user
-        self._posts = posts
+    init(user: User?, posts: [Post], userService: UserService, authService: AuthService) {
+        self.user = user
+        self.posts = posts
         self.userService = userService
         self.authService = authService
     }
@@ -33,7 +33,7 @@ struct CurrentUserProfileView: View {
                     // TODO: Find some way to capture loading state after fetching posts
                     Group {
                         if posts != nil && !posts!.isEmpty {
-                            PostGridView(posts: $posts)
+                            PostGridView(posts: posts)
                         } else {
                             NullPostsView(
                                 userType: UserProfileViewTypes.currentUser,

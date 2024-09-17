@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PostGridView: View {
-    @Binding private var posts: [Post]?
+    private var posts: [Post]?
 
     private let width = (UIScreen.main.bounds.width / 3) - 2                // ???: 3 items of even width -2 pixels
     private let height = 160.0
@@ -18,8 +18,8 @@ struct PostGridView: View {
         GridItem(.flexible(), spacing: 1)
     ]
     
-    init(posts: Binding<[Post]?>) {
-        self._posts = posts
+    init(posts: [Post]?) {
+        self.posts = posts
     }
     
     var body: some View {

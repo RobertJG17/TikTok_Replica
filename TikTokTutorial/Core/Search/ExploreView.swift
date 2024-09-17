@@ -9,14 +9,14 @@ import SwiftUI
 
 struct ExploreView: View {
     @StateObject private var viewModel: ExploreViewModel
-    @Binding public var userList: [User]?
+    public var userList: [User]?
     @State private var selectedUser: User?
     @State private var posts: [Post]?
     
     private let publicUserService: UserService = UserService()
     
-    init(userList: Binding<[User]?>) {
-        self._userList = userList
+    init(userList: [User]?) {
+        self.userList = userList
         
         let exploreViewModel = ExploreViewModel(userService: publicUserService)
         self._viewModel = StateObject(wrappedValue: exploreViewModel)
@@ -30,7 +30,7 @@ struct ExploreView: View {
                         NavigationLink {
                             UserProfileView(
                                 user: user,
-                                posts: $posts
+                                posts: posts
                             )
                             .onAppear {
                                 self.selectedUser = user

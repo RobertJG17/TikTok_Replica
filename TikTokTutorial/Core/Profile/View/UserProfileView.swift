@@ -10,13 +10,12 @@ import FirebaseAuth
 
 
 struct UserProfileView: View {
-    @Binding private var posts: [Post]?
+    private var posts: [Post]?
     private var user: User?
     
-    // MARK: New userService to not update current user information published across application
-    init(user: User, posts: Binding<[Post]?>) {
+    init(user: User, posts: [Post]?) {
         self.user = user
-        self._posts = posts
+        self.posts = posts
     }
     
     var body: some View {
@@ -25,10 +24,9 @@ struct UserProfileView: View {
                 VStack(spacing: 2) {
                     ProfileHeaderView(username: user?.username)
    
-                    // TODO: Find some way to capture loading state after fetching posts
                     Group {
                         if posts != nil && !posts!.isEmpty {
-                            PostGridView(posts: $posts)
+                            PostGridView(posts: posts)
                         } else {
                             NullPostsView(
                                 userType: UserProfileViewTypes.publicUser,

@@ -39,7 +39,7 @@ enum FirebaseResult: String {
 }
 
 enum MediaType {
-    case photo
+    case image
     case video
 }
 

@@ -40,7 +40,7 @@ struct MainTabView: View {
                 .tag(0)
              
             ExploreView(
-                userList: $userList
+                userList: userList
             )
                 .tabItem {
                     VStack {
@@ -82,8 +82,8 @@ struct MainTabView: View {
                 .tag(3)
             
             CurrentUserProfileView(
-                user: $user,
-                posts: $posts,
+                user: user,
+                posts: posts ?? [],
                 userService: userService,
                 authService: authService
             )

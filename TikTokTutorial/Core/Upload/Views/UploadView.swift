@@ -15,7 +15,7 @@ struct UploadView: View {
     @State private var formattedTitle: String? = nil
     @State private var caption: String = ""
     @State private var selectedMedia: SelectedMedia? = nil
-    @State private var mediaType: MediaType = .photo
+    @State private var mediaType: MediaType = .image
     @State private var showMediaPicker: Bool = false
     @State private var isLoading: Bool = false
     
@@ -76,14 +76,14 @@ struct UploadView: View {
         VStack {
             UploadTextField(
                 publishedValue: $title,
-                animationTriggerValue: $caption,
+                animationTriggerValue: caption,
                 label: "title",
                 bottomPadding: 20
             )
             
             UploadTextField(
                 publishedValue: $caption,
-                animationTriggerValue: $title,
+                animationTriggerValue: title,
                 label: "caption",
                 bottomPadding: 100
             )
@@ -92,8 +92,8 @@ struct UploadView: View {
                 showMediaPicker: showMediaPicker,
                 width: width, 
                 height: height,
-                title: $title,
-                caption: $caption,
+                title: title,
+                caption: caption,
                 toggleMediaPicker: toggleMediaPicker
             )
             

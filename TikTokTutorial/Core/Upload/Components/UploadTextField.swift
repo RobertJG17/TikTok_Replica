@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UploadTextField: View {
     @Binding var publishedValue: String
-    @Binding var animationTriggerValue: String
+    @State var animationTriggerValue: String 
     var label: String
     var bottomPadding: CGFloat
     

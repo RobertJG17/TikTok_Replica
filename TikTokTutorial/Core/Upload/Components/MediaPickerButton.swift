@@ -15,8 +15,8 @@ enum MediaPickerTextFields: String {
 
 struct MediaPickerButton: View {
     @StateObject private var viewModel: DebounceViewModel
-    @Binding private var title: String
-    @Binding private var caption: String
+    private var title: String
+    private var caption: String
     
     private var showMediaPicker: Bool
     private let width: CGFloat
@@ -28,20 +28,20 @@ struct MediaPickerButton: View {
         showMediaPicker: Bool,
         width: CGFloat,
         height: CGFloat,
-        title: Binding<String>,
-        caption: Binding<String>,
+        title: String,
+        caption: String,
         toggleMediaPicker: @escaping () -> Void
     ) {
         self.showMediaPicker = showMediaPicker
         self.width = width
         self.height = height
-        self._title = title
-        self._caption = caption
+        self.title = title
+        self.caption = caption
         self.toggleMediaPicker = toggleMediaPicker
 
         let initFields = [
-            MediaPickerTextFields.title.rawValue: title.wrappedValue,
-            MediaPickerTextFields.caption.rawValue: caption.wrappedValue
+            MediaPickerTextFields.title.rawValue: title,
+            MediaPickerTextFields.caption.rawValue: caption
         ]
         let debounceViewModel = DebounceViewModel(initialFields: initFields)
         self._viewModel = StateObject(wrappedValue: debounceViewModel)
