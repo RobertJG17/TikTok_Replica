@@ -10,10 +10,13 @@ import FirebaseAuth
 
 
 struct UserProfileView: View {
-    private var posts: [Post]?
     private var user: User?
+    private var posts: [Post]?
+    private var firstPost: Post? {
+        return posts?.first
+    }
     
-    init(user: User, posts: [Post]?) {
+    init(user: User?, posts: [Post]?) {
         self.user = user
         self.posts = posts
     }
@@ -25,7 +28,9 @@ struct UserProfileView: View {
                     ProfileHeaderView(username: user?.username)
    
                     Group {
-                        if posts != nil && !posts!.isEmpty {
+                        if posts != nil && 
+                        firstPost != nil &&
+                        firstPost?.userId == user?.id {
                             PostGridView(posts: posts)
                         } else {
                             NullPostsView(

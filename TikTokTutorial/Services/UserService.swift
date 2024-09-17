@@ -236,6 +236,7 @@ class UserService: ObservableObject {
     func updatePosts(querySnapshot: QuerySnapshot) throws {
         do {
             guard querySnapshot.documents.first != nil else {
+                // !!!: Sets empty post for combine value published to .onReceive in Explore view
                 self.posts = []
                 throw FirebaseError.FbeDataNull(message: "ERROR: no data found in snapshot")
             }

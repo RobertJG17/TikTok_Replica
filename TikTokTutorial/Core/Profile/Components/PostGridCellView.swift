@@ -12,12 +12,11 @@ struct PostGridCellView: View {
     @State private var gradientAnimation = GradientAnimation()
     @State private var isLoading: Bool = false
     @State private var image: UIImage?
-    private var imageUrl: URL
+    private var imageUrl: String?
    
-    init(imageUrl: String) {
-        self.imageUrl = URL(string: imageUrl)!
+    init(imageUrl: String?) {
+        self.imageUrl = imageUrl
     }
-    
     
     var body: some View {
         GeometryReader { geometry in
@@ -42,8 +41,10 @@ struct PostGridCellView: View {
             }
         }
         .onAppear {
-            viewModel.downloadImage(from: self.imageUrl)
-            self.isLoading = true
+            if let imgUrl = self.imageUrl {
+                viewModel.downloadImage(from: URL(string: imgUrl)!)
+                self.isLoading = true
+            }
         }
         .onReceive(viewModel.$image) { publishedImage in
             if let img = publishedImage {
@@ -51,5 +52,6 @@ struct PostGridCellView: View {
                 self.isLoading = false
             }
         }
+
     }
 }

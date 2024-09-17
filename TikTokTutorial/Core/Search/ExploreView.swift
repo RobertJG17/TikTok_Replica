@@ -9,9 +9,8 @@ import SwiftUI
 
 struct ExploreView: View {
     @StateObject private var viewModel: ExploreViewModel
-    public var userList: [User]?
-    @State private var selectedUser: User?
     @State private var posts: [Post]?
+    public var userList: [User]?
     
     private let publicUserService: UserService = UserService()
     
@@ -26,29 +25,26 @@ struct ExploreView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(spacing: 16) {
-                    ForEach(userList ?? []) { user in
-                        NavigationLink {
-                            UserProfileView(
-                                user: user,
-                                posts: posts
-                            )
-                            .onAppear {
-                                self.selectedUser = user
-                                if let userId = selectedUser?.id, let username = selectedUser?.username {
-                                    print("Fetching posts for \(username)")
-                                    viewModel.fetchUserPost(userId: userId)
-                                } else {
-                                    print("no user id")
+                    if let users = userList {
+                        ForEach(users) { user in
+                            NavigationLink {
+                                UserProfileView(
+                                    user: user,
+                                    posts: posts
+                                )
+                                .onAppear {
+                                    print("Fetching posts for \(user.username)")
+                                    viewModel.fetchUserPost(userId: user.id)
                                 }
+                                .onReceive(viewModel.$posts) { posts in
+                                    self.posts = posts
+                                }
+                            } label: {
+                                UserCell(
+                                    username: user.username,
+                                    fullname: user.fullname
+                                )
                             }
-                            .onReceive(viewModel.$posts) { posts in
-                                self.posts = posts
-                            }
-                        } label: {
-                            UserCell(
-                                username: user.username,
-                                fullname: user.fullname
-                            )
                         }
                     }
                 }
