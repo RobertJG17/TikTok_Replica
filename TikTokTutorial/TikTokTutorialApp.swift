@@ -35,16 +35,3 @@ struct TikTokTutorialApp: App {
         }
     }
 }
-
-/*
-    ORIGINAL MAIN
- 
-    @main
-    struct TikTokTutorialApp: App {
-     var body: some Scene {
-         WindowGroup {
-             ContentView()
-         }
-     }
-    }
-*/

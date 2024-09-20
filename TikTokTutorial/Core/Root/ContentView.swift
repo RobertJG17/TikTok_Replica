@@ -8,8 +8,6 @@
 import SwiftUI
 import FirebaseAuth
 
-// Swift UI Level up
-// Learn how to build content sharing app with SwiftUI Framework
 struct ContentView: View {
     @StateObject var viewModel: ContentViewModel
     private var authService: AuthService
